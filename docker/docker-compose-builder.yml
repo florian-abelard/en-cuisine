@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+
+  node:
+    image: node:16-alpine
+    container_name: ${APP_NAME}-node
+    environment:
+      - HOME=/opt
+    volumes:
+      - "${ROOT_PATH}:/var/www/app:cached"
+      - "~/.npm:/opt/.npm"
+    working_dir: /var/www/app/application
