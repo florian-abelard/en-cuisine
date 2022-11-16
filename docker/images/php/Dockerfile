@@ -1,4 +1,4 @@
-FROM php:8.1.11-fpm-alpine
+FROM php:8.1.12-fpm-alpine
 
 RUN apk update \
     && apk add zlib-dev postgresql-dev git icu-dev libxml2-dev libzip-dev unzip \
