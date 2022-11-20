@@ -1,4 +1,13 @@
 parameters:
+    level: 4
     symfony:
-        container_xml_path: /app/application/var/cache/dev/srcApp_KernelDevDebugContainer.xml # @see https://github.com/phpstan/phpstan-symfony#configuration
+        container_xml_path: /app/application/backend/var/cache/dev/App_KernelDevDebugContainer.xml # @see https://github.com/phpstan/phpstan-symfony#configuration
         console_application_loader: /app/docker/images/phpstan/console-loader.php
+    scanDirectories:
+        - /app/application/backend/var/cache/dev/Symfony/Config
+    paths:
+        - /app/application/backend/src
+    excludePaths:
+        - /app/application/backend/src/Kernel.php
+        - /app/application/backend/src/Migrations/*
+
