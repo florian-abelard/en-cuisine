@@ -18,14 +18,14 @@ export ROOT_PATH
 include .env
 export $(shell sed 's/=.*//' .env)
 
-ifneq (,$(wildcard application/.env))
-	include application/.env
-	export $(shell sed 's/=.*//' application/.env)
+ifneq (,$(wildcard application/backend/.env))
+	include application/backend/.env
+	export $(shell sed 's/=.*//' application/backend/.env)
 endif
 
-ifneq (,$(wildcard application/.env.local))
-	include application/.env.local
-	export $(shell sed 's/=.*//' application/.env.local)
+ifneq (,$(wildcard application/backend/.env.local))
+	include application/backend/.env.local
+	export $(shell sed 's/=.*//' application/backend/.env.local)
 endif
 
 #------------------------------------------------------------------------------
@@ -43,9 +43,6 @@ bash-web: ## open a bash session in the web container
 
 bash-php: ## open a bash session in the php-fpm container
 	docker-compose -f ${DOCKER_COMPOSE_FILE} exec --user ${USER_ID}:${GROUP_ID} php /bin/sh
-
-bash-composer: ## open a bash session in the composer container
-	docker-compose -f ${DOCKER_COMPOSE_BUILDER_FILE} run --user ${USER_ID}:${GROUP_ID} composer /bin/bash
 
 bash-node: ## open a bash session in the node container
 	docker-compose -f ${DOCKER_COMPOSE_BUILDER_FILE} run --user ${USER_ID}:${GROUP_ID} node /bin/sh

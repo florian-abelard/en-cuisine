@@ -2,21 +2,24 @@
 # PHPStan Makefile
 #------------------------------------------------------------------------------
 
-PHPSTAN_DOCKER_CMD = docker-compose -f ${DOCKER_COMPOSE_ANALYSER_FILE} run --rm -T phpstan ${1}
+ECS_DOCKER_CMD = docker-compose -f ${DOCKER_COMPOSE_ANALYSER_FILE} run --rm -T phpqa ecs ${1}
 
 # Cli arguments
-ifneq (,$(filter phpstan-analyse%, $(firstword $(MAKECMDGOALS))))
+ifneq (,$(filter ecs-check%, $(firstword $(MAKECMDGOALS))))
     COMPOSER_CLI_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
     $(eval $(COMPOSER_CLI_ARGS):;@:)
 endif
 
 #------------------------------------------------------------------------------
 
-phpstan-analyse: ##@phpstan run the analysis on the specified folder
-	$(call PHPSTAN_DOCKER_CMD, analyse -c /app/docker/images/phpstan/phpstan.neon $(COMPOSER_CLI_ARGS))
+ecs-check: ##@phpqa run ecs check on the specified folder
+	$(call ECS_DOCKER_CMD, check --config /app/docker/images/phpqa/ecs.php $(COMPOSER_CLI_ARGS))
 
-phpstan-rebuild: ##@phpstan rebuild the phpstan image
+phpqa-rebuild: ##@phpqa rebuild the phpstan image
 	docker-compose -f ${DOCKER_COMPOSE_ANALYSER_FILE} build phpstan
+
+phpqa-exec:
+	docker-compose -f ${DOCKER_COMPOSE_ANALYSER_FILE} run --rm -T phpqa sh
 
 #------------------------------------------------------------------------------
 
