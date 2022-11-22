@@ -8,3 +8,11 @@ services:
     container_name: flo-phpstan
     volumes:
       - "${ROOT_PATH}:/app"
+    working_dir: /app/application/backend
+
+  phpqa:
+    build: images/phpqa
+    image: flo-phpqa:develop
+    volumes:
+      - "${ROOT_PATH}:/app"
+    working_dir: /app/application/backend
