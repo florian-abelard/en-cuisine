@@ -7,6 +7,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Test
+        run: |
+          ls -l application/backend/
+          ls -l application/backend/var/
+          ls -l application/backend/var/cache/
+          ls -l application/backend/var/cache/dev/
+          ls -l application/backend/var/cache/dev/Symfony
       - name: ECS check
         run: make ecs-check
       - name: PHPStan
