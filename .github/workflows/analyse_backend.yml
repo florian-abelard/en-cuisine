@@ -1,12 +1,13 @@
-# .github/workflows/static-code-analysis.yml
-name: Static code analysis
+name: Analyse backend
 
 on: [pull_request]
 
 jobs:
-  static-code-analysis:
+  analyse:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Test
+      - name: ECS check
         run: make ecs-check
+      - name: PHPStan
+        run: make phpstan-analyse
