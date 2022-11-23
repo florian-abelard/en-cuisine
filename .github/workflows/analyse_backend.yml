@@ -14,6 +14,7 @@ jobs:
           php bin/console cache:warmup --env=dev
       - name: Test
         run: |
+          cd application/backend
           ls -l
           ls -l var/
           ls -l var/cache/
