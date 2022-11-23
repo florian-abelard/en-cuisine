@@ -1,0 +1,12 @@
+# .github/workflows/static-code-analysis.yml
+name: Static code analysis
+
+on: [pull_request]
+
+jobs:
+  static-code-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Test
+        run: echo 'Coucou test'
