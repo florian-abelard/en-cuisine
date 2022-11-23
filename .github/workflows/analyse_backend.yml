@@ -10,6 +10,7 @@ jobs:
       - name: Prepare analysis
         run: |
           cd application/backend
+          composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
           php bin/console cache:warmup --env=dev
       - name: Test
         run: |
