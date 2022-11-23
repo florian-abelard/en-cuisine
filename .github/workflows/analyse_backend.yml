@@ -7,8 +7,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Prepare analysis
+        run: |
+          cd application/backend
+          php bin/console cache:warmup --env=dev
       - name: Test
         run: |
+          cd application/backend
           ls -l application/backend/
           ls -l application/backend/var/
           ls -l application/backend/var/cache/
