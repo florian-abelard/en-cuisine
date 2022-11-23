@@ -9,4 +9,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Test
-        run: echo 'Coucou test'
+        run: docker-compose -v
