@@ -15,8 +15,8 @@ endif
 ecs-check: ##@phpqa run ecs check on the specified folder
 	$(call ECS_DOCKER_CMD, check --config /app/docker/images/phpqa/ecs.php $(COMPOSER_CLI_ARGS))
 
-phpqa-rebuild: ##@phpqa rebuild the phpstan image
-	docker-compose -f ${DOCKER_COMPOSE_ANALYSER_FILE} build phpstan
+phpqa-rebuild: ##@phpqa rebuild the phpqa image
+	docker-compose -f ${DOCKER_COMPOSE_ANALYSER_FILE} build phpqa
 
 phpqa-exec:
 	docker-compose -f ${DOCKER_COMPOSE_ANALYSER_FILE} run --rm -T phpqa sh

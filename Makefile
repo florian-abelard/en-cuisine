@@ -38,6 +38,17 @@ init: composer-install ## install project dependencies
 
 up: up-app # db-wait-for db-init ## up application
 
+up-app: .env ##@docker build and start containers
+	docker-compose -f ${DOCKER_COMPOSE_FILE} up -d
+
+down: ##@docker stop and remove containers and volumes
+	docker-compose -f ${DOCKER_COMPOSE_FILE} down --volumes
+
+logs: ##@docker displays containers log
+	docker-compose logs -f -t --tail="5"
+
+#------------------------------------------------------------------------------
+
 bash-web: ## open a bash session in the web container
 	docker-compose -f ${DOCKER_COMPOSE_FILE} exec web /bin/sh
 
@@ -46,6 +57,17 @@ bash-php: ## open a bash session in the php-fpm container
 
 bash-node: ## open a bash session in the node container
 	docker-compose -f ${DOCKER_COMPOSE_BUILDER_FILE} run --user ${USER_ID}:${GROUP_ID} node /bin/sh
+
+#------------------------------------------------------------------------------
+
+build: ##@docker build containers
+	docker-compose -f ${DOCKER_COMPOSE_FILE} build
+
+rebuild: build up ##@docker rebuild and start containers
+
+clean: down ##@docker clean docker containers
+	docker container ls -a | grep "${APP_NAME}" | awk '{print $1}' | xargs --no-run-if-empty docker container rm
+	docker image rm $(docker images -a -q)
 
 #------------------------------------------------------------------------------
 
@@ -61,4 +83,4 @@ help:
 
 #------------------------------------------------------------------------------
 
-.PHONY: help
+.PHONY: init up up-app build down rebuild clean help
