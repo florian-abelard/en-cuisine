@@ -1,1 +1,1 @@
-FROM jakzal/phpqa:php8.1-alpine
+FROM jakzal/phpqa:php8.2-alpine

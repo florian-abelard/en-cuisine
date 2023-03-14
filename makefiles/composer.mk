@@ -10,7 +10,7 @@ composer-init:
 	@mkdir -p ~/.cache/composer
 
 composer-install: composer-init ##@composer install composer dependencies
-	$(call COMPOSER_DOCKER_CMD, install --no-progress --no-suggest --prefer-dist --optimize-autoloader)
+	$(call COMPOSER_DOCKER_CMD, install --no-progress --prefer-dist --optimize-autoloader)
 
 composer-dump-autoload: composer-init ##@composer dump autoloading
 	$(call COMPOSER_DOCKER_CMD, dump-autoload)
