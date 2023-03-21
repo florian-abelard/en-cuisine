@@ -3,7 +3,7 @@ name: Check backend
 on: [pull_request]
 
 jobs:
-  analyse:
+  check:
     runs-on: ubuntu-latest
 
     strategy:
@@ -27,4 +27,6 @@ jobs:
           php bin/console cache:warmup --env=dev
 
       - name: PHPUnit
-        run: php ./bin/phpunit
+        run: |
+          cd application/backend
+          php ./bin/phpunit
