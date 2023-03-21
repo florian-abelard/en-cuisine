@@ -1,4 +1,4 @@
-name: Analyse backend
+name: Check backend
 
 on: [pull_request]
 
@@ -26,8 +26,5 @@ jobs:
           composer install --no-progress --prefer-dist --optimize-autoloader
           php bin/console cache:warmup --env=dev
 
-      - name: ECS check
-        run: make ecs-check
-
-      - name: PHPStan
-        run: make phpstan-analyse
+      - name: PHPUnit
+        run: php ./bin/phpunit
