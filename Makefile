@@ -47,6 +47,9 @@ down: ##@docker stop and remove containers and volumes
 logs: ##@docker displays containers log
 	docker-compose logs -f -t --tail="5"
 
+tests: ## run tests
+	docker-compose -f ${DOCKER_COMPOSE_FILE} exec php ./vendor/bin/phpunit
+
 #------------------------------------------------------------------------------
 
 bash-web: ## open a bash session in the web container
