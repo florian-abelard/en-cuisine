@@ -1,29 +1,39 @@
 security:
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'bcrypt'
+
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        users_in_memory: { memory: null }
+        in_memory_users:
+            memory:
+                users:
+                    moflo:
+                        password: '$2y$13$3nRjUSEWe95kbIjm2oVyNukjc2pMHakvnrKawwlEFRNBTYIneZsa.'
+                        roles: ['ROLE_ADMIN']
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             lazy: true
-            provider: users_in_memory
+            provider: in_memory_users
+            json_login:
+                check_path: api_login
+                username_path: username
+                password_path: password
+            logout:
+                path: api_logout
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api, roles: ROLE_ADMIN }
 
 when@test:
     security:
