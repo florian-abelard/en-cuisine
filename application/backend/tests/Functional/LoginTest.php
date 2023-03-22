@@ -8,11 +8,21 @@ class LoginTest extends ApiTestCase
 {
     public function testLoginWithValidCredentials(): void
     {
-        $this->assertEquals(42, 42);
+        $client = self::createClient();
+        $client->request('POST', '/users/login', [
+            'json' => ['username' => 'moflo', 'password' => 'MaudFlorian'],
+        ]);
+
+        self::assertResponseIsSuccessful();
     }
 
     public function testLoginWithInvalidCredentials(): void
     {
-        $this->assertNotEquals(42, 24);
+        $client = self::createClient();
+        $client->request('POST', '/users/login', [
+            'json' => ['username' => 'moflo', 'password' => 'WrongPassword'],
+        ]);
+
+        self::assertResponseStatusCodeSame(401);
     }
 }
