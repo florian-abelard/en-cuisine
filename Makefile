@@ -7,7 +7,6 @@ GROUP_ID=$(shell id -g)
 ROOT_PATH=$(shell pwd)
 DOCKER_COMPOSE_FILE?=./docker-compose.yml
 DOCKER_COMPOSE_ANALYSER_FILE?=./docker/docker-compose-analyser.yml
-DOCKER_COMPOSE_BUILDER_FILE?=./docker/docker-compose-builder.yml
 
 export USER_ID
 export GROUP_ID
@@ -39,7 +38,7 @@ init: composer-install ## install project dependencies
 up: up-app # db-wait-for db-init ## up application
 
 up-app: .env ##@docker build and start containers
-	docker-compose -f ${DOCKER_COMPOSE_FILE} up -d
+	docker-compose -f ${DOCKER_COMPOSE_FILE} up
 
 down: ##@docker stop and remove containers and volumes
 	docker-compose -f ${DOCKER_COMPOSE_FILE} down --volumes
@@ -59,7 +58,7 @@ bash-php: ## open a bash session in the php-fpm container
 	docker-compose -f ${DOCKER_COMPOSE_FILE} exec --user ${USER_ID}:${GROUP_ID} php /bin/sh
 
 bash-node: ## open a bash session in the node container
-	docker-compose -f ${DOCKER_COMPOSE_BUILDER_FILE} run --user ${USER_ID}:${GROUP_ID} node /bin/sh
+	docker-compose -f ${DOCKER_COMPOSE_FILE} exec --user ${USER_ID}:${GROUP_ID} node /bin/sh
 
 #------------------------------------------------------------------------------
 
