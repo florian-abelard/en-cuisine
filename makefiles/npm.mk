@@ -11,7 +11,6 @@ npm-init:
 
 npm-install: npm-init ##@npm install npm dependencies
 	$(call NPM_DOCKER_CMD, install --silent)
-
 #------------------------------------------------------------------------------
 
 clean-npm: ##@npm clean npm dependencies
