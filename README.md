@@ -5,7 +5,7 @@
 ### Pré-requis
 
 * docker
-* docker-compose (version 3)
+* docker compose
 
 ### Mise en place de l'environnement
 

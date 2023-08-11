@@ -2,7 +2,7 @@
 # NPM and Webpack Makefile
 #------------------------------------------------------------------------------
 
-NPM_DOCKER_CMD = docker-compose -f ${DOCKER_COMPOSE_FILE} run -T --user ${USER_ID}:${GROUP_ID} node npm ${1}
+NPM_DOCKER_CMD = docker compose -f ${DOCKER_COMPOSE_FILE} run -T --user ${USER_ID}:${GROUP_ID} node npm ${1}
 
 #------------------------------------------------------------------------------
 

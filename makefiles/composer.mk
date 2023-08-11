@@ -2,7 +2,7 @@
 # Composer Makefile
 #------------------------------------------------------------------------------
 
-COMPOSER_DOCKER_CMD = docker-compose run -T --user ${USER_ID}:${GROUP_ID} php composer ${1}
+COMPOSER_DOCKER_CMD = docker compose run -T --user ${USER_ID}:${GROUP_ID} php composer ${1}
 
 #------------------------------------------------------------------------------
 

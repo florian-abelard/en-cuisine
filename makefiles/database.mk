@@ -3,8 +3,8 @@
 # 	- with doctrine
 #------------------------------------------------------------------------------
 
-database-admin-exec = docker-compose -f ${DOCKER_COMPOSE_FILE} exec -T --user root db ${1}
-database-doctrine-exec = docker-compose -f ${DOCKER_COMPOSE_FILE} exec -T --user ${USER_ID} php ${1}
+database-admin-exec = docker compose -f ${DOCKER_COMPOSE_FILE} exec -T --user root db ${1}
+database-doctrine-exec = docker compose -f ${DOCKER_COMPOSE_FILE} exec -T --user ${USER_ID} php ${1}
 
 #------------------------------------------------------------------------------
 

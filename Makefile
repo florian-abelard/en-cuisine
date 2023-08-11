@@ -35,35 +35,35 @@ include makefiles/*.mk
 
 init: composer-install ## install project dependencies
 
-up: up-app # db-wait-for db-init ## up application
+up: init up-app # db-wait-for db-init ## up application
 
 up-app: .env ##@docker build and start containers
-	docker-compose -f ${DOCKER_COMPOSE_FILE} up
+	docker compose -f ${DOCKER_COMPOSE_FILE} up
 
 down: ##@docker stop and remove containers and volumes
-	docker-compose -f ${DOCKER_COMPOSE_FILE} down --volumes
+	docker compose -f ${DOCKER_COMPOSE_FILE} down --volumes
 
 logs: ##@docker displays containers log
-	docker-compose logs -f -t --tail="5"
+	docker compose logs -f -t --tail="5"
 
 tests: ## run tests
-	docker-compose -f ${DOCKER_COMPOSE_FILE} exec php ./vendor/bin/phpunit
+	docker compose -f ${DOCKER_COMPOSE_FILE} exec php ./vendor/bin/phpunit
 
 #------------------------------------------------------------------------------
 
 bash-web: ## open a bash session in the web container
-	docker-compose -f ${DOCKER_COMPOSE_FILE} exec web /bin/sh
+	docker compose -f ${DOCKER_COMPOSE_FILE} exec web /bin/sh
 
 bash-php: ## open a bash session in the php-fpm container
-	docker-compose -f ${DOCKER_COMPOSE_FILE} exec --user ${USER_ID}:${GROUP_ID} php /bin/sh
+	docker compose -f ${DOCKER_COMPOSE_FILE} exec --user ${USER_ID}:${GROUP_ID} php /bin/sh
 
 bash-node: ## open a bash session in the node container
-	docker-compose -f ${DOCKER_COMPOSE_FILE} exec --user ${USER_ID}:${GROUP_ID} node /bin/sh
+	docker compose -f ${DOCKER_COMPOSE_FILE} exec --user ${USER_ID}:${GROUP_ID} node /bin/sh
 
 #------------------------------------------------------------------------------
 
 build: ##@docker build containers
-	docker-compose -f ${DOCKER_COMPOSE_FILE} build
+	docker compose -f ${DOCKER_COMPOSE_FILE} build
 
 rebuild: build up ##@docker rebuild and start containers
 
