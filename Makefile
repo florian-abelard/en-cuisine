@@ -41,7 +41,7 @@ up-app: .env ##@docker build and start containers
 	docker compose -f ${DOCKER_COMPOSE_FILE} up
 
 down: ##@docker stop and remove containers and volumes
-	docker compose -f ${DOCKER_COMPOSE_FILE} down --volumes
+	docker compose -f ${DOCKER_COMPOSE_FILE} down --volumes --remove-orphans
 
 logs: ##@docker displays containers log
 	docker compose logs -f -t --tail="5"
@@ -69,7 +69,7 @@ rebuild: build up ##@docker rebuild and start containers
 
 clean: down ##@docker clean docker containers
 	docker container ls -a | grep "${APP_NAME}" | awk '{print $1}' | xargs --no-run-if-empty docker container rm
-	docker image rm $(docker images -a -q)
+#   docker image rm $(docker images -a -q)
 
 #------------------------------------------------------------------------------
 
