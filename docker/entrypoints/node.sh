@@ -1,5 +1,7 @@
 #!/bin/sh
 
-# NG_CLI_ANALYTICS=off npm install
+npm install
+
+chown -R `stat -c "%u:%g" package.json` ./node_modules/
 
 exec npm run dev

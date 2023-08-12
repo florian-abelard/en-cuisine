@@ -33,11 +33,7 @@ include makefiles/*.mk
 
 #------------------------------------------------------------------------------
 
-init: composer-install npm-install ## install project dependencies
-
-up: init up-app # db-wait-for db-init ## up application
-
-up-app: .env ##@docker build and start containers
+up: .env #@docker build and start containers
 	docker compose -f ${DOCKER_COMPOSE_FILE} up
 
 down: ##@docker stop and remove containers and volumes

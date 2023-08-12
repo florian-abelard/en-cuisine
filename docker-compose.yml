@@ -32,6 +32,7 @@ services:
       COMPOSER_CACHE_DIR: /tmp/.composer/cache
       COMPOSER_MEMORY_LIMIT: -1
       XDEBUG_CONFIG: remote_host=${HOST_IP} remote_port=9001 remote_enable=1
+    entrypoint: /var/www/app/docker/entrypoints/php.sh
     working_dir: /var/www/app/application/backend
 
   db:
