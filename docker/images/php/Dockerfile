@@ -1,4 +1,4 @@
-FROM php:8.1.11-fpm-alpine
+FROM php:8.2.3-fpm-alpine3.17
 
 RUN apk update \
     && apk add zlib-dev postgresql-dev git icu-dev libxml2-dev libzip-dev unzip \
@@ -7,10 +7,6 @@ RUN apk update \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-install pdo pdo_pgsql pgsql \
     && docker-php-ext-install zip xml \
-    # Xdebug
-    && apk add --no-cache $PHPIZE_DEPS \
-    && pecl install xdebug \
-    && docker-php-ext-enable xdebug \
     # Set timezone
     && apk add tzdata \
     && ln -s /usr/share/zoneinfo/Europe/Paris /etc/localtime \

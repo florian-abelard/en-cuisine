@@ -5,7 +5,7 @@
 ### Pré-requis
 
 * docker
-* docker-compose (version 3)
+* docker compose
 
 ### Mise en place de l'environnement
 
@@ -28,5 +28,3 @@ make
 Application `http://localhost:8080`
 
 API `http://localhost:8080/api`
-
-Adminer `http://localhost:8081`

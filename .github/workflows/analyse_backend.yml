@@ -1,0 +1,33 @@
+name: Analyse backend
+
+on: [pull_request]
+
+jobs:
+  analyse:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['8.2']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+
+      - name: Prepare
+        run: |
+          cd application/backend
+          composer install --no-progress --prefer-dist --optimize-autoloader
+          php bin/console cache:warmup --env=dev
+
+      - name: ECS check
+        run: make ecs-check
+
+      - name: PHPStan
+        run: make phpstan-analyse
