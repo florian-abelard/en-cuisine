@@ -1,6 +1,9 @@
 name: Deploy application on server
 
-on: [pull_request]
+on:
+  push:
+    tags:
+      - '*'
 
 env:
   DEPLOY_REMOTE_HOST: "encuisine.lesmoflo.fr"
