@@ -29,12 +29,12 @@ jobs:
 
       - name: Install Composer dependencies
         run: |
-          cd application
-          composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+          cd application/backend
+          composer install --no-progress --prefer-dist --optimize-autoloader
 
       - name: Install NPM dependencies
         run: |
-          cd application
+          cd application/web
           npm install --silent
 
       - name: Deploy to production server
@@ -56,7 +56,7 @@ jobs:
           key: ${{ secrets.SERVER_PRODUCTION_SSH_PRIVATE_KEY }}
           port: ${{ secrets.SERVER_PRODUCTION_REMOTE_PORT }}
           script: |
-            cd ${{ env.DEPLOY_DESTINATION_FOLDER }}/application
+            cd ${{ env.DEPLOY_DESTINATION_FOLDER }}/application/backend
             php bin/console doctrine:migrations:migrate --no-interaction
             php bin/console cache:clear --env=prod
             php bin/console cache:warmup
