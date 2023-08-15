@@ -1,0 +1,62 @@
+name: Deploy application on server
+
+on: [pull_request]
+
+env:
+  DEPLOY_REMOTE_HOST: "encuisine.lesmoflo.fr"
+  DEPLOY_DESTINATION_FOLDER: "/var/www/encuisine.lesmoflo.fr/"
+
+jobs:
+
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['8.2']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_pgsql
+
+      - name: Install Composer dependencies
+        run: |
+          cd application
+          composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+
+      - name: Install NPM dependencies
+        run: |
+          cd application
+          npm install --silent
+
+      - name: Deploy to production server
+        uses: AEnterprise/rsync-deploy@v1.0
+        env:
+          DEPLOY_KEY: ${{ secrets.SERVER_PRODUCTION_SSH_PRIVATE_KEY }}
+          SERVER_IP: ${DEPLOY_REMOTE_HOST}
+          SERVER_PORT: ${{ secrets.SERVER_PRODUCTION_REMOTE_PORT }}
+          USERNAME: ${{ secrets.SERVER_PRODUCTION_REMOTE_USER }}
+          ARGS: "-e -a -v -z -r --delete --exclude='.env.local' --exclude='application/.env.local' --exclude='application/var'"
+          FOLDER: "./"
+          SERVER_DESTINATION: ${DEPLOY_DESTINATION_FOLDER}
+
+      - name: Launching post deployments commands on remote server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ env.DEPLOY_REMOTE_HOST }}
+          username: ${{ secrets.SERVER_PRODUCTION_REMOTE_USER }}
+          key: ${{ secrets.SERVER_PRODUCTION_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PRODUCTION_REMOTE_PORT }}
+          script: |
+            cd ${{ env.DEPLOY_DESTINATION_FOLDER }}/application
+            php bin/console doctrine:migrations:migrate --no-interaction
+            php bin/console cache:clear --env=prod
+            php bin/console cache:warmup
