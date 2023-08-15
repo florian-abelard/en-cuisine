@@ -38,7 +38,7 @@ jobs:
           npm install --silent
 
       - name: Deploy to production server
-        uses: AEnterprise/rsync-deploy@v1.0
+        uses: AEnterprise/rsync-deploy@v1.0.2
         env:
           DEPLOY_KEY: ${{ secrets.SERVER_PRODUCTION_SSH_PRIVATE_KEY }}
           SERVER_IP: ${DEPLOY_REMOTE_HOST}
