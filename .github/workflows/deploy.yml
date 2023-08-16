@@ -40,6 +40,11 @@ jobs:
           cd application/web
           npm install --silent
 
+      - name: Build assets
+        run: |
+          cd application
+          npm run build
+
       - name: Deploy to production server
         uses: AEnterprise/rsync-deploy@v1.0.2
         env:
