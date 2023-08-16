@@ -42,7 +42,7 @@ jobs:
 
       - name: Build assets
         run: |
-          cd application
+          cd application/web
           npm run build
 
       - name: Deploy to production server
