@@ -1,4 +1,4 @@
-name: Deploy application on server
+name: Deploy application on production server
 
 on:
   push:
@@ -47,7 +47,7 @@ jobs:
           SERVER_IP: ${DEPLOY_REMOTE_HOST}
           SERVER_PORT: ${{ secrets.SERVER_PRODUCTION_REMOTE_PORT }}
           USERNAME: ${{ secrets.SERVER_PRODUCTION_REMOTE_USER }}
-          ARGS: "-e -a -v -z -r --delete --exclude='.env.local' --exclude='application/.env.local' --exclude='application/var'"
+          ARGS: "-e -a -v -z -r --delete --exclude='.env.local' --exclude='application/backend/.env.local' --exclude='application/backend/var'"
           FOLDER: "./"
           SERVER_DESTINATION: ${DEPLOY_DESTINATION_FOLDER}
 
