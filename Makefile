@@ -56,6 +56,9 @@ bash-php: ## open a bash session in the php-fpm container
 bash-node: ## open a bash session in the node container
 	docker compose -f ${DOCKER_COMPOSE_FILE} exec --user ${USER_ID}:${GROUP_ID} node /bin/sh
 
+bash-node-root: ## open a bash session in the node container
+	docker compose -f ${DOCKER_COMPOSE_FILE} exec node /bin/sh
+
 #------------------------------------------------------------------------------
 
 build: ##@docker build containers
