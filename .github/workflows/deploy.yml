@@ -44,7 +44,7 @@ jobs:
       - name: Build assets
         run: |
           cd application/web
-          npm run build
+          npm run generate
 
       - name: Deploy backend to production server
         uses: AEnterprise/rsync-deploy@v1.0.2
