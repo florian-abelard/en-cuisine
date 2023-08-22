@@ -59,10 +59,8 @@ server {
     error_log /var/log/nginx/encuisine.lesmoflo.fr_error.log;
     access_log /var/log/nginx/encuisine.lesmoflo.fr_access.log;
 
-    # ssl_certificate /etc/letsencrypt/live/encuisine.lesmoflo.fr/fullchain.pem; # managed by Certbot
-    # ssl_certificate_key /etc/letsencrypt/live/encuisine.lesmoflo.fr/privkey.pem; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/cadeaux.lesmoflo.fr/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/cadeaux.lesmoflo.fr/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/encuisine.lesmoflo.fr/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/encuisine.lesmoflo.fr/privkey.pem; # managed by Certbot
 
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
 }
@@ -114,10 +112,8 @@ server {
     error_log /var/log/nginx/api.encuisine.lesmoflo.fr_error.log;
     access_log /var/log/nginx/api.encuisine.lesmoflo.fr_access.log;
 
-    # ssl_certificate /etc/letsencrypt/live/encuisine.lesmoflo.fr/fullchain.pem; # managed by Certbot
-    # ssl_certificate_key /etc/letsencrypt/live/encuisine.lesmoflo.fr/privkey.pem; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/cadeaux.lesmoflo.fr/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/cadeaux.lesmoflo.fr/privkey.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/api.encuisine.lesmoflo.fr/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/api.encuisine.lesmoflo.fr/privkey.pem; # managed by Certbot
 
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
 }
@@ -125,5 +121,29 @@ server {
 
 *Génération des certificats SSL*
 
+Génération avec certbot, plugin nginx, challenge HTTP.
+
+https://eff-certbot.readthedocs.io/en/stable/using.html#nginx
+https://letsencrypt.org/fr/docs/challenge-types/
+
+`certbot --nginx`
 
 ### Base de données
+
+*Initialisation de la base*
+
+```bash
+su - postgres
+
+createuser flo
+createdb encuisine -O flo
+
+psql
+ALTER USER flo WITH PASSWORD '*****';
+\q
+
+```
+
+*Paramètrage*
+
+Gestion des droits dans le fichier `/etc/postgresql/11/main/pg_hba.conf`.
