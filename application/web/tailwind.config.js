@@ -9,6 +9,10 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      sans: ['Lato', 'sans-serif'],
+      serif: ['Merriweather', 'serif'],
+    },
   },
   plugins: [require("daisyui")],
 }
