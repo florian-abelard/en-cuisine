@@ -48,7 +48,7 @@ tests: ## run tests
 #------------------------------------------------------------------------------
 
 bash-web: ## open a bash session in the web container
-	docker compose -f ${DOCKER_COMPOSE_FILE} exec web /bin/sh
+	docker compose -f ${DOCKER_COMPOSE_FILE} exec nginx /bin/sh
 
 bash-php: ## open a bash session in the php-fpm container
 	docker compose -f ${DOCKER_COMPOSE_FILE} exec --user ${USER_ID}:${GROUP_ID} php /bin/sh

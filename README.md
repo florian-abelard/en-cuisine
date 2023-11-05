@@ -13,9 +13,6 @@
 # Récupération des sources github
 git clone https://github.com/florian-abelard/encuisine.git
 
-# Initialisation du projet
-make init
-
 # Démarrer les containers docker et alimenter la base de données 
 make up
 

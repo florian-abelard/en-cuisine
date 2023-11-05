@@ -19,7 +19,7 @@ phpqa-rebuild: ##@phpqa rebuild the phpqa image
 	docker compose -f ${DOCKER_COMPOSE_ANALYSER_FILE} build phpqa
 
 phpqa-bash:
-	docker compose -f ${DOCKER_COMPOSE_ANALYSER_FILE} run --rm -T phpqa sh
+	docker compose -f ${DOCKER_COMPOSE_ANALYSER_FILE} run --rm -it phpqa sh
 
 #------------------------------------------------------------------------------
 
