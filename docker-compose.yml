@@ -53,7 +53,7 @@ services:
     environment:
       - HOME=/opt
     volumes:
-      - "${ROOT_PATH}:/var/www/app:cached"
+      - ".:/var/www/app:cached"
       - "~/.npm:/opt/.npm"
     entrypoint: /var/www/app/docker/entrypoints/node.sh
     working_dir: /var/www/app/application/web
