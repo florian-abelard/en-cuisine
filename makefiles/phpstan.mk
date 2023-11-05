@@ -19,7 +19,7 @@ phpstan-rebuild: ##@phpstan rebuild the phpstan image
 	docker compose -f ${DOCKER_COMPOSE_ANALYSER_FILE} build phpstan
 
 phpstan-help:
-	docker compose -f ${DOCKER_COMPOSE_ANALYSER_FILE} run --rm -T phpstan --help
+	docker compose -f ${DOCKER_COMPOSE_ANALYSER_FILE} run --rm -it phpstan --help
 
 #------------------------------------------------------------------------------
 

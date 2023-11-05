@@ -4,8 +4,7 @@ services:
 
   nginx:
     build: docker/images/nginx
-    image: ${APP_NAME}-nginx:develop
-    container_name: ${APP_NAME}-nginx
+    image: nginx:develop
     restart: always
     volumes:
       - .:/var/www/app:ro,cached
@@ -17,8 +16,7 @@ services:
 
   php:
     build: docker/images/php
-    image: ${APP_NAME}-php:develop
-    container_name: ${APP_NAME}-php
+    image: php:develop
     restart: always
     depends_on:
       - db
@@ -37,7 +35,6 @@ services:
 
   db:
     image: postgres:15-alpine
-    container_name: ${APP_NAME}-db
     restart: always
     ports:
        - "${LOCAL_DATABASE_PORT}:5432"
@@ -51,7 +48,6 @@ services:
 
   node:
     image: node:18-alpine
-    container_name: ${APP_NAME}-node
     ports:
       - "3000:3000"
     environment:
