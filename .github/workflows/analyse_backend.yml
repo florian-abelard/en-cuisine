@@ -27,8 +27,11 @@ jobs:
           composer install --no-progress --prefer-dist --optimize-autoloader
           php bin/console cache:warmup --env=dev
 
-      - name: ECS check
-        run: make ecs-check
+      - name: PHPMD
+        run: make phpmd
 
       - name: PHPStan
         run: make phpstan-analyse
+
+      - name: ECS check
+        run: make ecs-check

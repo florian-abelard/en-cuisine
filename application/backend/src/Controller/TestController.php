@@ -8,6 +8,6 @@ class TestController extends ControllerResolver
 {
     public function indexAction()
     {
-        dump('Hello World!');
+        dump('Hello World !!!');
     }
 }
