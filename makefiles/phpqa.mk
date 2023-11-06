@@ -2,7 +2,7 @@
 # PHPStan Makefile
 #------------------------------------------------------------------------------
 
-ECS_DOCKER_CMD = docker compose -f ${DOCKER_COMPOSE_ANALYSER_FILE} run --rm -T phpqa ecs ${1}
+PHPQA_DOCKER_CMD = docker compose -f ${DOCKER_COMPOSE_ANALYSER_FILE} run --rm -T phpqa ${1}
 
 # Cli arguments
 ifneq (,$(filter ecs-check%, $(firstword $(MAKECMDGOALS))))
@@ -13,7 +13,10 @@ endif
 #------------------------------------------------------------------------------
 
 ecs-check: ##@phpqa run ecs check on the specified folder
-	$(call ECS_DOCKER_CMD, check --config /app/docker/images/phpqa/ecs.php $(COMPOSER_CLI_ARGS))
+	$(call PHPQA_DOCKER_CMD, ecs check --config /app/docker/images/phpqa/ecs.php $(COMPOSER_CLI_ARGS))
+
+phpmd: ##@phpqa run ecs check on the specified folder
+	$(call PHPQA_DOCKER_CMD, phpmd /app/application/backend/src/ text /app/docker/images/phpqa/phpmd.xml)
 
 phpqa-rebuild: ##@phpqa rebuild the phpqa image
 	docker compose -f ${DOCKER_COMPOSE_ANALYSER_FILE} build phpqa
