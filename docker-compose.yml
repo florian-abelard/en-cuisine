@@ -43,8 +43,8 @@ services:
     environment:
       TZ: 'Europe/Paris'
       PGTZ: 'Europe/Paris'
-      POSTGRES_USER: ${DATABASE_ADMIN}
-      POSTGRES_PASSWORD: ${DATABASE_ADMIN_PASSWORD}
+    env_file:
+        - ./application/backend/.env
 
   node:
     image: node:18-alpine
