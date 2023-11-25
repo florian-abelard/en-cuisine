@@ -61,17 +61,6 @@ bash-node-root: ## open a bash session in the node container with root user
 
 #------------------------------------------------------------------------------
 
-build: ##@docker build containers
-	docker compose -f ${DOCKER_COMPOSE_FILE} build
-
-rebuild: build up ##@docker rebuild and start containers
-
-clean: down ##@docker clean docker containers
-	docker container ls -a | grep "${APP_NAME}" | awk '{print $1}' | xargs --no-run-if-empty docker container rm
-#   docker image rm $(docker images -a -q)
-
-#------------------------------------------------------------------------------
-
 .DEFAULT_GOAL := help
 
 help:

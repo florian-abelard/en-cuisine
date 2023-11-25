@@ -17,7 +17,16 @@ cmd-php: ##@docker run the specified command in the php container | usage: make 
 	@echo ${CLI_ARGS}
 	@$(call DOCKER_CMD, php $(CLI_ARGS))
 
+build: ##@docker build containers
+	docker compose -f ${DOCKER_COMPOSE_FILE} build
+
+rebuild: build up ##@docker rebuild and start containers
+
+clean: down ##@docker clean docker containers
+	docker container ls -a | grep "${APP_NAME}" | awk '{print $1}' | xargs --no-run-if-empty docker container rm
+#   docker image rm $(docker images -a -q)
+
 #------------------------------------------------------------------------------
 
-.PHONY: cmd-php
+.PHONY: cmd-php build rebuild clean
 
