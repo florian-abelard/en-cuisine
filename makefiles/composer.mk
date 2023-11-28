@@ -15,11 +15,9 @@ composer-install: composer-init ##@composer install composer dependencies
 composer-dump-autoload: composer-init ##@composer dump autoloading
 	$(call COMPOSER_DOCKER_CMD, dump-autoload)
 
-#------------------------------------------------------------------------------
-
-clean-composer:##@composer delete vendor directory
+composer-clean:##@composer delete vendor directory
 	test ! -e vendor || rm -r vendor
 
 #------------------------------------------------------------------------------
 
-.PHONY: composer-install composer-dump-autoload clean-composer
+.PHONY: composer-install composer-dump-autoload composer-clean

@@ -21,8 +21,4 @@ db-wait-for:
 
 #------------------------------------------------------------------------------
 
-clean-db: db-drop ##@database clean database
-
-#------------------------------------------------------------------------------
-
-.PHONY: db-init db-create db-drop db-create-migration db-schema-update db-wait-for clean-db
+.PHONY: db-init db-create db-drop db-create-migration db-schema-update db-wait-for
