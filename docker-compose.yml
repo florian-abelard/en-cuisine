@@ -50,6 +50,7 @@ services:
     image: node:18-alpine
     ports:
       - "3000:3000"
+      - "24678:24678"
     environment:
       - HOME=/opt
     volumes:
