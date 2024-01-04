@@ -5,7 +5,7 @@
 DOCKER_CMD = docker compose exec -T --user ${USER_ID}:${GROUP_ID} ${1}
 
 # Cli arguments
-ifneq (,$(filter cmd-php, $(firstword $(MAKECMDGOALS))))
+ifneq (,$(filter cmd-php cmd-node, $(firstword $(MAKECMDGOALS))))
     CLI_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
     CLI_ARGS := $(subst :,\:,$(CLI_ARGS))
     $(foreach arg,$(CLI_ARGS),$(eval $(arg):;@true))

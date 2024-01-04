@@ -14,21 +14,22 @@
 
   import { useFetch } from '#imports';
   import { useRuntimeConfig } from '#imports';
-  import { ref } from '#imports';
+  import { useQuery } from '#imports';
 
   const config = useRuntimeConfig();
 
-  const recettes = ref();
-
-  fetchRecettes();
+  const {  data: recettes }= useQuery({
+    queryKey: ['recettes'],
+    queryFn: fetchRecettes,
+  })
 
   async function fetchRecettes () {
-    const { data } = await useFetch('/recettes', {
+    return await useFetch('/recettes', {
       method: 'get',
       baseURL: config.public.apiBaseUrl,
-    });
-
-    recettes.value = data.value['hydra:member'];
+    })
+    .then((response) => response.data.value['hydra:member'])
+    .catch((error) => console.log(error));
   }
 
 </script>
