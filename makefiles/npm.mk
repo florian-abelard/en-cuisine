@@ -12,11 +12,9 @@ npm-init:
 npm-install: npm-init ##@npm install npm dependencies
 	$(call NPM_DOCKER_CMD, install --silent)
 
-#------------------------------------------------------------------------------
-
-clean-npm: ##@npm clean npm dependencies
+npm-clean: ##@npm clean npm dependencies
 	test ! -e node_modules || rm -rf node_modules
 
 #------------------------------------------------------------------------------
 
-.PHONY: npm-install clean-npm
+.PHONY: npm-install npm-clean

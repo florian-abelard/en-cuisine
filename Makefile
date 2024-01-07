@@ -42,7 +42,7 @@ down: ##@docker stop and remove containers and volumes
 logs: ##@docker displays containers log
 	docker compose logs -f -t --tail="5"
 
-tests: ## run tests
+test: ## run tests
 	docker compose -f ${DOCKER_COMPOSE_FILE} exec php ./vendor/bin/phpunit
 
 #------------------------------------------------------------------------------
@@ -73,4 +73,4 @@ help:
 
 #------------------------------------------------------------------------------
 
-.PHONY: init up up-app build down rebuild clean help
+.PHONY: init up down logs test clean help

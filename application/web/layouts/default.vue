@@ -1,6 +1,4 @@
 <template>
-  <div>
-    Some default layout shared across all pages
-    <slot />
-  </div>
+  <h1>En cuisine !</h1>
+  <slot />
 </template>
