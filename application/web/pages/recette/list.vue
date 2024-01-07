@@ -18,7 +18,7 @@
 
   const config = useRuntimeConfig();
 
-  const {  data: recettes }= useQuery({
+  const { data: recettes }= useQuery({
     queryKey: ['recettes'],
     queryFn: fetchRecettes,
   })
