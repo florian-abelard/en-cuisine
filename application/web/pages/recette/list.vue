@@ -3,16 +3,16 @@
     <h1>Liste des recettes</h1>
 
     <ul>
-      <li v-for="(recette, index) in recettes" v-bind:key="index">
-        {{ index }} - {{ recette.libelle }}
+      <li v-for="(recette, index) in data?.recettes" v-bind:key="index">
+        {{ recette.id }} - {{ recette.libelle }}
       </li>
     </ul>
 
-    <div class="join">
-      <button class="join-item btn" @click="previous">Précendente</button>
-      <button class="join-item btn">Page {{ page }}</button>
-      <button class="join-item btn" @click="next">Suivante</button>
-    </div>
+    <Pagination
+      v-if="data?.recettes?.length"
+      :total-items="data?.totalItems"
+      @page-changed="onPageChange"
+    />
   </div>
 </template>
 
@@ -25,27 +25,24 @@
   const config = useRuntimeConfig();
   const page = ref(1);
 
-  const next = () => {
-    page.value++;
-  }
-
-  const previous = () => {
-    page.value--;
-  }
-
-  const { data: recettes } = useQuery({
+  const { data } = useQuery({
     queryKey: ['recettes', page],
     queryFn: () => fetchRecettes(page.value)
-  })
+  });
 
-  async function fetchRecettes(page) {
+  const fetchRecettes = async (page) => {
     const response = await $fetch('/recettes', {
       method: 'GET',
       baseURL: config.public.apiBaseUrl,
       params: { page: page }
     });
 
-    return response['hydra:member'];
+    return {
+      recettes: response['hydra:member'],
+      totalItems: response['hydra:totalItems'],
+    };
   }
+
+  const onPageChange = (newPage) => page.value = newPage;
 
 </script>

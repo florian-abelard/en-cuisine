@@ -12,7 +12,7 @@ class AppFixtures extends Fixture
     {
         RecetteFactory::createOne(['libelle' => 'Cookies']);
         RecetteFactory::createOne(['libelle' => 'Bûche Finesse']);
-        RecetteFactory::createMany(15);
+        RecetteFactory::createMany(25);
 
         $manager->flush();
     }
