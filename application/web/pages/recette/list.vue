@@ -3,33 +3,46 @@
     <h1>Liste des recettes</h1>
 
     <ul>
-      <li v-for="(recette, index) in recettes" v-bind:key="index">
-        {{ index }} - {{ recette.libelle }}
+      <li v-for="(recette, index) in data?.recettes" v-bind:key="index">
+        {{ recette.id }} - {{ recette.libelle }}
       </li>
     </ul>
+
+    <Pagination
+      v-if="data?.recettes?.length"
+      :total-items="data?.totalItems"
+      @page-changed="onPageChange"
+    />
   </div>
 </template>
 
 <script setup>
 
-  import { useFetch } from '#imports';
   import { useRuntimeConfig } from '#imports';
   import { useQuery } from '#imports';
+  import { ref } from '#imports';
 
   const config = useRuntimeConfig();
+  const page = ref(1);
 
-  const { data: recettes }= useQuery({
-    queryKey: ['recettes'],
-    queryFn: fetchRecettes,
-  })
+  const { data } = useQuery({
+    queryKey: ['recettes', page],
+    queryFn: () => fetchRecettes(page.value)
+  });
 
-  async function fetchRecettes () {
-    return await useFetch('/recettes', {
-      method: 'get',
+  const fetchRecettes = async (page) => {
+    const response = await $fetch('/recettes', {
+      method: 'GET',
       baseURL: config.public.apiBaseUrl,
-    })
-    .then((response) => response.data.value['hydra:member'])
-    .catch((error) => console.log(error));
+      params: { page: page }
+    });
+
+    return {
+      recettes: response['hydra:member'],
+      totalItems: response['hydra:totalItems'],
+    };
   }
+
+  const onPageChange = (newPage) => page.value = newPage;
 
 </script>

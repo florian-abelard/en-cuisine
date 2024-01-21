@@ -11,7 +11,8 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         RecetteFactory::createOne(['libelle' => 'Cookies']);
-        RecetteFactory::createMany(5);
+        RecetteFactory::createOne(['libelle' => 'Bûche Finesse']);
+        RecetteFactory::createMany(25);
 
         $manager->flush();
     }
