@@ -3,7 +3,7 @@
     <h1>Liste des recettes</h1>
 
     <ul>
-      <li v-for="(recette, index) in data?.recettes" v-bind:key="index">
+      <li v-for="(recette, index) in data?.recettes" :key="index">
         {{ recette.id }} - {{ recette.libelle }}
       </li>
     </ul>
@@ -16,7 +16,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 
   import { useRuntimeConfig } from '#imports';
   import { useQuery } from '#imports';
@@ -27,22 +27,24 @@
 
   const { data } = useQuery({
     queryKey: ['recettes', page],
-    queryFn: () => fetchRecettes(page.value)
+    queryFn: () => fetchRecettes(page.value),
   });
 
-  const fetchRecettes = async (page) => {
+  const fetchRecettes = async (page: number): Promise<{recettes: any[], totalItems: number}> => {
     const response = await $fetch('/recettes', {
       method: 'GET',
       baseURL: config.public.apiBaseUrl,
-      params: { page: page }
+      params: { page },
     });
 
     return {
       recettes: response['hydra:member'],
       totalItems: response['hydra:totalItems'],
     };
-  }
+  };
 
-  const onPageChange = (newPage) => page.value = newPage;
+  const onPageChange = (newPage: number): void => {
+    page.value = newPage;
+  };
 
 </script>

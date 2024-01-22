@@ -6,21 +6,7 @@
       Hello world!
     </h1>
 
-    <div>{{ count }}</div>
-
-    <button
-      @click="decrement"
-      class="py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md"
-    >
-      Decrement
-    </button>
-    <button
-      @click="increment"
-      class="py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md"
-    >
-      Increment
-    </button>
-
+    <div>{{ count.toFixed(2) }}</div>
     <br>
 
     <button

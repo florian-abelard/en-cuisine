@@ -1,20 +1,27 @@
+require("@rushstack/eslint-patch/modern-module-resolution");
+
 module.exports = {
   root: true,
   env: {
     browser: true,
-    node: true
+    node: true,
   },
   extends: [
-    "eslint:recommended",
-    "plugin:vue/vue3-strongly-recommended",
+    'eslint:recommended',
+    'plugin:vue/vue3-strongly-recommended',
+    '@vue/eslint-config-typescript/recommended',
   ],
   plugins: [
-    'vue'
+    'vue',
   ],
   rules: {
     'vue/multi-word-component-names': 0,
+    'comma-dangle': ['error', 'always-multiline'],
+    'semi': ['error', 'always'],
+    'quote-props': ['error', 'consistent-as-needed'],
+    // 'arrow-parens': ['error', 'as-needed'],
   },
   globals: {
-    "$fetch": false
-  }
-}
+    $fetch: false,
+  },
+};
