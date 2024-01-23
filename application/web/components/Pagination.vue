@@ -16,7 +16,7 @@
   import { ref, computed } from '#imports';
 
   export interface Props {
-    totalItems: number,
+    itemsCount: number,
     pageSize?: number
   }
 
@@ -31,7 +31,7 @@
   const currentPage = ref(1);
 
   const maxPage = computed((): number => {
-    return Math.ceil(props.totalItems / props.pageSize);
+    return Math.ceil(props.itemsCount / props.pageSize);
   });
 
   const goTo = (page: number) => {
