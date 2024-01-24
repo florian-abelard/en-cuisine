@@ -6,7 +6,7 @@ export default defineNuxtConfig({
     autoImport: false,
   },
   typescript: {
-    strict: true
+    strict: false,
   },
   ssr: false,
   devtools: { enabled: true },
@@ -18,11 +18,11 @@ export default defineNuxtConfig({
     },
   },
   modules: [
-    "@hebilicious/vue-query-nuxt",
+    '@hebilicious/vue-query-nuxt',
   ],
   runtimeConfig: {
     public: {
       apiBaseUrl: process.env.API_BASE_URL || 'http://localhost:8080/api/',
     },
   },
-})
+});

@@ -1,45 +1,41 @@
 <template>
   <div class="join">
     <button
-      v-for="pageNumber in maxPage"
-      :key="pageNumber"
+      v-for="page in maxPage"
+      :key="page"
       class="join-item btn"
-      :class="{ 'btn-active': pageNumber === currentPage }"
-      @click="goTo(pageNumber)"
+      :class="{ 'btn-active': page === currentPage }"
+      @click="goTo(page)"
     >
-      {{ pageNumber }}
+      {{ page }}
     </button>
   </div>
 </template>
 
-<script setup>
-  import { ref } from '#imports';
-  import { computed } from '#imports';
+<script setup lang="ts">
+  import { ref, computed } from '#imports';
 
-  const props = defineProps({
-    totalItems: {
-      type: Number,
-      default: null,
-    },
-    pageSize: {
-      type: Number,
-      default: 10,
-    },
+  export interface Props {
+    itemsCount: number,
+    pageSize?: number
+  }
+
+  const props = withDefaults(defineProps<Props>(), {
+    pageSize: 10,
   });
 
-  const emit = defineEmits({
-    // eslint-disable-next-line no-unused-vars
-    pageChanged: (page) => true,
-  });
+  const emit = defineEmits<{
+    pageChanged: [page: number],
+  }>();
 
   const currentPage = ref(1);
 
-  const maxPage = computed(() => {
-    return Math.ceil(props.totalItems / props.pageSize);
-  })
+  const maxPage = computed((): number => {
+    return Math.ceil(props.itemsCount / props.pageSize);
+  });
 
-  const goTo = (page) => {
+  const goTo = (page: number) => {
     currentPage.value = page;
     emit('pageChanged', currentPage.value);
-  }
+  };
 </script>
