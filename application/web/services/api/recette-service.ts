@@ -1,15 +1,12 @@
 import { PaginatedResult } from "~/models/paginated-result";
 import { Recette } from "~/models/recette";
+import { useRuntimeConfig } from "#imports";
 
-export class RecetteService {
+export default new class RecetteService {
 
   private config = useRuntimeConfig();
 
-  async findAll(): Promise<Recette[]> {
-    return await Recette.find();
-  }
-
-  async findByPaginated(page: number): Promise<PaginatedResult<Recette>> {
+  public async findByPaginated(page: number): Promise<PaginatedResult<Recette>> {
     const response = await $fetch('/recettes', {
       method: 'GET',
       baseURL: this.config.public.apiBaseUrl,
@@ -21,4 +18,4 @@ export class RecetteService {
       response['hydra:totalItems'],
     );
   }
-}
+};

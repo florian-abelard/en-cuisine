@@ -21,6 +21,16 @@
     >
       Increment
     </button>
+
+    <router-link
+      to="/recette/list"
+      custom
+      v-slot="{ href, route, navigate, isActive }"
+    >
+      <NavLink :active="isActive" :href="href" @click="navigate">
+        {{ route.fullPath }}
+      </NavLink>
+    </router-link>
   </div>
 </template>
 
