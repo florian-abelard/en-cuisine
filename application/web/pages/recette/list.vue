@@ -3,14 +3,14 @@
     <h1>Liste des recettes</h1>
 
     <ul>
-      <li v-for="(recette, index) in data?.items" :key="index">
+      <li v-for="(recette, index) in recettes" :key="index">
         {{ recette.id }} - {{ recette.libelle }}
       </li>
     </ul>
 
     <Pagination
-      v-if="data?.items?.length"
-      :items-count="data?.itemsCount"
+      v-if="recettes?.length"
+      :items-count="itemsCount"
       @page-changed="onPageChange"
     />
   </div>
@@ -18,31 +18,25 @@
 
 <script setup lang="ts">
 
-  import { useRuntimeConfig } from '#imports';
   import { useQuery } from '#imports';
   import { ref } from '#imports';
-  import { PaginatedResult } from '~/models/paginated-result';
   import { Recette } from '~/models/recette';
+  import RecetteService from '~/services/api/recette-service';
 
-  const config = useRuntimeConfig();
   const page = ref(1);
+  const itemsCount = ref(null);
 
-  const { data } = useQuery({
+  const { data: recettes } = useQuery({
     queryKey: ['recettes', page],
     queryFn: () => fetchRecettes(page.value),
   });
 
-  const fetchRecettes = async (page: number): Promise<PaginatedResult<Recette>> => {
-    const response = await $fetch('/recettes', {
-      method: 'GET',
-      baseURL: config.public.apiBaseUrl,
-      params: { page },
-    });
+  const fetchRecettes = async (page: number): Promise<Recette[]> => {
+    const result = await RecetteService.findByPaginated(page);
 
-    return new PaginatedResult(
-      response['hydra:member'],
-      response['hydra:totalItems'],
-    );
+    itemsCount.value = result.itemsCount;
+
+    return result.items;
   };
 
   const onPageChange = (newPage: number): void => {
