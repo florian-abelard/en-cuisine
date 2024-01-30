@@ -1,4 +1,9 @@
 <template>
+  <Head>
+    <Title>En cuisine !</Title>
+    <Meta name="description" content="Les moflo en cuisine !"/>
+  </Head>
+
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
