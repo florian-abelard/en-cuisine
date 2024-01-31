@@ -3,7 +3,7 @@
     <button
       v-for="page in maxPage"
       :key="page"
-      class="join-item btn btn-primary"
+      class="btn btn-primary mx-1 btn-sm lg:btn-md"
       :class="{ 'btn-active': page === currentPage }"
       @click="goTo(page)"
     >
