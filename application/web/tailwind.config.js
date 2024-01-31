@@ -15,4 +15,8 @@ module.exports = {
     },
   },
   plugins: [require('daisyui')],
+  darkMode: false, // or 'media' or 'class'
+  daisyui: {
+    themes: ['bumblebee'],
+  },
 };

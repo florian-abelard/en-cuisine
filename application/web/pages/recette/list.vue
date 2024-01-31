@@ -1,12 +1,23 @@
 <template>
   <div>
-    <h1>Liste des recettes</h1>
+    <Head>
+      <Title>En cuisine ! Recettes</Title>
+    </Head>
 
-    <ul>
-      <li v-for="(recette, index) in recettes" :key="index">
-        {{ recette.id }} - {{ recette.libelle }}
-      </li>
-    </ul>
+    <h2 class="text-4xl font-normal leading-normal mt-0 mb-2 text-primary">Liste des recettes</h2>
+
+    <table class="table">
+      <tbody>
+        <tr
+          v-for="(recette, index) in recettes"
+          :key="index"
+          class="hover:bg-primary/30"
+        >
+          <th>{{ recette.id }}</th>
+          <td>{{ recette.libelle }}</td>
+        </tr>
+      </tbody>
+    </table>
 
     <Pagination
       v-if="recettes?.length"
