@@ -44,6 +44,7 @@ jobs:
       - name: Build assets
         run: |
           cd application/web
+          cp .env.prod .env
           npm run generate
 
       - name: Deploy backend to production server
