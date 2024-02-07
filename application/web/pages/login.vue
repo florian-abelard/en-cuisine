@@ -1,7 +1,7 @@
 <template>
   <div class="p-4">
     <h1 class="text-xl font-bold mb-4">
-      Bienvenue sur l'application En Cuisine !
+      Les moflo en cuisine !
     </h1>
 
     <form @submit="onSubmit">
@@ -12,7 +12,6 @@
         v-bind="loginAttrs"
         placeholder="Identifiant"
       >
-      <div>{{ errors.login }}</div>
 
       <input
         class="input input-bordered input-primary input-sm w-full max-w-xs mb-4"
@@ -21,11 +20,13 @@
         v-bind="passwordAttrs"
         placeholder="Mot de passe"
       >
-      <div>{{ errors.password }}</div>
+
+      {{ meta.valid }}
 
       <button
         type="submit"
         class="btn btn-primary mx-2"
+        :disabled="isSubmitting || !meta.valid"
       >
         Valider
       </button>
@@ -39,7 +40,7 @@
   import { toTypedSchema } from '@vee-validate/yup';
   import { object, string } from 'yup';
 
-  const { errors, handleSubmit, defineField } = useForm({
+  const { meta, handleSubmit, defineField, isSubmitting } = useForm({
     validationSchema: toTypedSchema(
       object({
         login: string().required(),
