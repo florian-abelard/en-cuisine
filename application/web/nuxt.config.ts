@@ -20,6 +20,7 @@ export default defineNuxtConfig({
   modules: [
     '@hebilicious/vue-query-nuxt',
     '@vee-validate/nuxt',
+    '@pinia/nuxt',
   ],
   runtimeConfig: {
     public: {

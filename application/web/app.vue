@@ -10,10 +10,10 @@
 </template>
 
 <style>
-html,
-body,
-#__nuxt {
-  height: 100vh;
-  overflow-y: hidden;
-}
+  html,
+  body,
+  #__nuxt {
+    height: 100vh;
+    overflow-y: hidden;
+  }
 </style>
