@@ -1,20 +1,20 @@
-import { computed, defineStore, ref, type Ref } from '#imports';
+import { computed, defineStore, ref, type Ref, useApiAuth } from '#imports';
 
-export const useAuthStore = defineStore('parking', () => {
+export const useAuthStore = defineStore('auth', () => {
 
-  const _authenticated: Ref<boolean> = ref(null);
+  const authenticated: Ref<boolean> = ref(null);
 
-  const authenticated = computed(() => {
-    if (_authenticated.value === null) {
-      // return await AuthService.login(values.username, values.password);
+  const isAuthenticated = computed(async () => {
+    if (authenticated.value === null) {
+      authenticated.value = await useApiAuth().isAuthenticated();
     }
 
-    return _authenticated;
+    return authenticated;
   });
 
   function authenticate() {
-    _authenticated.value = true;
+    authenticated.value = true;
   }
 
-  return { authenticated, authenticate };
+  return { isAuthenticated, authenticate };
 });

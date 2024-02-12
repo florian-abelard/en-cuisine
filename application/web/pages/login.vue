@@ -38,11 +38,10 @@
 
 <script setup lang="ts">
 
-  import { useAuthStore, useForm } from '#imports';
+  import { useAuthStore, useForm, useApiAuth } from '#imports';
   import { ref } from '#imports';
   import { toTypedSchema } from '@vee-validate/yup';
   import { object, string } from 'yup';
-  import AuthService from '~/services/api/auth-service';
 
   interface LoginForm {
     username?: string | null;
@@ -65,7 +64,7 @@
 
   const onSubmit = handleSubmit(async (values) => {
     try {
-      await AuthService.login(values.username, values.password);
+      await useApiAuth().login(values.username, values.password);
       useAuthStore().authenticate();
     } catch (e) {
       error.value = 'Identifiant ou mot de passe incorrect.';
