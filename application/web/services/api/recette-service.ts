@@ -10,6 +10,7 @@ export default new class RecetteService {
     const response = await $fetch('/recettes', {
       method: 'GET',
       baseURL: this.config.public.apiBaseUrl,
+      credentials: 'include',
       params: { page },
     });
 

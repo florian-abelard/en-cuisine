@@ -30,9 +30,9 @@ class AuthenticationController extends AbstractController
         throw new \Exception('Should not be reached. The route should be intercepted by the firewall.');
     }
 
-    #[Route('/api/authenticated', name: 'api_authenticated', methods: ['GET'])]
+    #[Route('/api/is-authenticated', name: 'api_authenticated', methods: ['GET'])]
     public function authenticated()
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        return $this->json(['authenticated' => $this->getUser() !== null]);
     }
 }

@@ -12,6 +12,7 @@ export const useApiAuth = () => {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: {
           username,
           password,
@@ -28,12 +29,13 @@ export const useApiAuth = () => {
 
     isAuthenticated: async (): Promise<boolean> => {
       try {
-        await $fetch('/authenticated', {
+        const response = await $fetch('/is-authenticated', {
           method: 'GET',
           baseURL: config.public.apiBaseUrl,
+          credentials: 'include',
         });
 
-        return true;
+        return !!response['authenticated'];
       } catch (e) {
         return false;
       }

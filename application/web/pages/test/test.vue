@@ -27,7 +27,11 @@
       custom
       v-slot="{ href, route, navigate, isActive }"
     >
-      <NavLink :active="isActive" :href="href" @click="navigate">
+      <NavLink
+        :active="isActive"
+        :href="href"
+        @click="navigate"
+      >
         {{ route.fullPath }}
       </NavLink>
     </router-link>

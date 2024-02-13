@@ -1,15 +1,15 @@
-import { computed, defineStore, ref, type Ref, useApiAuth } from '#imports';
+import { computed, defineStore, ref, useApiAuth, type Ref } from '#imports';
 
 export const useAuthStore = defineStore('auth', () => {
 
-  const authenticated: Ref<boolean> = ref(null);
+  const authenticated: Ref<boolean | null> = ref(null);
 
-  const isAuthenticated = computed(async () => {
+  const isAuthenticated = computed(async (): Promise<boolean> => {
     if (authenticated.value === null) {
       authenticated.value = await useApiAuth().isAuthenticated();
     }
 
-    return authenticated;
+    return authenticated.value;
   });
 
   function authenticate() {
