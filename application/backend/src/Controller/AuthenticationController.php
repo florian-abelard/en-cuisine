@@ -33,6 +33,6 @@ class AuthenticationController extends AbstractController
     #[Route('/api/authenticated', name: 'api_authenticated', methods: ['GET'])]
     public function authenticated()
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        return $this->json(['authenticated' => $this->getUser() !== null]);
     }
 }
