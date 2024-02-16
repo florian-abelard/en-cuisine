@@ -46,7 +46,13 @@
     </div>
 
     <div class="navbar-end">
-      <a class="btn btn-ghost">...</a>
+      <button
+        v-if="authenticated"
+        class="btn btn-ghost"
+        @click="logout"
+      >
+        logout
+      </button>
     </div>
   </header>
 
@@ -54,3 +60,18 @@
     <slot />
   </main>
 </template>
+
+
+<script setup lang="ts">
+
+  import { useApiAuth, navigateTo, useAuthStore } from '#imports';
+
+  const { isAuthenticated } = useAuthStore();
+  const authenticated = await isAuthenticated;
+
+  const logout = async () => {
+    await useApiAuth().logout();
+
+    return navigateTo('/login');
+  };
+</script>

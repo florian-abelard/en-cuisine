@@ -4,17 +4,21 @@ export const useAuthStore = defineStore('auth', () => {
 
   const authenticated: Ref<boolean | null> = ref(null);
 
-  const isAuthenticated = computed(async (): Promise<boolean> => {
+  const isAuthenticated = computed(async (): Promise<Ref<boolean>> => {
     if (authenticated.value === null) {
       authenticated.value = await useApiAuth().isAuthenticated();
     }
 
-    return authenticated.value;
+    return authenticated;
   });
 
-  function authenticate() {
+  function loggedIn() {
     authenticated.value = true;
   }
 
-  return { isAuthenticated, authenticate };
+  function loggedOut() {
+    authenticated.value = false;
+  }
+
+  return { isAuthenticated, loggedIn, loggedOut };
 });

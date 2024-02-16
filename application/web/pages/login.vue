@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 
-  import { useAuthStore, useForm, useApiAuth } from '#imports';
+  import { useAuthStore, useForm, useApiAuth, navigateTo } from '#imports';
   import { ref } from '#imports';
   import { toTypedSchema } from '@vee-validate/yup';
   import { object, string } from 'yup';
@@ -65,7 +65,7 @@
   const onSubmit = handleSubmit(async (values) => {
     try {
       await useApiAuth().login(values.username, values.password);
-      useAuthStore().authenticate();
+      navigateTo('/recette/list');
     } catch (e) {
       error.value = 'Identifiant ou mot de passe incorrect.';
     }

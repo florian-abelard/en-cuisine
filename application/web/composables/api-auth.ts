@@ -1,8 +1,9 @@
-import { useRuntimeConfig } from "#imports";
+import { useAuthStore, useRuntimeConfig } from "#imports";
 
 export const useApiAuth = () => {
 
   const config = useRuntimeConfig();
+  const useAuth = useAuthStore();
 
   return {
     login: async (username: string, password: string): Promise<void> => {
@@ -18,13 +19,20 @@ export const useApiAuth = () => {
           password,
         },
       });
+
+      useAuth.loggedIn();
     },
 
     logout: async (): Promise<void> => {
-      await $fetch('/logout', {
-        method: 'POST',
-        baseURL: config.public.apiBaseUrl,
-      });
+      try {
+        await $fetch('/logout', {
+          method: 'POST',
+          baseURL: config.public.apiBaseUrl,
+          credentials: 'include',
+        });
+      } catch (e) {
+        useAuth.loggedOut();
+      }
     },
 
     isAuthenticated: async (): Promise<boolean> => {
