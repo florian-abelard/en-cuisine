@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 
-  import { useAuthStore, useForm, useApiAuth, navigateTo } from '#imports';
+  import { useForm, useApiAuth, navigateTo } from '#imports';
   import { ref } from '#imports';
   import { toTypedSchema } from '@vee-validate/yup';
   import { object, string } from 'yup';

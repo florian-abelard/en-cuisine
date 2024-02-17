@@ -4,7 +4,9 @@
       <Title>En cuisine ! Recettes</Title>
     </Head>
 
-    <h2 class="text-4xl font-normal leading-normal mt-0 mb-2 text-primary">Liste des recettes</h2>
+    <h2 class="text-4xl font-normal leading-normal mt-0 mb-2 text-primary">
+      Liste des recettes
+    </h2>
 
     <table class="table">
       <tbody>

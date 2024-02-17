@@ -1,7 +1,7 @@
 <template>
   <Head>
     <Title>En cuisine !</Title>
-    <Meta name="description" content="Les moflo en cuisine !"/>
+    <Meta name="description" content="Les moflo en cuisine !" />
   </Head>
 
   <NuxtLayout>
