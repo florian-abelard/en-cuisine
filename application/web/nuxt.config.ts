@@ -19,10 +19,24 @@ export default defineNuxtConfig({
   },
   modules: [
     '@hebilicious/vue-query-nuxt',
+    '@vee-validate/nuxt',
+    '@pinia/nuxt',
   ],
   runtimeConfig: {
     public: {
       apiBaseUrl: process.env.API_BASE_URL || 'http://localhost:8080/api/',
+    },
+  },
+  vueQuery: {
+    queryClientOptions: {
+      defaultOptions: {
+        queries: {
+          refetchOnWindowFocus: false,
+          placeholderData: {
+            isLoading: true,
+          },
+        },
+      },
     },
   },
 });

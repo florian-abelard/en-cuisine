@@ -1,7 +1,7 @@
 <template>
   <Head>
     <Title>En cuisine !</Title>
-    <Meta name="description" content="Les moflo en cuisine !"/>
+    <Meta name="description" content="Les moflo en cuisine !" />
   </Head>
 
   <NuxtLayout>
@@ -10,10 +10,10 @@
 </template>
 
 <style>
-html,
-body,
-#__nuxt {
-  height: 100vh;
-  overflow-y: hidden;
-}
+  html,
+  body,
+  #__nuxt {
+    height: 100vh;
+    overflow-y: hidden;
+  }
 </style>
