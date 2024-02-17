@@ -13,7 +13,6 @@ export const useApiAuth = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include',
         body: {
           username,
           password,
@@ -28,7 +27,6 @@ export const useApiAuth = () => {
         await $fetch('/logout', {
           method: 'POST',
           baseURL: config.public.apiBaseUrl,
-          credentials: 'include',
         });
       } catch (e) {
         authStore.setLoggedOut();
@@ -40,7 +38,6 @@ export const useApiAuth = () => {
         const response = await $fetch('/is-authenticated', {
           method: 'GET',
           baseURL: config.public.apiBaseUrl,
-          credentials: 'include',
         });
 
         const authenticated = !!response['authenticated'];
