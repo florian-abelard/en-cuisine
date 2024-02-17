@@ -64,10 +64,10 @@
 
 <script setup lang="ts">
 
-  import { useApiAuth, navigateTo, useAuthStore } from '#imports';
+  import { useApiAuth, navigateTo, useAuthStore, computed } from '#imports';
 
-  const { isAuthenticated } = useAuthStore();
-  const authenticated = await isAuthenticated;
+  const authStore = useAuthStore();
+  const authenticated = computed(() => authStore.authenticated);
 
   const logout = async () => {
     await useApiAuth().logout();

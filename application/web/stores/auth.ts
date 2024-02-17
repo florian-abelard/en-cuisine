@@ -1,24 +1,24 @@
-import { computed, defineStore, ref, useApiAuth, type Ref } from '#imports';
+import { defineStore } from '#imports';
 
-export const useAuthStore = defineStore('auth', () => {
+interface State {
+  authenticated: boolean;
+}
 
-  const authenticated: Ref<boolean | null> = ref(null);
-
-  const isAuthenticated = computed(async (): Promise<Ref<boolean>> => {
-    if (authenticated.value === null) {
-      authenticated.value = await useApiAuth().isAuthenticated();
-    }
-
-    return authenticated;
-  });
-
-  function loggedIn() {
-    authenticated.value = true;
-  }
-
-  function loggedOut() {
-    authenticated.value = false;
-  }
-
-  return { isAuthenticated, loggedIn, loggedOut };
+export const useAuthStore = defineStore('auth', {
+  state: (): State => {
+    return {
+      authenticated: undefined,
+    };
+  },
+  actions: {
+    setLoggedOut() {
+      this.authenticated = false;
+    },
+    setLoggedIn() {
+      this.authenticated = true;
+    },
+    setAuthenticated(authenticated: boolean) {
+      this.authenticated = authenticated;
+    },
+  },
 });

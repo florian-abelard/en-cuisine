@@ -1,4 +1,4 @@
-import { defineNuxtRouteMiddleware, navigateTo, useAuthStore } from '#imports';
+import { defineNuxtRouteMiddleware, useApiAuth, navigateTo, useAuthStore } from '#imports';
 
 export default defineNuxtRouteMiddleware( async (to) => {
 
@@ -6,9 +6,15 @@ export default defineNuxtRouteMiddleware( async (to) => {
     return;
   }
 
-  const { isAuthenticated } = useAuthStore();
+  const authStore = useAuthStore();
 
-  if ((await isAuthenticated).value === false) {
+  if (authStore.authenticated) {
+    return;
+  }
+
+  const isAuthenticated = await useApiAuth().isAuthenticated();
+
+  if (!isAuthenticated) {
     return navigateTo('/login');
   }
 });

@@ -3,7 +3,7 @@ import { useAuthStore, useRuntimeConfig } from "#imports";
 export const useApiAuth = () => {
 
   const config = useRuntimeConfig();
-  const useAuth = useAuthStore();
+  const authStore = useAuthStore();
 
   return {
     login: async (username: string, password: string): Promise<void> => {
@@ -20,7 +20,7 @@ export const useApiAuth = () => {
         },
       });
 
-      useAuth.loggedIn();
+      authStore.setLoggedIn();
     },
 
     logout: async (): Promise<void> => {
@@ -31,7 +31,7 @@ export const useApiAuth = () => {
           credentials: 'include',
         });
       } catch (e) {
-        useAuth.loggedOut();
+        authStore.setLoggedOut();
       }
     },
 
@@ -43,8 +43,13 @@ export const useApiAuth = () => {
           credentials: 'include',
         });
 
-        return !!response['authenticated'];
+        const authenticated = !!response['authenticated'];
+        authStore.setAuthenticated(authenticated);
+
+        return authenticated;
       } catch (e) {
+        authStore.setLoggedOut();
+
         return false;
       }
     },
