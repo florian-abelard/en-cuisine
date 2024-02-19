@@ -17,6 +17,13 @@ module.exports = {
   plugins: [require('daisyui')],
   darkMode: false, // or 'media' or 'class'
   daisyui: {
-    themes: ['bumblebee'],
+    themes: [
+     {
+        bumblebee: {
+         ...require("daisyui/src/theming/themes")["[data-theme=bumblebee]"],
+         'primary-focus': '#eec707 ',
+        },
+      },
+    ],
   },
 };
