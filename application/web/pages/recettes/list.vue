@@ -17,7 +17,9 @@
         <tr
           v-for="(recette, index) in recettes"
           :key="index"
-          class="hover:bg-primary/30"
+          class="hover:bg-primary/30 cursor-pointer"
+          :data-href="`/recettes/${recette.id}`"
+          @click="() => navigateTo(`/recettes/${recette.id}`)"
         >
           <th>{{ recette.id }}</th>
           <td>{{ recette.libelle }}</td>
@@ -34,8 +36,7 @@
 
 <script setup lang="ts">
 
-  import { useQuery } from '#imports';
-  import { ref } from '#imports';
+  import { useQuery, ref, navigateTo } from '#imports';
   import { Recette } from '~/models/recette';
   import RecetteService from '~/services/api/recette-service';
 

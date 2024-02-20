@@ -65,7 +65,7 @@
   const onSubmit = handleSubmit(async (values) => {
     try {
       await useApiAuth().login(values.username, values.password);
-      navigateTo('/recette/list');
+      navigateTo('/');
     } catch (e) {
       error.value = 'Identifiant ou mot de passe incorrect.';
     }
