@@ -56,7 +56,7 @@
     </div>
   </header>
 
-  <main class="md:container md:mx-auto mt-4">
+  <main class="md:container md:mx-auto mx-auto md:max-w-[800px] mt-4">
     <slot />
   </main>
 </template>
