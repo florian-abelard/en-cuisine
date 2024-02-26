@@ -36,9 +36,8 @@
 
 <script setup lang="ts">
 
-  import { useQuery, ref, navigateTo } from '#imports';
+  import { useQuery, ref, navigateTo, useApiRecette } from '#imports';
   import { Recette } from '~/models/recette';
-  import RecetteService from '~/services/api/recette-service';
 
   const page = ref(1);
   const itemsCount = ref(null);
@@ -49,7 +48,7 @@
   });
 
   const fetchRecettes = async (page: number): Promise<Recette[]> => {
-    const result = await RecetteService.findByPaginated(page);
+    const result = await useApiRecette().findByPaginated(page);
 
     itemsCount.value = result.itemsCount;
 
