@@ -19,5 +19,22 @@ export const useApiRecette = () => {
         response['hydra:totalItems'],
       );
     },
+
+    findById: async (id: string): Promise<Recette> => {
+      const response: Recette = await $fetch(`/recettes/${id}`, {
+        method: 'GET',
+        baseURL: config.public.apiBaseUrl,
+      });
+
+      return response;
+    },
+
+    update: async (id: string, payload: Recette): Promise<void> => {
+      await $fetch(`/recettes/${id}`, {
+        method: 'PUT',
+        baseURL: config.public.apiBaseUrl,
+        body: payload,
+      });
+    },
   };
 };

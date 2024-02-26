@@ -4,7 +4,7 @@
       Recette
     </h1>
 
-    <form @submit="onSubmit" class="flex flex-col">
+    <form v-if="!isFetching" @submit="onSubmit" class="flex flex-col">
       <label class="input input-bordered input-primary flex items-center gap-2">
         <span class="font-semibold">Libellé :</span>
         <input
@@ -20,6 +20,7 @@
         <button
           type="reset"
           class="btn btn-sm mx-2"
+          @click="resetForm()"
           :disabled="isSubmitting"
         >
           Annuler
@@ -39,9 +40,10 @@
 
 <script setup lang="ts">
 
-  import { useForm, useRoute, ref } from '#imports';
+  import { useForm, useRoute, ref, useApiRecette, navigateTo, useQuery, watch } from '#imports';
   import { toTypedSchema } from '@vee-validate/yup';
   import { object, string } from 'yup';
+  import type { Recette } from '~/models/recette';
 
   interface RecetteForm {
     libelle?: string | null;
@@ -49,27 +51,43 @@
 
   const route = useRoute();
   const mode = ref<'create' | 'update'>('create');
+  // let recette = ref<Recette | null>(null);
+  // let isFetching = ref(false);
 
-  const { meta, handleSubmit, defineField, isSubmitting } = useForm<RecetteForm>({
+  const { meta, resetForm, handleSubmit, defineField, isSubmitting } = useForm<RecetteForm>({
     validationSchema: toTypedSchema(
       object({
-        libelle: string().required(),
+        libelle: string().required().default(''),
       }),
     ),
   });
 
   const [libelle, libelleAttrs] = defineField('libelle');
 
-  // When accessing /posts/1, route.params.id will be 1
-  console.log(route.params.id);
-
-const onSubmit = handleSubmit(async (values) => {
-  try {
-    console.log('values', values);
-    // await useApiRecette().update(route.params.id, values);
-    // navigateTo('/recettes/list');
-  } catch (e) {
-    console.error(e);
+  if (route.params.id !== 'create') {
+    mode.value = 'update';
   }
-});
+
+  // if (mode.value === 'update') {
+    const { data: recette, isFetching: isFetching } = await useQuery({
+      queryKey: ['recette', route.params.id],
+      queryFn: () => useApiRecette().findById(route.params.id as string),
+    });
+  // }
+
+  watch(recette, (recette) => {
+    resetForm({ values: recette });
+  });
+
+  const onSubmit = handleSubmit(async (values) => {
+    try {
+      const recette = values as Recette;
+
+      await useApiRecette().update(route.params.id as string, recette);
+
+      navigateTo('/recettes/list');
+    } catch (e) {
+      console.error(e);
+    }
+  });
 </script>
