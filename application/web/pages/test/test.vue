@@ -23,7 +23,7 @@
     </button>
 
     <router-link
-      to="/recette/list"
+      to="/recettes/list"
       custom
       v-slot="{ href, route, navigate, isActive }"
     >

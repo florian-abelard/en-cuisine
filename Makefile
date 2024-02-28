@@ -39,6 +39,9 @@ up: .env #@docker build and start containers
 down: ##@docker stop and remove containers and volumes
 	docker compose -f ${DOCKER_COMPOSE_FILE} down --volumes --remove-orphans
 
+reload-frontend: ##@docker reload frontend
+	docker-compose rm -sfv node && docker-compose up -d node
+
 logs: ##@docker displays containers log
 	docker compose logs -f -t --tail="5"
 

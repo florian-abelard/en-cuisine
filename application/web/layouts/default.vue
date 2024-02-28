@@ -24,7 +24,7 @@
         </div>
         <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
           <li>
-            <NuxtLink to="/recette/list">
+            <NuxtLink to="/recettes/list">
               Recettes
             </NuxtLink>
           </li>
@@ -37,7 +37,7 @@
     <div class="navbar-center hidden lg:flex">
       <ul class="menu menu-horizontal px-1">
         <li>
-          <NuxtLink to="/recette/list">
+          <NuxtLink to="/recettes/list">
             Recettes
           </NuxtLink>
         </li>
@@ -56,7 +56,7 @@
     </div>
   </header>
 
-  <main class="md:container md:mx-auto mt-4">
+  <main class="md:container md:mx-auto mx-auto md:max-w-[800px] mt-4">
     <slot />
   </main>
 </template>

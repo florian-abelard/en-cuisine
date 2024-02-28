@@ -4,7 +4,7 @@
 
   definePageMeta({
     middleware: defineNuxtRouteMiddleware(() => {
-      return navigateTo('/recette/list');
+      return navigateTo('/recettes/list');
     }),
   });
 </script>

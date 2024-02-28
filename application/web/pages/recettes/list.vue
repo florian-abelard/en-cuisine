@@ -4,9 +4,17 @@
       <Title>En cuisine ! Recettes</Title>
     </Head>
 
-    <h2 class="text-4xl font-normal leading-normal mt-0 mb-2 ml-2 text-primary">
-      Liste des recettes
-    </h2>
+    <div class="flex justify-between">
+      <h2 class="text-4xl font-normal leading-normal mt-0 mb-2 ml-2 text-primary">
+        Recettes
+      </h2>
+      <NuxtLink
+        to="/recettes/create"
+        class="btn btn-primary btn-circle mx-4"
+      >
+        +
+      </NuxtLink>
+    </div>
 
     <div v-if="isFetching" class="w-full flex justify-center my-8">
       <span class="loading loading-spinner loading-sm" />
@@ -17,7 +25,9 @@
         <tr
           v-for="(recette, index) in recettes"
           :key="index"
-          class="hover:bg-primary/30"
+          class="hover:bg-primary/30 cursor-pointer"
+          :data-href="`/recettes/${recette.id}`"
+          @click="() => navigateTo(`/recettes/${recette.id}`)"
         >
           <th>{{ recette.id }}</th>
           <td>{{ recette.libelle }}</td>
@@ -34,10 +44,8 @@
 
 <script setup lang="ts">
 
-  import { useQuery } from '#imports';
-  import { ref } from '#imports';
+  import { useQuery, ref, navigateTo, useApiRecette } from '#imports';
   import { Recette } from '~/models/recette';
-  import RecetteService from '~/services/api/recette-service';
 
   const page = ref(1);
   const itemsCount = ref(null);
@@ -48,7 +56,7 @@
   });
 
   const fetchRecettes = async (page: number): Promise<Recette[]> => {
-    const result = await RecetteService.findByPaginated(page);
+    const result = await useApiRecette().findByPaginated(page);
 
     itemsCount.value = result.itemsCount;
 
