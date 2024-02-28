@@ -4,7 +4,11 @@
       Recette
     </h1>
 
-    <form v-if="!isFetching" @submit="onSubmit" class="flex flex-col">
+    <form
+      v-if="!isFetching"
+      @submit="onSubmit"
+      class="flex flex-col"
+    >
       <label class="input input-bordered input-primary flex items-center gap-2">
         <span class="font-semibold">Libellé :</span>
         <input
