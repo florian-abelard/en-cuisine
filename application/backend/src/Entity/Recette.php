@@ -7,7 +7,7 @@ use App\Repository\RecetteRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RecetteRepository::class)]
-#[ApiResource()]
+#[ApiResource(order: ['id' => 'DESC'])]
 class Recette
 {
     #[ORM\Id]

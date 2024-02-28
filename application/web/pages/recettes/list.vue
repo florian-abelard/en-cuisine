@@ -4,9 +4,17 @@
       <Title>En cuisine ! Recettes</Title>
     </Head>
 
-    <h2 class="text-4xl font-normal leading-normal mt-0 mb-2 ml-2 text-primary">
-      Liste des recettes
-    </h2>
+    <div class="flex justify-between">
+      <h2 class="text-4xl font-normal leading-normal mt-0 mb-2 ml-2 text-primary">
+        Recettes
+      </h2>
+      <NuxtLink
+        to="/recettes/create"
+        class="btn btn-primary btn-circle mx-4"
+      >
+        +
+      </NuxtLink>
+    </div>
 
     <div v-if="isFetching" class="w-full flex justify-center my-8">
       <span class="loading loading-spinner loading-sm" />

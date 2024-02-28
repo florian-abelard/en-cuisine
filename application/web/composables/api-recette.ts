@@ -29,6 +29,14 @@ export const useApiRecette = () => {
       return response;
     },
 
+    create: async (payload: Recette): Promise<void> => {
+      await $fetch('/recettes', {
+        method: 'POST',
+        baseURL: config.public.apiBaseUrl,
+        body: payload,
+      });
+    },
+
     update: async (id: string, payload: Recette): Promise<void> => {
       await $fetch(`/recettes/${id}`, {
         method: 'PUT',

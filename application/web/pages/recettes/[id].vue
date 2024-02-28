@@ -51,8 +51,6 @@
 
   const route = useRoute();
   const mode = ref<'create' | 'update'>('create');
-  // let recette = ref<Recette | null>(null);
-  // let isFetching = ref(false);
 
   const { meta, resetForm, handleSubmit, defineField, isSubmitting } = useForm<RecetteForm>({
     validationSchema: toTypedSchema(
@@ -68,14 +66,13 @@
     mode.value = 'update';
   }
 
-  // if (mode.value === 'update') {
-    const { data: recette, isFetching: isFetching } = await useQuery({
-      queryKey: ['recette', route.params.id],
-      queryFn: () => useApiRecette().findById(route.params.id as string),
-    });
-  // }
+  const { data: recette, isFetching } = useQuery({
+    queryKey: ['recette', route.params.id],
+    queryFn: () => useApiRecette().findById(route.params.id as string),
+    enabled: mode.value === 'update',
+  });
 
-  watch(recette, (recette) => {
+  watch(recette, (recette: Recette) => {
     resetForm({ values: recette });
   });
 
@@ -83,7 +80,9 @@
     try {
       const recette = values as Recette;
 
-      await useApiRecette().update(route.params.id as string, recette);
+      mode.value === 'create'
+        ? await useApiRecette().create(recette)
+        : await useApiRecette().update(route.params.id as string, recette);
 
       navigateTo('/recettes/list');
     } catch (e) {
