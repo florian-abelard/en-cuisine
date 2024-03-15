@@ -1,5 +1,5 @@
 <template>
-  <header class="navbar bg-primary">
+  <header class="navbar bg-primary fixed top-0 w-full">
     <div class="navbar-start">
       <div class="dropdown">
         <div
@@ -62,11 +62,10 @@
     </div>
   </header>
 
-  <main class="md:container md:mx-auto mx-auto md:max-w-[800px] mt-4">
+  <main class="md:container md:mx-auto mx-auto md:max-w-[800px] my-4">
     <slot />
   </main>
 </template>
-
 
 <script setup lang="ts">
 
