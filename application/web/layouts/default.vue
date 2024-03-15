@@ -1,5 +1,5 @@
 <template>
-  <header class="navbar bg-primary">
+  <header class="navbar bg-primary fixed top-0 w-full">
     <div class="navbar-start">
       <div class="dropdown">
         <div
@@ -25,10 +25,14 @@
         <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
           <li>
             <NuxtLink to="/recettes/list">
-              Recettes
+              <CookingPot class="w-5 h-5" /> Recettes
             </NuxtLink>
           </li>
-          <li><a>Réalisations</a></li>
+          <li>
+              <a>
+                <ChefHat class="w-5 h-5" /> Réalisations
+              </a>
+            </li>
         </ul>
       </div>
       <a class="btn btn-ghost text-xl cursor-default">En Cuisine !</a>
@@ -38,10 +42,12 @@
       <ul class="menu menu-horizontal px-1">
         <li>
           <NuxtLink to="/recettes/list">
-            Recettes
+            <CookingPot /> Recettes
           </NuxtLink>
         </li>
-        <li><a>Réalisations</a></li>
+        <li>
+          <a><ChefHat /> Réalisations</a>
+        </li>
       </ul>
     </div>
 
@@ -51,20 +57,20 @@
         class="btn btn-ghost"
         @click="logout"
       >
-        logout
+        <LogOut />
       </button>
     </div>
   </header>
 
-  <main class="md:container md:mx-auto mx-auto md:max-w-[800px] mt-4">
+  <main class="md:container md:mx-auto mx-auto md:max-w-[800px] mt-20 mb-4">
     <slot />
   </main>
 </template>
 
-
 <script setup lang="ts">
 
   import { useApiAuth, navigateTo, useAuthStore, computed } from '#imports';
+  import { LogOut, CookingPot, ChefHat } from 'lucide-vue-next';
 
   const authStore = useAuthStore();
   const authenticated = computed(() => authStore.authenticated);
