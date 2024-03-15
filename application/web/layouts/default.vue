@@ -62,7 +62,7 @@
     </div>
   </header>
 
-  <main class="md:container md:mx-auto mx-auto md:max-w-[800px] my-4">
+  <main class="md:container md:mx-auto mx-auto md:max-w-[800px] mt-20 mb-4">
     <slot />
   </main>
 </template>

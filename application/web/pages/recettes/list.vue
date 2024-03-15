@@ -10,9 +10,9 @@
       </h2>
       <NuxtLink
         to="/recettes/create"
-        class="btn btn-primary btn-circle mx-4"
+        class="btn btn-primary btn-circle mx-4 fixed top-20 right-4 z-[1]"
       >
-        +
+        <Plus :size="22" />
       </NuxtLink>
     </div>
 
@@ -46,6 +46,7 @@
 
   import { useQuery, ref, navigateTo, useApiRecette } from '#imports';
   import { Recette } from '~/models/recette';
+  import { Plus } from 'lucide-vue-next';
 
   const page = ref(1);
   const itemsCount = ref(null);
