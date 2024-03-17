@@ -5,7 +5,7 @@
         <div
           tabindex="0"
           role="button"
-          class="btn btn-ghost lg:hidden"
+          class="btn btn-ghost"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -22,23 +22,38 @@
             />
           </svg>
         </div>
-        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-          <li>
+        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 pb-4 shadow bg-base-100 rounded-box w-52">
+          <li class="md:hidden">
             <NuxtLink to="/recettes/list">
               <CookingPot class="w-5 h-5" /> Recettes
             </NuxtLink>
           </li>
+          <li class="md:hidden">
+            <a>
+              <ChefHat class="w-5 h-5" /> Réalisations
+            </a>
+          </li>
+          <li class="h-px bg-100"></li>
           <li>
-              <a>
-                <ChefHat class="w-5 h-5" /> Réalisations
-              </a>
-            </li>
+            <a>
+              <FolderUp class="w-5 h-5" /> Catégories
+            </a>
+          </li>
+          <li class="h-px bg-100"></li>
+          <li>
+            <a
+              v-if="authenticated"
+              @click="logout"
+            >
+              <LogOut class="w-5 h-5" /> Déconnexion
+            </a>
+          </li>
         </ul>
       </div>
       <a class="btn btn-ghost text-xl cursor-default">En Cuisine !</a>
     </div>
 
-    <div class="navbar-center hidden lg:flex">
+    <div class="navbar-center hidden md:flex">
       <ul class="menu menu-horizontal px-1">
         <li>
           <NuxtLink to="/recettes/list">
@@ -70,7 +85,7 @@
 <script setup lang="ts">
 
   import { useApiAuth, navigateTo, useAuthStore, computed } from '#imports';
-  import { LogOut, CookingPot, ChefHat } from 'lucide-vue-next';
+  import { LogOut, CookingPot, ChefHat, FolderUp } from 'lucide-vue-next';
 
   const authStore = useAuthStore();
   const authenticated = computed(() => authStore.authenticated);
