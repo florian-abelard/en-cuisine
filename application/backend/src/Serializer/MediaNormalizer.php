@@ -7,7 +7,7 @@ use Vich\UploaderBundle\Storage\StorageInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class MediaObjectNormalizer implements NormalizerInterface
+class MediaNormalizer implements NormalizerInterface
 {
     private const ALREADY_CALLED = 'MEDIA_OBJECT_NORMALIZER_ALREADY_CALLED';
 
@@ -20,7 +20,6 @@ class MediaObjectNormalizer implements NormalizerInterface
 
     public function normalize($object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        dump('normalizer called');
         $context[self::ALREADY_CALLED] = true;
 
         $object->contentUrl = $this->storage->resolveUri($object, 'file');
@@ -30,6 +29,7 @@ class MediaObjectNormalizer implements NormalizerInterface
 
     public function supportsNormalization($data, ?string $format = null, array $context = []): bool
     {
+        dump('supportsNormalization');
         if (isset($context[self::ALREADY_CALLED])) {
             return false;
         }

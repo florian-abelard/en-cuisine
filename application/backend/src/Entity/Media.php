@@ -50,10 +50,11 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class Media
 {
     #[ORM\Id, ORM\Column, ORM\GeneratedValue]
+    #[Groups(['media:read', 'recette:read'])]
     private ?int $id = null;
 
     #[ApiProperty(types: ['https://schema.org/contentUrl'])]
-    #[Groups(['media:read'])]
+    #[Groups(['media:read', 'recette:read'])]
     public ?string $contentUrl = null;
 
     #[Vich\UploadableField(mapping: 'media', fileNameProperty: 'filePath')]
