@@ -20,9 +20,12 @@ class MediaNormalizer implements NormalizerInterface
 
     public function normalize($object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
+        dump('normalize media');
         $context[self::ALREADY_CALLED] = true;
 
         $object->contentUrl = $this->storage->resolveUri($object, 'file');
+
+        dump($object);
 
         return $this->normalizer->normalize($object, $format, $context);
     }
