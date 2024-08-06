@@ -21,8 +21,6 @@ final class CreateMediaController extends AbstractController
         $media = new Media();
         $media->file = $uploadedFile;
 
-        dump($media);
-
         return $media;
     }
 }

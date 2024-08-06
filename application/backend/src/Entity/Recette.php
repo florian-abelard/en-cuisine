@@ -11,6 +11,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: RecetteRepository::class)]
 #[ApiResource(
     normalizationContext: ['groups' => ['recette:read']],
+    denormalizationContext: ['groups' => ['recette:write']],
     order: ['id' => 'DESC'],
 )]
 class Recette
@@ -22,13 +23,13 @@ class Recette
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['recette:read'])]
+    #[Groups(['recette:read', 'recette:write'])]
     private ?string $libelle = null;
 
     #[ORM\ManyToOne(targetEntity: Media::class)]
     #[ORM\JoinColumn(nullable: true)]
     #[ApiProperty(types: ['https://schema.org/image'])]
-    #[Groups(['recette:read'])]
+    #[Groups(['recette:read', 'recette:write'])]
     private ?Media $image = null;
 
     public function getId(): ?int

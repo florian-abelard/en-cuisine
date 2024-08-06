@@ -5,4 +5,5 @@ export class Media {
   public readonly id: string;
 
   public contentUrl: string;
+  public url: string;
 }

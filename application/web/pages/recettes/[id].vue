@@ -20,21 +20,20 @@
         >
       </label>
 
-      <label class="input input-bordered input-primary flex items-center gap-2 my-2">
+      <label class="flex items-center justify-between gap-2 my-2">
         <span class="font-semibold">Image :</span>
         <input
-          class="grow"
+          class="grow file-input file-input-warning w-full max-w-md"
           type="file"
           @change="onImageChange"
           placeholder="Pâtes au ketchup"
         >
+        <img
+          v-if="image"
+          :src="image.url"
+          class="h-24 object-contain"
+        >
       </label>
-
-      <img
-        v-if="image"
-        :src="image.contentUrl"
-        class="w-full h-64 object-cover"
-      >
 
       <div class="flex justify-end mt-4">
         <button
@@ -68,17 +67,18 @@
 
   interface RecetteForm {
     libelle?: string | null;
+    image?: Media | string | null;
   }
 
   const route = useRoute();
   const mode = ref<'create' | 'update'>('create');
   const image = ref<Media | null>(null);
 
-  const { meta, resetForm, handleSubmit, defineField, isSubmitting } = useForm<RecetteForm>({
+  const { meta, resetForm, setValues, handleSubmit, defineField, isSubmitting } = useForm<RecetteForm>({
     validationSchema: toTypedSchema(
       object({
         libelle: string().required().default(''),
-        image: string().nullable().default(null),
+        image: object().required().default(null),
       }),
     ),
   });
@@ -96,14 +96,14 @@
   });
 
   watch(recette, (recette: Recette) => {
-    console.log('watch recette', recette);
     resetForm({ values: recette });
-    image.value = recette.image;
+    image.value = recette.image as Media;
   });
 
   const onSubmit = handleSubmit(async (values) => {
     try {
       const recette = values as Recette;
+      recette.image = image.value['@id'] as string;
 
       mode.value === 'create'
         ? await useApiRecette().create(recette)
@@ -116,13 +116,12 @@
   });
 
   const onImageChange = async (event: Event) => {
-    console.log('onImageChange');
     const file = (event.target as HTMLInputElement).files?.[0];
 
     if (file) {
       const media = await useApiMedia().upload(file);
       image.value = media;
-      console.log('media', media);
+      setValues({ image: media });
     }
   };
 </script>

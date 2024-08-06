@@ -1,10 +1,17 @@
-import { useRuntimeConfig } from "#imports";
+import { useApiMedia, useRuntimeConfig } from "#imports";
+import type { Media } from "~/models/media";
 import { PaginatedResult } from "~/models/paginated-result";
 import type { Recette } from "~/models/recette";
 
 export const useApiRecette = () => {
 
   const config = useRuntimeConfig();
+
+  const normalizer = (recette: Recette): Recette => {
+    recette.image = recette.image ? useApiMedia().normalize(recette.image as Media) : null;
+
+    return recette;
+  };
 
   return {
     findByPaginated: async (page: number): Promise<PaginatedResult<Recette>> => {
@@ -21,12 +28,12 @@ export const useApiRecette = () => {
     },
 
     findById: async (id: string): Promise<Recette> => {
-      const response: Recette = await $fetch(`/recettes/${id}`, {
+      const recette: Recette = await $fetch(`/recettes/${id}`, {
         method: 'GET',
         baseURL: config.public.apiBaseUrl,
       });
 
-      return response;
+      return normalizer(recette);
     },
 
     create: async (payload: Recette): Promise<void> => {

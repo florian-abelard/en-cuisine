@@ -7,5 +7,5 @@ export class Recette {
   public readonly id: string;
 
   public libelle: string;
-  public image?: Media;
+  public image?: Media | string;
 }

@@ -20,6 +20,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[ApiResource(
     normalizationContext: ['groups' => ['media:read']],
     types: ['https://schema.org/MediaObject'],
+    outputFormats: ['jsonld' => ['application/ld+json']],
     operations: [
         new Get(),
         new GetCollection(),
