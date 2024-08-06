@@ -1,7 +1,17 @@
 api_platform:
     title: 'En cuisine !'
+
     mapping:
         paths: ['%kernel.project_dir%/src/Entity']
+
+    formats:
+        jsonld: ['application/ld+json']
+        json: ['application/json']
+
+    patch_formats:
+        json: ['application/merge-patch+json']
+        jsonapi: ['application/vnd.api+json']
+
     defaults:
         stateless: false
         pagination_client_enabled: true
@@ -12,6 +22,11 @@ api_platform:
           vary: ['Content-Type', 'Authorization', 'Origin']
         extra_properties:
           standard_put: true
+          rfc_7807_compliant_errors: true
+
+    swagger:
+        versions: [3]
+
     exception_to_status:
         # The 4 following handlers are registered by default, keep those lines to prevent unexpected side effects
         Symfony\Component\Serializer\Exception\ExceptionInterface: 400 # Use a raw status code (recommended)
@@ -20,8 +35,3 @@ api_platform:
         Doctrine\ORM\OptimisticLockException: 409
         # Validation exception
         ApiPlatform\Core\Bridge\Symfony\Validator\Exception\ValidationException: !php/const Symfony\Component\HttpFoundation\Response::HTTP_UNPROCESSABLE_ENTITY
-    swagger:
-        versions: [3]
-    patch_formats:
-        "json": ['application/json']
-        "jsonld": ['application/ld+json']
