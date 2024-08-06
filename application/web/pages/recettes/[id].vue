@@ -9,7 +9,7 @@
       @submit="onSubmit"
       class="flex flex-col"
     >
-      <label class="input input-bordered input-primary flex items-center gap-2">
+      <label class="input input-bordered input-primary flex items-center gap-2 my-2">
         <span class="font-semibold">Libellé :</span>
         <input
           class="grow"
@@ -17,6 +17,21 @@
           v-model="libelle"
           v-bind="libelleAttrs"
           placeholder="Pâtes au ketchup"
+        >
+      </label>
+
+      <label class="flex items-center justify-between gap-2 my-2">
+        <span class="font-semibold">Image :</span>
+        <input
+          class="grow file-input file-input-warning w-full max-w-md"
+          type="file"
+          @change="onImageChange"
+          placeholder="Pâtes au ketchup"
+        >
+        <img
+          v-if="image"
+          :src="image.url"
+          class="h-24 object-contain"
         >
       </label>
 
@@ -44,22 +59,26 @@
 
 <script setup lang="ts">
 
-  import { useForm, useRoute, ref, useApiRecette, navigateTo, useQuery, watch } from '#imports';
+  import { useForm, useRoute, ref, useApiRecette, useApiMedia, navigateTo, useQuery, watch } from '#imports';
   import { toTypedSchema } from '@vee-validate/yup';
   import { object, string } from 'yup';
   import type { Recette } from '~/models/recette';
+  import type { Media } from '~/models/media';
 
   interface RecetteForm {
     libelle?: string | null;
+    image?: Media | string | null;
   }
 
   const route = useRoute();
   const mode = ref<'create' | 'update'>('create');
+  const image = ref<Media | null>(null);
 
-  const { meta, resetForm, handleSubmit, defineField, isSubmitting } = useForm<RecetteForm>({
+  const { meta, resetForm, setValues, handleSubmit, defineField, isSubmitting } = useForm<RecetteForm>({
     validationSchema: toTypedSchema(
       object({
         libelle: string().required().default(''),
+        image: object().required().default(null),
       }),
     ),
   });
@@ -78,11 +97,13 @@
 
   watch(recette, (recette: Recette) => {
     resetForm({ values: recette });
+    image.value = recette.image as Media;
   });
 
   const onSubmit = handleSubmit(async (values) => {
     try {
       const recette = values as Recette;
+      recette.image = image.value['@id'] as string;
 
       mode.value === 'create'
         ? await useApiRecette().create(recette)
@@ -93,4 +114,14 @@
       console.error(e);
     }
   });
+
+  const onImageChange = async (event: Event) => {
+    const file = (event.target as HTMLInputElement).files?.[0];
+
+    if (file) {
+      const media = await useApiMedia().upload(file);
+      image.value = media;
+      setValues({ image: media });
+    }
+  };
 </script>
