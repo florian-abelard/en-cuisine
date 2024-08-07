@@ -7,17 +7,13 @@ export const useApiCategorie = () => {
   const config = useRuntimeConfig();
 
   return {
-    findByPaginated: async (page: number): Promise<PaginatedResult<Categorie>> => {
+    findAll: async (): Promise<Categorie[]> => {
       const response = await $fetch('/categories', {
         method: 'GET',
         baseURL: config.public.apiBaseUrl,
-        params: { page },
       });
 
-      return new PaginatedResult(
-        response['hydra:member'],
-        response['hydra:totalItems'],
-      );
+      return response['hydra:member'];
     },
 
     findById: async (id: string): Promise<Categorie> => {
