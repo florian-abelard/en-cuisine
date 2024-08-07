@@ -1,5 +1,5 @@
 <template>
-  <div class="join flex justify-center pt-2">
+  <div v-if="maxPage > 1" class="join flex justify-center pt-2">
     <button
       v-for="page in maxPage"
       :key="page"

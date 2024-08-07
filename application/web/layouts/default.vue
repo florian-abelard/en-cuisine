@@ -35,9 +35,9 @@
           </li>
           <li class="h-px bg-100"></li>
           <li>
-            <a>
+            <NuxtLink to="/categories/list">
               <FolderUp class="w-5 h-5" /> Catégories
-            </a>
+            </NuxtLink>
           </li>
           <li class="h-px bg-100"></li>
           <li>

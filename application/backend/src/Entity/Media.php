@@ -50,7 +50,9 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 )]
 class Media
 {
-    #[ORM\Id, ORM\Column, ORM\GeneratedValue]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[ORM\Column]
     #[Groups(['media:read', 'recette:read'])]
     private ?int $id = null;
 
