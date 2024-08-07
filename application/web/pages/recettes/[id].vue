@@ -25,8 +25,8 @@
         <input
           class="grow file-input file-input-warning w-full max-w-md"
           type="file"
+          accept="image/png, image/jpeg"
           @change="onImageChange"
-          placeholder="Pâtes au ketchup"
         >
         <img
           v-if="image"
@@ -78,7 +78,7 @@
     validationSchema: toTypedSchema(
       object({
         libelle: string().required().default(''),
-        image: object().required().default(null),
+        image: object().nullable().default(null),
       }),
     ),
   });
@@ -96,14 +96,16 @@
   });
 
   watch(recette, (recette: Recette) => {
-    resetForm({ values: recette });
-    image.value = recette.image as Media;
-  });
+    if (recette) {
+      resetForm({ values: recette });
+      image.value = recette.image as Media;
+    }
+  }, { immediate: true });
 
   const onSubmit = handleSubmit(async (values) => {
     try {
       const recette = values as Recette;
-      recette.image = image.value['@id'] as string;
+      recette.image = image.value ? image.value['@id'] as string : null;
 
       mode.value === 'create'
         ? await useApiRecette().create(recette)
