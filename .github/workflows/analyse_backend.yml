@@ -1,6 +1,10 @@
 name: Analyse backend
 
-on: [pull_request]
+on:
+  pull_request:
+    paths:
+      - application/backend/**/*.php
+      - .github/workflows/analyse_backend.yml
 
 jobs:
   analyse:

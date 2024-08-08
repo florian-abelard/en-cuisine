@@ -1,6 +1,11 @@
 name: Analyse frontend
 
-on: [pull_request]
+on:
+  pull_request:
+    paths:
+      - application/web/**/*.ts
+      - application/web/**/*.vue
+      - .github/workflows/analyse_backend.yml
 
 jobs:
   analyse:

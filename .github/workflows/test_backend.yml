@@ -1,6 +1,9 @@
 name: Test backend
 
-on: [pull_request]
+on:
+  pull_request:
+    paths:
+      - application/backend/**/*
 
 jobs:
   check:
