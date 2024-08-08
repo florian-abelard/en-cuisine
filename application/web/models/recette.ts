@@ -1,3 +1,4 @@
+import type { Categorie } from "./categorie";
 import type { Media } from "./media";
 
 export class Recette {
@@ -8,4 +9,5 @@ export class Recette {
 
   public libelle: string;
   public image?: Media | string;
+  public categorie?: Categorie | string;
 }

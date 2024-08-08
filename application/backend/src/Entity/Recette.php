@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Recette
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[ORM\Column]
     #[Groups(['recette:read'])]
     private ?int $id = null;
@@ -31,6 +31,11 @@ class Recette
     #[ApiProperty(types: ['https://schema.org/image'])]
     #[Groups(['recette:read', 'recette:write'])]
     private ?Media $image = null;
+
+    #[ORM\ManyToOne(targetEntity: Categorie::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups(['recette:read', 'recette:write'])]
+    private ?Categorie $categorie = null;
 
     public function getId(): ?int
     {
@@ -57,6 +62,18 @@ class Recette
     public function setImage(?Media $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getCategorie(): ?Categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Categorie $categorie): self
+    {
+        $this->categorie = $categorie;
 
         return $this;
     }
