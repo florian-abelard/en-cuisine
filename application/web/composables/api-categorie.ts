@@ -1,5 +1,4 @@
 import { useRuntimeConfig } from "#imports";
-import { PaginatedResult } from "~/models/paginated-result";
 import type { Categorie } from "~/models/categorie";
 
 export const useApiCategorie = () => {
