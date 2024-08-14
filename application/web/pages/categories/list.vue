@@ -40,38 +40,22 @@
         </tr>
       </tbody>
     </table>
-
-    <Pagination
-      :items-count="itemsCount"
-      @page-changed="onPageChange"
-    />
   </div>
 </template>
 
 <script setup lang="ts">
 
-  import { useQuery, ref, navigateTo, useApiCategorie } from '#imports';
+  import { useQuery, navigateTo, useApiCategorie } from '#imports';
   import { Categorie } from '~/models/categorie';
   import { Plus } from 'lucide-vue-next';
 
-  const page = ref(1);
-  const itemsCount = ref(null);
-
   const { data: categories, isFetching } = useQuery({
-    queryKey: ['categories', page],
-    queryFn: () => fetchCategories(page.value),
+    queryKey: ['categories'],
+    queryFn: () => fetchCategories(),
   });
 
-const fetchCategories = async (page: number): Promise<Categorie[]> => {
-    const result = await useApiCategorie().findByPaginated(page);
-
-    itemsCount.value = result.itemsCount;
-
-    return result.items;
-  };
-
-  const onPageChange = (newPage: number): void => {
-    page.value = newPage;
+  const fetchCategories = async (): Promise<Categorie[]> => {
+    return await useApiCategorie().findAll();
   };
 
 </script>
