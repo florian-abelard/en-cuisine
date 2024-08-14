@@ -1,5 +1,5 @@
 <template>
-  <header class="navbar bg-primary fixed top-0 w-full">
+  <header class="navbar bg-primary fixed top-0 w-full z-[1]">
     <div class="navbar-start">
       <div class="dropdown">
         <div
