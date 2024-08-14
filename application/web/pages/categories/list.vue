@@ -25,6 +25,7 @@
         <tr>
           <th>Libellé</th>
           <th>Ordre d'affichage</th>
+          <th />
         </tr>
       </thead>
       <tbody>
@@ -37,6 +38,9 @@
         >
           <td>{{ categorie.libelle }}</td>
           <td>{{ categorie.order }}</td>
+          <td class="text-right">
+            <Trash2 :size="20" @click.stop="remove(categorie.id)" />
+          </td>
         </tr>
       </tbody>
     </table>
@@ -46,16 +50,16 @@
 <script setup lang="ts">
 
   import { useQuery, navigateTo, useApiCategorie } from '#imports';
-  import { Categorie } from '~/models/categorie';
-  import { Plus } from 'lucide-vue-next';
+  import { Plus, Trash2 } from 'lucide-vue-next';
 
-  const { data: categories, isFetching } = useQuery({
+  const { data: categories, isFetching, refetch } = useQuery({
     queryKey: ['categories'],
-    queryFn: () => fetchCategories(),
+    queryFn: () => useApiCategorie().findAll(),
   });
 
-  const fetchCategories = async (): Promise<Categorie[]> => {
-    return await useApiCategorie().findAll();
+  const remove = async (id: string): Promise<void> => {
+    await useApiCategorie().delete(id);
+    await refetch();
   };
 
 </script>

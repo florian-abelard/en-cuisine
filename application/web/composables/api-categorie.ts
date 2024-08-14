@@ -37,5 +37,12 @@ export const useApiCategorie = () => {
         body: payload,
       });
     },
+
+    delete: async (id: string): Promise<void> => {
+      await $fetch(`/categories/${id}`, {
+        method: 'DELETE',
+        baseURL: config.public.apiBaseUrl,
+      });
+    },
   };
 };
