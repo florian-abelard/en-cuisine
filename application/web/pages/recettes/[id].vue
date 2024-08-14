@@ -57,7 +57,7 @@
 
       <div class="flex justify-end mt-4">
         <button
-          type="reset"
+          type="button"
           class="btn btn-sm mx-2"
           @click="resetForm()"
           :disabled="isSubmitting"
