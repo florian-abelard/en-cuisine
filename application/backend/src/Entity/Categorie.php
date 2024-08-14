@@ -25,7 +25,7 @@ class Categorie
     #[Groups(['categorie:read', 'categorie:write'])]
     private ?string $libelle = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, name: '`order`')]
     #[Groups(['categorie:read', 'categorie:write'])]
     private ?int $order = 99;
 

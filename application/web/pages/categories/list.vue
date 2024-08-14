@@ -25,6 +25,7 @@
         <tr>
           <th>Libellé</th>
           <th>Ordre d'affichage</th>
+          <th />
         </tr>
       </thead>
       <tbody>
@@ -37,41 +38,28 @@
         >
           <td>{{ categorie.libelle }}</td>
           <td>{{ categorie.order }}</td>
+          <td class="text-right">
+            <Trash2 :size="20" @click.stop="remove(categorie.id)" />
+          </td>
         </tr>
       </tbody>
     </table>
-
-    <Pagination
-      :items-count="itemsCount"
-      @page-changed="onPageChange"
-    />
   </div>
 </template>
 
 <script setup lang="ts">
 
-  import { useQuery, ref, navigateTo, useApiCategorie } from '#imports';
-  import { Categorie } from '~/models/categorie';
-  import { Plus } from 'lucide-vue-next';
+  import { useQuery, navigateTo, useApiCategorie } from '#imports';
+  import { Plus, Trash2 } from 'lucide-vue-next';
 
-  const page = ref(1);
-  const itemsCount = ref(null);
-
-  const { data: categories, isFetching } = useQuery({
-    queryKey: ['categories', page],
-    queryFn: () => fetchCategories(page.value),
+  const { data: categories, isFetching, refetch } = useQuery({
+    queryKey: ['categories'],
+    queryFn: () => useApiCategorie().findAll(),
   });
 
-const fetchCategories = async (page: number): Promise<Categorie[]> => {
-    const result = await useApiCategorie().findByPaginated(page);
-
-    itemsCount.value = result.itemsCount;
-
-    return result.items;
-  };
-
-  const onPageChange = (newPage: number): void => {
-    page.value = newPage;
+  const remove = async (id: string): Promise<void> => {
+    await useApiCategorie().delete(id);
+    await refetch();
   };
 
 </script>
