@@ -48,6 +48,8 @@ final class RecetteFactory extends ModelFactory
     {
         return [
             'libelle' => self::faker()->text(64),
+            'categorie' => CategorieFactory::random(),
+            'image' => MediaFactory::createOne(),
         ];
     }
 
