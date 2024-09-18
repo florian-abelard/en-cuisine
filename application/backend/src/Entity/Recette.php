@@ -26,7 +26,7 @@ class Recette
     #[Groups(['recette:read', 'recette:write'])]
     private ?string $libelle = null;
 
-    #[ORM\ManyToOne(targetEntity: Media::class)]
+    #[ORM\OneToOne(targetEntity: Media::class)]
     #[ORM\JoinColumn(nullable: true)]
     #[ApiProperty(types: ['https://schema.org/image'])]
     #[Groups(['recette:read', 'recette:write'])]
