@@ -33,7 +33,7 @@ class Recette
     private ?Media $image = null;
 
     #[ORM\ManyToOne(targetEntity: Categorie::class)]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     #[Groups(['recette:read', 'recette:write'])]
     private ?Categorie $categorie = null;
 
