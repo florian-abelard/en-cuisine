@@ -20,20 +20,29 @@
       <span class="loading loading-spinner loading-sm" />
     </div>
 
-    <table class="table" v-if="!isFetching">
-      <tbody>
-        <tr
-          v-for="(recette, index) in recettes"
-          :key="index"
-          class="hover:bg-primary/30 cursor-pointer"
-          :data-href="`/recettes/${recette.id}`"
-          @click="() => navigateTo(`/recettes/${recette.id}`)"
-        >
-          <th>{{ recette.id }}</th>
-          <td>{{ recette.libelle }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div v-if="!isFetching" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <div
+        class="card card-side bg-base-100 shadow-xl"
+        v-for="(recette, index) in recettes"
+        :key="index"
+        :data-href="`/recettes/${recette.id}`"
+        @click="() => navigateTo(`/recettes/${recette.id}`)"
+      >
+        <figure>
+          <img
+            :src="(recette?.image as Media).url"
+            :alt="`Illustration de la recette ${recette.libelle}`"
+          />
+        </figure>
+        <div class="card-body">
+          <h2 class="card-title">{{ recette.libelle }}</h2>
+          <p>Description</p>
+          <div class="card-actions justify-end">
+            <button class="btn btn-primary">Watch</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <Pagination
       :items-count="itemsCount"
@@ -47,6 +56,7 @@
   import { useQuery, ref, navigateTo, useApiRecette } from '#imports';
   import { Recette } from '~/models/recette';
   import { Plus } from 'lucide-vue-next';
+import type { Media } from '~/models/media';
 
   const page = ref(1);
   const itemsCount = ref(null);

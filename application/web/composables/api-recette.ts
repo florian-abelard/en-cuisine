@@ -22,7 +22,7 @@ export const useApiRecette = () => {
       });
 
       return new PaginatedResult(
-        response['hydra:member'],
+        response['hydra:member'].map(normalizer),
         response['hydra:totalItems'],
       );
     },
