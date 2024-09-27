@@ -14,7 +14,9 @@ module.exports = {
       serif: ['Merriweather', 'serif'],
     },
   },
-  plugins: [require('daisyui')],
+  plugins: [
+    require('daisyui'),
+  ],
   darkMode: false, // or 'media' or 'class'
   daisyui: {
     themes: [
