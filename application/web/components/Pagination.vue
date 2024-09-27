@@ -21,7 +21,7 @@
   }
 
   const props = withDefaults(defineProps<Props>(), {
-    pageSize: 10,
+    pageSize: 20,
   });
 
   const emit = defineEmits<{
