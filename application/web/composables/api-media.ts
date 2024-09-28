@@ -4,7 +4,7 @@ import type { Media } from "~/models/media";
 export const useApiMedia = () => {
 
   const config = useRuntimeConfig();
-  const mediaBaseUrl = config.public.apiBaseUrl.replace('/api', '');
+  const mediaBaseUrl = config.public.apiBaseUrl.replace(/\/api$/, '');
 
   const normalizer = (media: Media): Media => {
     media.url = `${mediaBaseUrl}${media.contentUrl}`;
