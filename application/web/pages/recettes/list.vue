@@ -22,7 +22,7 @@
 
     <div v-if="!isFetching" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
       <div
-        class="card card-side card-compact bg-base-100 shadow h-32 bg-slate-50 hover:bg-slate-100"
+        class="card card-side card-compact bg-base-100 shadow h-32 bg-gray-100 hover:bg-yellow-50"
         v-for="(recette, index) in recettes"
         :key="index"
         :data-href="`/recettes/${recette.id}`"
