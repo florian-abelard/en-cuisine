@@ -127,7 +127,7 @@
   }, { immediate: true });
 
   const { data: categories } = useQuery({
-    queryKey: ['categories', route.params.id],
+    queryKey: ['categories'],
     queryFn: () => useApiCategorie().findAll(),
     enabled: mode.value === 'update',
   });
