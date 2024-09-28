@@ -129,7 +129,6 @@
   const { data: categories } = useQuery({
     queryKey: ['categories'],
     queryFn: () => useApiCategorie().findAll(),
-    enabled: mode.value === 'update',
   });
 
   const onSubmit = handleSubmit(async (values) => {
