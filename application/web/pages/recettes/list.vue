@@ -5,7 +5,7 @@
     </Head>
 
     <div class="flex justify-between">
-      <h2 class="text-4xl font-normal leading-normal mt-0 mb-2 ml-2 text-primary">
+      <h2 class="text-3xl font-normal leading-normal mt-0 mb-2 ml-2 text-primary">
         Recettes
       </h2>
       <NuxtLink
@@ -36,7 +36,7 @@
           />
         </figure>
         <div class="card-body w-2/3">
-          <h3 class="card-title line-clamp-2">{{ recette.libelle }}</h3>
+          <h2 class="card-title text-lg line-clamp-2">{{ recette.libelle }}</h2>
         </div>
       </div>
     </div>

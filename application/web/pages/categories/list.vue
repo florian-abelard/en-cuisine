@@ -5,7 +5,7 @@
     </Head>
 
     <div class="flex justify-between">
-      <h2 class="text-4xl font-normal leading-normal mt-0 mb-2 ml-2 text-primary">
+      <h2 class="text-3xl font-normal leading-normal mt-0 mb-2 ml-2 text-primary">
         Catégories
       </h2>
       <NuxtLink
@@ -20,8 +20,8 @@
       <span class="loading loading-spinner loading-sm" />
     </div>
 
-    <table class="table" v-if="!isFetching">
-      <thead>
+    <table class="table text-base" v-if="!isFetching">
+      <thead class="text-sm">
         <tr>
           <th>Libellé</th>
           <th>Ordre d'affichage</th>

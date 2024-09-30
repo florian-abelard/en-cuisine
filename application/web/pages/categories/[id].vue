@@ -1,7 +1,7 @@
 <template>
   <div class="p-4">
     <h1 class="text-xl font-bold mb-4">
-      Categorie
+      Catégories
     </h1>
 
     <form
@@ -10,7 +10,7 @@
       class="flex flex-col"
     >
       <label class="input input-bordered input-primary flex items-center gap-2 my-2">
-        <span class="font-semibold">Libellé :</span>
+        <span class="font-semibold mr-4">Libellé</span>
         <input
           class="grow"
           type="text"
@@ -21,7 +21,7 @@
       </label>
 
       <label class="input input-bordered input-primary flex items-center gap-2 my-2">
-        <span class="font-semibold">Ordre d'affichage :</span>
+        <span class="font-semibold mr-4">Ordre d'affichage</span>
         <input
           class="grow"
           type="text"
@@ -34,7 +34,7 @@
       <div class="flex justify-end mt-4">
         <button
           type="button"
-          class="btn btn-sm mx-2"
+          class="btn mx-2 text-base"
           @click="resetForm()"
           :disabled="isSubmitting"
         >
@@ -43,7 +43,7 @@
 
         <button
           type="submit"
-          class="btn btn-primary btn-sm mx-2"
+          class="btn btn-primary mx-2 text-base"
           :disabled="isSubmitting || !meta.valid"
         >
           Valider
