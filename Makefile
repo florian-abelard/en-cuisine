@@ -34,7 +34,7 @@ include makefiles/*.mk
 #------------------------------------------------------------------------------
 
 up: .env #@docker build and start containers
-	docker compose -f ${DOCKER_COMPOSE_FILE} up
+	docker compose -f ${DOCKER_COMPOSE_FILE} up -d
 
 down: ##@docker stop and remove containers and volumes
 	docker compose -f ${DOCKER_COMPOSE_FILE} down --volumes --remove-orphans

@@ -10,7 +10,7 @@
       class="flex flex-col"
     >
       <label class="input input-bordered input-primary flex items-center gap-2 my-2">
-        <span class="font-semibold">Libellé :</span>
+        <span class="font-semibold mr-4">Libellé</span>
         <input
           class="grow"
           type="text"
@@ -20,10 +20,10 @@
         >
       </label>
 
-      <label class="input flex items-center gap-2 my-2">
-        <span class="font-semibold">Catégorie :</span>
+      <label class="input input-bordered input-primary flex items-center gap-2 my-2">
+        <span class="font-semibold">Catégorie</span>
         <select
-          class="select select-bordered select-primary w-full max-w-xs"
+          class="select select-ghost focus:outline-none focus:bg-opacity-0 w-full max-w-xs  text-base"
           v-model="categorie"
           v-bind="categorieAttrs"
           placeholder="Pêtes au ketchup"
@@ -40,25 +40,29 @@
         </select>
       </label>
 
-      <label class="flex items-center justify-between gap-2 my-2">
-        <span class="font-semibold">Image :</span>
-        <input
-          class="grow file-input file-input-warning w-full max-w-md"
-          type="file"
-          accept="image/png, image/jpeg"
-          @change="onImageChange"
-        >
-        <img
-          v-if="image"
-          :src="image.url"
-          class="h-24 object-contain"
-        >
+      <label class="form-control">
+        <div class="label">
+          <span class="label-text font-semibold">Vignette</span>
+        </div>
+        <div class="flex items-start gap-2">
+          <input
+            class="grow file-input file-input-primary w-full"
+            type="file"
+            accept="image/png, image/jpeg"
+            @change="onImageChange"
+          >
+          <img
+            v-if="image"
+            :src="image.url"
+            class="h-24 object-contain"
+          >
+        </div>
       </label>
 
       <div class="flex justify-end mt-4">
         <button
           type="button"
-          class="btn btn-sm mx-2"
+          class="btn text-base x-2"
           @click="resetForm()"
           :disabled="isSubmitting"
         >
@@ -67,7 +71,7 @@
 
         <button
           type="submit"
-          class="btn btn-primary btn-sm mx-2"
+          class="btn btn-primary text-base mx-2"
           :disabled="isSubmitting || !meta.valid"
         >
           Valider

@@ -22,7 +22,7 @@
             />
           </svg>
         </div>
-        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 pb-4 shadow bg-base-100 rounded-box w-52">
+        <ul tabindex="0" class="menu dropdown-content mt-3 z-[1] p-2 pb-4 shadow bg-base-100 rounded-box w-52 text-base">
           <li class="md:hidden">
             <NuxtLink to="/recettes/list">
               <CookingPot class="w-5 h-5" /> Recettes
