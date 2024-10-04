@@ -50,7 +50,17 @@ final class RecetteFactory extends ModelFactory
             'libelle' => self::faker()->text(64),
             'categorie' => CategorieFactory::random(),
             'image' => MediaFactory::createOne(),
-            'pretDans' => \DateInterval::createFromDateString('120 minutes'),
+            'tempsDePreparation' => \DateInterval::createFromDateString(
+                self::faker()->numberBetween(10, 150) . ' minutes',
+            ),
+            'tempsDeCuisson' => self::faker()->boolean(50)
+                ? null
+                : \DateInterval::createFromDateString(
+                    self::faker()->numberBetween(10, 120) . ' minutes',
+                ),
+            'pretDans' => \DateInterval::createFromDateString(
+                self::faker()->numberBetween(10, 180) . ' minutes',
+            ),
         ];
     }
 

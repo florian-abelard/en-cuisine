@@ -2,12 +2,13 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use App\Filter\DateIntervalFilter;
 use App\Repository\RecetteRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Annotation\SerializedName;
 
 #[ORM\Entity(repositoryClass: RecetteRepository::class)]
 #[ApiResource(
@@ -15,6 +16,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
     denormalizationContext: ['groups' => ['recette:write']],
     order: ['id' => 'DESC'],
 )]
+#[ApiFilter(DateIntervalFilter::class, properties: ['pretDans'])]
 class Recette
 {
     #[ORM\Id]
@@ -38,7 +40,16 @@ class Recette
     #[Groups(['recette:read', 'recette:write'])]
     private ?Categorie $categorie = null;
 
-    #[ORM\Column(type: 'dateinterval', nullable: true)]
+    #[ORM\Column(type: 'app_dateinterval', nullable: true)]
+    #[Groups(['recette:read', 'recette:write'])]
+    private ?\DateInterval $tempsDePreparation = null;
+
+    #[ORM\Column(type: 'app_dateinterval', nullable: true)]
+    #[Groups(['recette:read', 'recette:write'])]
+    private ?\DateInterval $tempsDeCuisson = null;
+
+    #[ORM\Column(type: 'app_dateinterval', nullable: true)]
+    #[Groups(['recette:read', 'recette:write'])]
     private ?\DateInterval $pretDans = null;
 
     public function getId(): ?int
@@ -82,6 +93,30 @@ class Recette
         return $this;
     }
 
+    public function getTempsDePreparation(): ?\DateInterval
+    {
+        return $this->tempsDePreparation;
+    }
+
+    public function setTempsDePreparation(?\DateInterval $tempsDePreparation): self
+    {
+        $this->tempsDePreparation = $tempsDePreparation;
+
+        return $this;
+    }
+
+    public function getTempsDeCuisson(): ?\DateInterval
+    {
+        return $this->tempsDeCuisson;
+    }
+
+    public function setTempsDeCuisson(?\DateInterval $tempsDeCuisson): self
+    {
+        $this->tempsDeCuisson = $tempsDeCuisson;
+
+        return $this;
+    }
+
     public function getPretDans(): ?\DateInterval
     {
         return $this->pretDans;
@@ -90,40 +125,6 @@ class Recette
     public function setPretDans(\DateInterval $pretDans): self
     {
         $this->pretDans = $pretDans;
-
-        return $this;
-    }
-
-    #[Groups(['recette:read'])]
-    #[SerializedName('pretDans')]
-    public function getPretDansFormatted(): ?string
-    {
-        if ($this->pretDans === null) {
-            return null;
-        }
-
-        if ($this->pretDans->format('%a') > '0') {
-            return $this->pretDans->format('%a jours');
-        }
-
-        if ($this->pretDans->format('%h') > '0') {
-            return $this->pretDans->format('%h heures');
-        }
-
-        return $this->pretDans->format('%i minutes');
-    }
-
-    #[Groups(['recette:write'])]
-    #[SerializedName('pretDans')]
-    public function setPretDansFormatted(string $pretDansFormatted): self
-    {
-        $pretDansFormatted = strtolower($pretDansFormatted);
-        $pretDansFormatted = preg_replace('/(\d+)([a-z])/', '$1 $2', $pretDansFormatted);
-        $pretDansFormatted = preg_replace(['/jours$/', '/jour$/', '/j$/'], 'days', $pretDansFormatted);
-        $pretDansFormatted = preg_replace(['/heures$/', '/heure$/', '/h$/'], 'hours', $pretDansFormatted);
-        $pretDansFormatted = preg_replace(['/min$/', '/m$/'], 'minutes', $pretDansFormatted);
-
-        $this->pretDans = \DateInterval::createFromDateString($pretDansFormatted) ?? null;
 
         return $this;
     }
