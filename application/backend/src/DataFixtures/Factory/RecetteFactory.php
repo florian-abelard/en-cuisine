@@ -50,6 +50,7 @@ final class RecetteFactory extends ModelFactory
             'libelle' => self::faker()->text(64),
             'categorie' => CategorieFactory::random(),
             'image' => MediaFactory::createOne(),
+            'pretDans' => \DateInterval::createFromDateString('120 minutes'),
         ];
     }
 

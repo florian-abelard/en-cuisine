@@ -40,6 +40,17 @@
         </select>
       </label>
 
+      <label class="input input-bordered input-primary flex items-center gap-2 my-2">
+        <span class="font-semibold mr-4">Prêt dans</span>
+        <input
+          class="grow"
+          type="text"
+          v-model="pretDans"
+          v-bind="pretDansAttrs"
+          placeholder="30 minutes"
+        >
+      </label>
+
       <label class="form-control">
         <div class="label">
           <span class="label-text font-semibold">Vignette</span>
@@ -94,6 +105,7 @@
     libelle?: string | null;
     categorie?: Categorie | string | null;
     image?: Media | string | null;
+    pretDans?: string | null;
   }
 
   const route = useRoute();
@@ -106,12 +118,14 @@
         libelle: string().required().default(''),
         categorie: string().required().default(''),
         image: object().nullable().default(null),
+        pretDans: string().nullable().default(null),
       }),
     ),
   });
 
   const [libelle, libelleAttrs] = defineField('libelle');
   const [categorie, categorieAttrs] = defineField('categorie');
+  const [pretDans, pretDansAttrs] = defineField('pretDans');
 
   if (route.params.id !== 'create') {
     mode.value = 'update';
