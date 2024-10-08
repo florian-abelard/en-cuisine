@@ -7,6 +7,8 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use App\Filter\DateIntervalFilter;
 use App\Repository\RecetteRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -40,6 +42,14 @@ class Recette
     #[Groups(['recette:read', 'recette:write'])]
     private ?Categorie $categorie = null;
 
+    #[ORM\Column(type: 'text', nullable: true)]
+    #[Groups(['recette:read', 'recette:write'])]
+    private ?string $description = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['recette:read', 'recette:write'])]
+    private ?string $source = null;
+
     #[ORM\Column(type: 'app_dateinterval', nullable: true)]
     #[Groups(['recette:read', 'recette:write'])]
     private ?\DateInterval $tempsDePreparation = null;
@@ -51,6 +61,23 @@ class Recette
     #[ORM\Column(type: 'app_dateinterval', nullable: true)]
     #[Groups(['recette:read', 'recette:write'])]
     private ?\DateInterval $pretDans = null;
+
+    #[ORM\ManyToMany(targetEntity: Ingredient::class)]
+    #[Groups(['recette:read', 'recette:write'])]
+    private Collection $ingredients;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    #[Groups(['recette:read', 'recette:write'])]
+    private ?string $note = null;
+
+    #[ORM\ManyToMany(targetEntity: Etiquette::class)]
+    private Collection $etiquettes;
+
+    public function __construct()
+    {
+        $this->ingredients = new ArrayCollection();
+        $this->etiquettes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -93,6 +120,30 @@ class Recette
         return $this;
     }
 
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getSource(): ?string
+    {
+        return $this->source;
+    }
+
+    public function setSource(?string $source): self
+    {
+        $this->source = $source;
+
+        return $this;
+    }
+
     public function getTempsDePreparation(): ?\DateInterval
     {
         return $this->tempsDePreparation;
@@ -125,6 +176,66 @@ class Recette
     public function setPretDans(\DateInterval $pretDans): self
     {
         $this->pretDans = $pretDans;
+
+        return $this;
+    }
+
+    public function getNote(): ?string
+    {
+        return $this->note;
+    }
+
+    public function setNote(?string $note): self
+    {
+        $this->note = $note;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Ingredient>
+     */
+    public function getIngredients(): Collection
+    {
+        return $this->ingredients;
+    }
+
+    public function addIngredient(Ingredient $ingredient): static
+    {
+        if (!$this->ingredients->contains($ingredient)) {
+            $this->ingredients->add($ingredient);
+        }
+
+        return $this;
+    }
+
+    public function removeIngredient(Ingredient $ingredient): static
+    {
+        $this->ingredients->removeElement($ingredient);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Etiquette>
+     */
+    public function getEtiquettes(): Collection
+    {
+        return $this->etiquettes;
+    }
+
+    public function addEtiquette(Etiquette $etiquette): static
+    {
+        if (!$this->etiquettes->contains($etiquette)) {
+            $this->etiquettes->add($etiquette);
+        }
+
+        return $this;
+    }
+
+    public function removeEtiquette(Etiquette $etiquette): static
+    {
+        $this->etiquettes->removeElement($etiquette);
 
         return $this;
     }
