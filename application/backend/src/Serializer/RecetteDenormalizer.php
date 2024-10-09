@@ -15,7 +15,8 @@ class RecetteDenormalizer implements DenormalizerInterface
         #[Autowire(service: 'api_platform.jsonld.normalizer.item')]
         private readonly DenormalizerInterface $normalizer,
         private readonly DateIntervalNormalizer $dateIntervalNormalizer,
-    ) {}
+    ) {
+    }
 
     /**
      * @return Recette
