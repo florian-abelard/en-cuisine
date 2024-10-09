@@ -3,6 +3,8 @@
 namespace App\DataFixtures;
 
 use App\DataFixtures\Factory\CategorieFactory;
+use App\DataFixtures\Factory\EtiquetteFactory;
+use App\DataFixtures\Factory\IngredientFactory;
 use App\DataFixtures\Factory\MediaFactory;
 use App\DataFixtures\Factory\RecetteFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -12,6 +14,12 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
+        IngredientFactory::createMany(25);
+
+        EtiquetteFactory::createOne(['libelle' => 'Végétarien', 'color' => '#008000']);
+        EtiquetteFactory::createOne(['libelle' => 'Halloween', 'color' => '#ffa500']);
+        EtiquetteFactory::createMany(5);
+
         RecetteFactory::createMany(25);
 
         $dessert = CategorieFactory::repository()

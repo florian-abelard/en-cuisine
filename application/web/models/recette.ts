@@ -10,4 +10,7 @@ export class Recette {
   public libelle: string;
   public image?: Media | string;
   public categorie?: Categorie | string;
+  public tempsPreparation?: string;
+  public tempsCuisson?: string;
+  public pretDans?: string;
 }

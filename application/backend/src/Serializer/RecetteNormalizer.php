@@ -19,7 +19,7 @@ class RecetteNormalizer implements NormalizerInterface
     /**
      * @param Recette $object
      */
-    public function normalize($object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+    public function normalize($object, ?string $format = null, array $context = []): mixed
     {
         $context[self::ALREADY_CALLED] = true;
 
@@ -31,6 +31,11 @@ class RecetteNormalizer implements NormalizerInterface
                 ->normalize($object->getImage(), $format, $context);
         }
 
+        $data['pretDans'] = $this->normalizeDateInterval($object->getPretDans());
+        $data['tempsDeCuisson'] = $this->normalizeDateInterval($object->getTempsDeCuisson());
+        $data['tempsDePreparation'] = $this->normalizeDateInterval($object->getTempsDePreparation());
+
+
         return $data;
     }
 
@@ -41,5 +46,31 @@ class RecetteNormalizer implements NormalizerInterface
         }
 
         return $data instanceof Recette;
+    }
+
+    private function normalizeDateInterval(?\DateInterval $interval): ?string
+    {
+        if ($interval === null) {
+            return null;
+        }
+
+        $parts = [];
+
+        if ((int)$interval->format('%a') > 0) {
+            $unit = (int) $interval->format('%a') > 1 ? 'jours' : 'jour';
+            $parts[] = $interval->format('%a ' . $unit);
+        }
+
+        if ((int)$interval->format('%h') > 0) {
+            $unit = (int) $interval->format('%h') > 1 ? 'heures' : 'heure';
+            $parts[] = $interval->format('%h ' . $unit);
+        }
+
+        if ((int)$interval->format('%i') > 0) {
+            $unit = (int) $interval->format('%i') > 1 ? 'minutes' : 'minute';
+            $parts[] = $interval->format('%i ' . $unit);
+        }
+
+        return implode(' ', $parts);
     }
 }
