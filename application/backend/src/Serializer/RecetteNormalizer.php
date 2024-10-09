@@ -19,7 +19,7 @@ class RecetteNormalizer implements NormalizerInterface
     /**
      * @param Recette $object
      */
-    public function normalize($object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+    public function normalize($object, ?string $format = null, array $context = []): mixed
     {
         $context[self::ALREADY_CALLED] = true;
 

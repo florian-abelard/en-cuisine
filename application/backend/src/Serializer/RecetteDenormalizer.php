@@ -20,8 +20,10 @@ class RecetteDenormalizer implements DenormalizerInterface
     /**
      * @return Recette
      */
-    public function denormalize($data, string $type, string $format = null, array $context = [])
+    public function denormalize($data, string $type, string $format = null, array $context = []): mixed
     {
+        $context[self::ALREADY_CALLED] = true;
+
         $data['pretDans'] = $this->dateIntervalNormalizer->denormalize($data['pretDans']);
         $data['tempsDeCuisson'] = $this->dateIntervalNormalizer->denormalize($data['tempsDeCuisson']);
         $data['tempsDePreparation'] = $this->dateIntervalNormalizer->denormalize($data['tempsDePreparation']);
@@ -29,7 +31,7 @@ class RecetteDenormalizer implements DenormalizerInterface
         return $this->normalizer->denormalize($data, $type, $format, $context);
     }
 
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         if (isset($context[self::ALREADY_CALLED])) {
             return false;
