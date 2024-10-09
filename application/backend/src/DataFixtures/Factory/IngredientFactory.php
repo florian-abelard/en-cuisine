@@ -55,6 +55,9 @@ final class IngredientFactory extends ModelFactory
 
     private function generateLibelle(): string
     {
+        /**
+         * @var \FakerRestaurant\Provider\en_US\Restaurant $faker
+         */
         $faker = self::faker();
         $options = [
             $faker->vegetableName(),

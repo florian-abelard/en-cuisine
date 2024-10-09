@@ -12,7 +12,7 @@ class DateIntervalNormalizer
 
         $userInterval = $this->cleanDateInterval($userInterval);
 
-        return \DateInterval::createFromDateString($userInterval) ?? null;
+        return \DateInterval::createFromDateString($userInterval) ?: null;
     }
 
     private function cleanDateInterval(string $userInterval): string
