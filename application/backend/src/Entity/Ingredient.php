@@ -25,10 +25,6 @@ class Ingredient
     #[Groups(['ingredient:read', 'ingredient:write'])]
     private ?string $libelle = null;
 
-    #[ORM\Column(length: 255, name: '`order`')]
-    #[Groups(['ingredient:read', 'ingredient:write'])]
-    private ?int $order = 99;
-
     public function getId(): ?int
     {
         return $this->id;
