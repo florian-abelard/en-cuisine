@@ -12,7 +12,7 @@
       <label class="input input-bordered input-primary flex items-center gap-2 my-2">
         <span class="font-semibold mr-4">Libellé</span>
         <input
-          class="grow"
+          class="grow placeholder-gray-400"
           type="text"
           v-model="libelle"
           v-bind="libelleAttrs"
@@ -40,10 +40,34 @@
         </select>
       </label>
 
+      <label class="form-control my-2">
+        <div class="label">
+          <span class="label-text font-semibold text-base">Description</span>
+        </div>
+        <textarea
+          class="grow textarea textarea-bordered textarea-primary"
+          v-model="description"
+          v-bind="descriptionAttrs"
+          rows="3"
+          placeholder="Sauce ketchup artisanale, pâtes fraîches cuites à point, filet de crème fraîche et herbes fraîches pour un plat authentique et raffiné."
+        />
+      </label>
+
+      <label class="input input-bordered input-primary flex items-center gap-2 my-2">
+        <span class="font-semibold mr-4">Source</span>
+        <input
+          class="grow placeholder-gray-400"
+          type="text"
+          v-model="source"
+          v-bind="sourceAttrs"
+          placeholder="https://www.chefcolin.fr/pates-au-ketchup/"
+        >
+      </label>
+
       <label class="input input-bordered input-primary flex items-center gap-2 my-2">
         <span class="font-semibold mr-4">Prêt dans</span>
         <input
-          class="grow"
+          class="grow placeholder-gray-400"
           type="text"
           v-model="pretDans"
           v-bind="pretDansAttrs"
@@ -54,7 +78,7 @@
       <label class="input input-bordered input-primary flex items-center gap-2 my-2">
         <span class="font-semibold mr-4">Préparation</span>
         <input
-          class="grow"
+          class="grow placeholder-gray-400"
           type="text"
           v-model="tempsDePreparation"
           v-bind="tempsDePreparationAttrs"
@@ -65,7 +89,7 @@
       <label class="input input-bordered input-primary flex items-center gap-2 my-2">
         <span class="font-semibold mr-4">Cuisson</span>
         <input
-          class="grow"
+          class="grow placeholder-gray-400"
           type="text"
           v-model="tempsDeCuisson"
           v-bind="tempsDeCuissonAttrs"
@@ -73,9 +97,22 @@
         >
       </label>
 
+      <label class="form-control my-2">
+        <div class="label">
+          <span class="label-text font-semibold text-base">Notes</span>
+        </div>
+        <textarea
+          class="grow textarea textarea-bordered textarea-primary"
+          v-model="notes"
+          v-bind="notesAttrs"
+          rows="3"
+          placeholder=""
+        />
+      </label>
+
       <label class="form-control">
         <div class="label">
-          <span class="label-text font-semibold">Vignette</span>
+          <span class="label-text font-semibold text-base">Vignette</span>
         </div>
         <div class="flex items-start gap-2">
           <input
@@ -127,9 +164,12 @@
     libelle?: string | null;
     categorie?: Categorie | string | null;
     image?: Media | string | null;
+    description?: string | null;
+    source?: string | null;
     tempsDePreparation?: string | null;
     tempsDeCuisson?: string | null;
     pretDans?: string | null;
+    notes?: string | null;
   }
 
   const route = useRoute();
@@ -145,15 +185,19 @@
         tempsDePreparation: string().nullable().default(null),
         tempsDeCuisson: string().nullable().default(null),
         pretDans: string().nullable().default(null),
+        notes: string().nullable().default(null),
       }),
     ),
   });
 
   const [libelle, libelleAttrs] = defineField('libelle');
   const [categorie, categorieAttrs] = defineField('categorie');
+  const [description, descriptionAttrs] = defineField('description');
+  const [source, sourceAttrs] = defineField('source');
   const [tempsDePreparation, tempsDePreparationAttrs] = defineField('tempsDePreparation');
   const [tempsDeCuisson, tempsDeCuissonAttrs] = defineField('tempsDeCuisson');
   const [pretDans, pretDansAttrs] = defineField('pretDans');
+  const [note, noteAttrs] = defineField('note');
 
   if (route.params.id !== 'create') {
     mode.value = 'update';
