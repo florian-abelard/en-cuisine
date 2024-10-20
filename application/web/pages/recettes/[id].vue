@@ -197,7 +197,7 @@
   const [tempsDePreparation, tempsDePreparationAttrs] = defineField('tempsDePreparation');
   const [tempsDeCuisson, tempsDeCuissonAttrs] = defineField('tempsDeCuisson');
   const [pretDans, pretDansAttrs] = defineField('pretDans');
-  const [note, noteAttrs] = defineField('note');
+  const [notes, notesAttrs] = defineField('notes');
 
   if (route.params.id !== 'create') {
     mode.value = 'update';
@@ -225,6 +225,8 @@
     try {
       const recette = values as Recette;
       recette.image = image.value ? image.value['@id'] as string : null;
+      console.log(recette);
+
 
       mode.value === 'create'
         ? await useApiRecette().create(recette)
