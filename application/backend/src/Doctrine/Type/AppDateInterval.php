@@ -56,7 +56,7 @@ final class AppDateInterval extends Type
     {
         return self::NAME;
     }
-    public function getSQLDeclaration(array $column, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         return "INTERVAL";
     }

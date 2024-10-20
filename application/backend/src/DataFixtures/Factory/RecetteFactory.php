@@ -50,6 +50,8 @@ final class RecetteFactory extends ModelFactory
             'libelle' => self::faker()->text(64),
             'categorie' => CategorieFactory::random(),
             'image' => MediaFactory::createOne(),
+            'description' => self::faker()->text(200),
+            'source' => self::faker()->url(),
             'tempsDePreparation' => \DateInterval::createFromDateString(
                 self::faker()->numberBetween(10, 150) . ' minutes',
             ),
@@ -61,6 +63,9 @@ final class RecetteFactory extends ModelFactory
             'pretDans' => \DateInterval::createFromDateString(
                 self::faker()->numberBetween(10, 180) . ' minutes',
             ),
+            'ingredients' => IngredientFactory::randomRange(1, 3),
+            'notes' => self::faker()->text(200),
+            'etiquettes' => EtiquetteFactory::randomRange(1, 2),
         ];
     }
 

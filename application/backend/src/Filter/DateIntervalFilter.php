@@ -5,7 +5,7 @@ namespace App\Filter;
 use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\Operation;
-use App\Service\DateIntervalNormalizer;
+use App\Serializer\CustomDateIntervalNormalizer;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 class DateIntervalFilter extends AbstractFilter
 {
     public function __construct(
-        private DateIntervalNormalizer $dateIntervalNormalizer,
+        private CustomDateIntervalNormalizer $dateIntervalNormalizer,
         ManagerRegistry $managerRegistry,
         ?LoggerInterface $logger = null,
         ?array $properties = null,
@@ -33,7 +33,7 @@ class DateIntervalFilter extends AbstractFilter
             return;
         }
 
-        $dateInterval = $this->dateIntervalNormalizer->denormalize($value);
+        $dateInterval = $this->dateIntervalNormalizer->denormalize($value, \DateInterval::class);
 
         $parameterName = $queryNameGenerator->generateParameterName($property);
         $queryBuilder

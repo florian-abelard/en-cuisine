@@ -24,7 +24,7 @@ final class Version20241003201737 extends AbstractMigration
         $this->addSql('ALTER TABLE recette ADD temps_de_preparation INTERVAL DEFAULT NULL');
         $this->addSql('ALTER TABLE recette ADD temps_de_cuisson INTERVAL DEFAULT NULL');
         $this->addSql('CREATE TABLE etiquette (id SERIAL NOT NULL, libelle VARCHAR(255) NOT NULL, color VARCHAR(7) DEFAULT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE ingredient (id SERIAL NOT NULL, libelle VARCHAR(255) NOT NULL, "order" INT NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE ingredient (id SERIAL NOT NULL, libelle VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE recette_ingredient (recette_id INT NOT NULL, ingredient_id INT NOT NULL, PRIMARY KEY(recette_id, ingredient_id))');
         $this->addSql('CREATE INDEX IDX_17C041A989312FE9 ON recette_ingredient (recette_id)');
         $this->addSql('CREATE INDEX IDX_17C041A9933FE08C ON recette_ingredient (ingredient_id)');
@@ -37,7 +37,7 @@ final class Version20241003201737 extends AbstractMigration
         $this->addSql('ALTER TABLE recette_etiquette ADD CONSTRAINT FK_ADD877947BD2EA57 FOREIGN KEY (etiquette_id) REFERENCES etiquette (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE recette ADD description TEXT DEFAULT NULL');
         $this->addSql('ALTER TABLE recette ADD source VARCHAR(255) DEFAULT NULL');
-        $this->addSql('ALTER TABLE recette ADD note TEXT DEFAULT NULL');
+        $this->addSql('ALTER TABLE recette ADD notes TEXT DEFAULT NULL');
         $this->addSql('ALTER TABLE recette ALTER pret_dans TYPE INTERVAL');
         $this->addSql('ALTER TABLE recette ALTER temps_de_preparation TYPE INTERVAL');
         $this->addSql('ALTER TABLE recette ALTER temps_de_cuisson TYPE INTERVAL');
