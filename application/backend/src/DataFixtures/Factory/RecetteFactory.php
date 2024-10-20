@@ -63,9 +63,9 @@ final class RecetteFactory extends ModelFactory
             'pretDans' => \DateInterval::createFromDateString(
                 self::faker()->numberBetween(10, 180) . ' minutes',
             ),
-            'ingredients' => IngredientFactory::random(5),
+            'ingredients' => IngredientFactory::randomRange(1, 3),
             'notes' => self::faker()->text(200),
-            'etiquettes' => EtiquetteFactory::random(3),
+            'etiquettes' => EtiquetteFactory::randomRange(1, 2),
         ];
     }
 
