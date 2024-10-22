@@ -180,11 +180,6 @@ class Recette
         return $this;
     }
 
-/*************  ✨ Codeium Command ⭐  *************/
-    /**
-     * @return string|null
-     */
-/******  57403713-e49f-41bb-b66f-ddeabca436b0  *******/
     public function getNotes(): ?string
     {
         return $this->notes;

@@ -11,16 +11,18 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 #[AsDecorator(decorates: DateIntervalNormalizer::class)]
 class CustomDateIntervalNormalizer implements NormalizerInterface, DenormalizerInterface
 {
-     public function __construct(
-        #[MapDecorated] private DateIntervalNormalizer $inner,
-    ) {}
+    public function __construct(
+        #[MapDecorated]
+        private DateIntervalNormalizer $inner,
+    ) {
+    }
 
     /**
      * @param \DateInterval|null $object
      *
      * @return string
      */
-    public function normalize(mixed $object, string $format = null, array $context = []):  array|string|int|float|bool|\ArrayObject|null
+    public function normalize(mixed $object, string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         if ($object === null) {
             return null;
