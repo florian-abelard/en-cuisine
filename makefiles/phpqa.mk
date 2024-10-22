@@ -26,4 +26,4 @@ phpqa-bash:
 
 #------------------------------------------------------------------------------
 
-.PHONY: phpstan-analyse
+.PHONY: ecs-check phpmd phpqa-rebuild phpqa-bash

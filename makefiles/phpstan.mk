@@ -23,4 +23,4 @@ phpstan-help:
 
 #------------------------------------------------------------------------------
 
-.PHONY: phpstan-analyse
+.PHONY: phpstan-analyse phpstan-rebuild phpstan-help

@@ -16,7 +16,7 @@ class CustomDateIntervalNormalizer implements NormalizerInterface, DenormalizerI
     ) {}
 
     /**
-     * @param \DateInterval $object
+     * @param \DateInterval|null $object
      *
      * @return string
      */
@@ -47,9 +47,9 @@ class CustomDateIntervalNormalizer implements NormalizerInterface, DenormalizerI
     }
 
     /**
-     * @param string $data the date interval on the format "X jours, Y heures, Z minutes"
+     * @param string|null $data the date interval on the format "X jours, Y heures, Z minutes"
      *
-     * @return \DateInterval
+     * @return \DateInterval|null
      */
     public function denormalize(mixed $data, string $type, string $format = null, array $context = [])
     {
@@ -66,14 +66,14 @@ class CustomDateIntervalNormalizer implements NormalizerInterface, DenormalizerI
     {
         return $this
             ->inner
-            ->supportsNormalization($data, $format, $context);
+            ->supportsNormalization($data, $format);
     }
 
     public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool
     {
         return $this
             ->inner
-            ->supportsDenormalization($data, $type, $format, $context);
+            ->supportsDenormalization($data, $type, $format);
     }
 
     private function cleanDateInterval(string $userInterval): string
