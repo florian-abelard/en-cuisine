@@ -48,6 +48,15 @@ logs: ##@docker displays containers log
 test: ## run tests
 	docker compose -f ${DOCKER_COMPOSE_FILE} exec php ./vendor/bin/phpunit
 
+analyse: analyse-backend analyse-frontend ## analyse code style
+
+analyse-backend: phpmd phpstan-analyse ecs-check ## analyse backend code style
+
+analyse-frontend: lint-fix ## analyse frontend code style
+
+fix: lint-fix ## fix code style
+	make ecs-check -- --fix
+
 #------------------------------------------------------------------------------
 
 bash-web: ## open a bash session in the web container
