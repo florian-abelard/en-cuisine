@@ -2,7 +2,7 @@
 # PHPStan Makefile
 #------------------------------------------------------------------------------
 
-PHPSTAN_DOCKER_CMD = docker compose -f ${DOCKER_COMPOSE_ANALYSER_FILE} run --rm -T phpstan ${1}
+PHPSTAN_DOCKER_CMD = docker compose -f ${DOCKER_COMPOSE_ANALYSER_FILE} run --rm -T  --remove-orphans phpstan ${1}
 
 # Cli arguments
 ifneq (,$(filter phpstan-analyse%, $(firstword $(MAKECMDGOALS))))
@@ -23,4 +23,4 @@ phpstan-help:
 
 #------------------------------------------------------------------------------
 
-.PHONY: phpstan-analyse
+.PHONY: phpstan-analyse phpstan-rebuild phpstan-help

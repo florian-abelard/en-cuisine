@@ -68,7 +68,7 @@ class Recette
 
     #[ORM\Column(type: 'text', nullable: true)]
     #[Groups(['recette:read', 'recette:write'])]
-    private ?string $note = null;
+    private ?string $notes = null;
 
     #[ORM\ManyToMany(targetEntity: Etiquette::class)]
     private Collection $etiquettes;
@@ -180,14 +180,14 @@ class Recette
         return $this;
     }
 
-    public function getNote(): ?string
+    public function getNotes(): ?string
     {
-        return $this->note;
+        return $this->notes;
     }
 
-    public function setNote(?string $note): self
+    public function setNotes(?string $notes): self
     {
-        $this->note = $note;
+        $this->notes = $notes;
 
         return $this;
     }
