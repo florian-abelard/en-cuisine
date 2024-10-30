@@ -1,9 +1,5 @@
 <template>
-  <div class="p-4">
-    <h1 class="text-xl font-bold mb-4">
-      Catégories
-    </h1>
-
+  <div class="px-4">
     <form
       v-if="!isFetching"
       @submit="onSubmit"
@@ -55,7 +51,7 @@
 
 <script setup lang="ts">
 
-  import { useForm, useRoute, ref, useApiCategorie, navigateTo, useQuery, watch } from '#imports';
+  import { useForm, useRoute, ref, useApiCategorie, navigateTo, useQuery, watch, definePageMeta } from '#imports';
   import { toTypedSchema } from '@vee-validate/yup';
   import { object, string, number } from 'yup';
   import type { Categorie } from '~/models/categorie';
@@ -64,6 +60,11 @@
     libelle?: string | null;
     order?: number | null;
   }
+
+  definePageMeta({
+    pageType: 'detail',
+    pageName: 'Catégories',
+  });
 
   const route = useRoute();
   const mode = ref<'create' | 'update'>('create');

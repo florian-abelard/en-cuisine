@@ -5,12 +5,9 @@
     </Head>
 
     <div class="flex justify-between">
-      <h2 class="text-3xl font-normal leading-normal mt-0 mb-2 ml-2 text-primary">
-        Catégories
-      </h2>
       <NuxtLink
         to="/categories/create"
-        class="btn btn-primary btn-circle mx-4 fixed top-20 right-4 z-[1]"
+        class="btn btn-primary btn-circle mx-4 fixed bottom-10 right-4 z-[1]"
       >
         <Plus :size="22" />
       </NuxtLink>
@@ -49,8 +46,13 @@
 
 <script setup lang="ts">
 
-  import { useQuery, navigateTo, useApiCategorie } from '#imports';
+  import { useQuery, navigateTo, useApiCategorie, definePageMeta } from '#imports';
   import { Plus, Trash2 } from 'lucide-vue-next';
+
+  definePageMeta({
+    pageType: 'list',
+    pageName: 'Catégories',
+  });
 
   const { data: categories, isFetching, refetch } = useQuery({
     queryKey: ['categories'],

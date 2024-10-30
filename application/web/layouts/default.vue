@@ -1,7 +1,7 @@
 <template>
   <header class="navbar bg-primary fixed top-0 w-full z-[1]">
     <div class="navbar-start">
-      <div class="dropdown">
+      <div class="dropdown" v-if="pageType === 'list'">
         <div
           tabindex="0"
           role="button"
@@ -33,13 +33,13 @@
               <ChefHat class="w-5 h-5" /> Réalisations
             </a>
           </li>
-          <li class="h-px bg-100"></li>
+          <li class="h-px bg-100" />
           <li>
             <NuxtLink to="/categories/list">
               <FolderUp class="w-5 h-5" /> Catégories
             </NuxtLink>
           </li>
-          <li class="h-px bg-100"></li>
+          <li class="h-px bg-100" />
           <li>
             <a
               v-if="authenticated"
@@ -50,7 +50,15 @@
           </li>
         </ul>
       </div>
-      <a class="btn btn-ghost text-xl cursor-default">En Cuisine !</a>
+      <NuxtLink
+        v-if="pageType === 'detail'"
+        @click="goBack()"
+        class="hover:cursor-pointer btn btn-ghost"
+      >
+        <ArrowLeft />
+      </NuxtLink>
+      <div class="dropdown" v-if="pageType === 'detail'" />
+      <a class="btn btn-ghost text-xl cursor-default">{{ pageName }}</a>
     </div>
 
     <div class="navbar-center hidden md:flex">
@@ -66,15 +74,7 @@
       </ul>
     </div>
 
-    <div class="navbar-end">
-      <button
-        v-if="authenticated"
-        class="btn btn-ghost"
-        @click="logout"
-      >
-        <LogOut />
-      </button>
-    </div>
+    <div class="navbar-end" />
   </header>
 
   <main class="md:container md:mx-auto mx-2 md:max-w-[800px] mt-20 mb-4">
@@ -84,15 +84,22 @@
 
 <script setup lang="ts">
 
-  import { useApiAuth, navigateTo, useAuthStore, computed } from '#imports';
-  import { LogOut, CookingPot, ChefHat, FolderUp } from 'lucide-vue-next';
+  import { useApiAuth, navigateTo, useAuthStore, computed, useRoute, useRouter } from '#imports';
+  import { LogOut, CookingPot, ChefHat, FolderUp, ArrowLeft } from 'lucide-vue-next';
 
   const authStore = useAuthStore();
+  const router = useRouter();
   const authenticated = computed(() => authStore.authenticated);
+  const pageType = computed(() => useRoute().meta.pageType);
+  const pageName = computed(() => useRoute().meta.pageName);
 
   const logout = async () => {
     await useApiAuth().logout();
 
     return navigateTo('/login');
+  };
+
+  const goBack = () => {
+    window.history.length > 1 ? router.go(-1) : router.push('/');
   };
 </script>
