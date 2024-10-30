@@ -1,7 +1,7 @@
 <template>
   <header class="navbar bg-primary fixed top-0 w-full z-[1]">
     <div class="navbar-start">
-      <div class="dropdown">
+      <div class="dropdown" v-if="pageType === 'list'">
         <div
           tabindex="0"
           role="button"
@@ -50,7 +50,11 @@
           </li>
         </ul>
       </div>
-      <a class="btn btn-ghost text-xl cursor-default">En Cuisine !</a>
+      <NuxtLink to="router.back" v-if="pageType === 'detail'">
+        <CookingPot />
+      </NuxtLink>
+      <div class="dropdown" v-if="pageType === 'detail'"></div>
+      <a class="btn btn-ghost text-xl cursor-default">{{ pageName }}</a>
     </div>
 
     <div class="navbar-center hidden md:flex">
@@ -84,11 +88,14 @@
 
 <script setup lang="ts">
 
-  import { useApiAuth, navigateTo, useAuthStore, computed } from '#imports';
+  import { useApiAuth, navigateTo, useAuthStore, computed, useRoute, useRouter } from '#imports';
   import { LogOut, CookingPot, ChefHat, FolderUp } from 'lucide-vue-next';
 
   const authStore = useAuthStore();
   const authenticated = computed(() => authStore.authenticated);
+  const pageType = computed(() => useRoute().meta.pageType);
+  const pageName = computed(() => useRoute().meta.pageName);
+  const router = useRouter();
 
   const logout = async () => {
     await useApiAuth().logout();

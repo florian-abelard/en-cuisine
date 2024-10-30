@@ -55,10 +55,17 @@
 
 <script setup lang="ts">
 
-  import { useForm, useRoute, ref, useApiCategorie, navigateTo, useQuery, watch } from '#imports';
+  import { useForm, useRoute, ref, useApiCategorie, navigateTo, useQuery, watch, definePageMeta, computed } from '#imports';
   import { toTypedSchema } from '@vee-validate/yup';
   import { object, string, number } from 'yup';
   import type { Categorie } from '~/models/categorie';
+
+  const pageName = computed(() => categorie.value ? `Page for ${categorie.value.libelle}` : 'Loading...')
+
+  definePageMeta({
+    pageType: 'detail',
+    pageName: pageName,
+  })
 
   interface CategorieForm {
     libelle?: string | null;

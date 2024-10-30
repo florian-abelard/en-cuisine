@@ -49,8 +49,13 @@
 
 <script setup lang="ts">
 
-  import { useQuery, navigateTo, useApiCategorie } from '#imports';
+  import { useQuery, navigateTo, useApiCategorie, definePageMeta } from '#imports';
   import { Plus, Trash2 } from 'lucide-vue-next';
+
+  definePageMeta({
+    pageType: 'list',
+    pageName: 'Catégories',
+  })
 
   const { data: categories, isFetching, refetch } = useQuery({
     queryKey: ['categories'],
