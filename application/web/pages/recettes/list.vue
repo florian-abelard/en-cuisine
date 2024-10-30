@@ -5,12 +5,9 @@
     </Head>
 
     <div class="flex justify-between">
-      <h2 class="text-3xl font-normal leading-normal mt-0 mb-2 ml-2 text-primary">
-        Recettes
-      </h2>
       <NuxtLink
         to="/recettes/create"
-        class="btn btn-primary btn-circle mx-4 fixed top-20 right-4 z-[1]"
+        class="btn btn-primary btn-circle mx-4 fixed bottom-10 right-4 z-[1]"
       >
         <Plus :size="22" />
       </NuxtLink>
@@ -33,10 +30,12 @@
             :src="(recette?.image as Media).url"
             :alt="`Illustration de la recette ${recette.libelle}`"
             class="object-cover w-full h-full"
-          />
+          >
         </figure>
         <div class="card-body w-2/3">
-          <h2 class="card-title text-lg line-clamp-2">{{ recette.libelle }}</h2>
+          <h2 class="card-title text-lg line-clamp-2">
+            {{ recette.libelle }}
+          </h2>
         </div>
       </div>
     </div>
@@ -50,10 +49,15 @@
 
 <script setup lang="ts">
 
-  import { useQuery, ref, navigateTo, useApiRecette } from '#imports';
+  import { useQuery, ref, navigateTo, useApiRecette, definePageMeta } from '#imports';
   import { Recette } from '~/models/recette';
   import { Plus } from 'lucide-vue-next';
   import type { Media } from '~/models/media';
+
+  definePageMeta({
+    pageType: 'list',
+    pageName: 'Recettes',
+  });
 
   const page = ref(1);
   const itemsCount = ref(null);

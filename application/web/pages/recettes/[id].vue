@@ -1,9 +1,5 @@
 <template>
-  <div class="p-4">
-    <h1 class="text-xl font-bold mb-4">
-      Recette
-    </h1>
-
+  <div class="px-4">
     <form
       v-if="!isFetching"
       @submit="onSubmit"
@@ -153,7 +149,7 @@
 
 <script setup lang="ts">
 
-  import { useForm, useRoute, ref, useApiRecette, useApiMedia, navigateTo, useQuery, watch, useApiCategorie } from '#imports';
+  import { useForm, useRoute, ref, useApiRecette, useApiMedia, navigateTo, useQuery, watch, useApiCategorie, definePageMeta } from '#imports';
   import { toTypedSchema } from '@vee-validate/yup';
   import { object, string } from 'yup';
   import type { Recette } from '~/models/recette';
@@ -171,6 +167,11 @@
     pretDans?: string | null;
     notes?: string | null;
   }
+
+  definePageMeta({
+    pageType: 'detail',
+    pageName: '',
+  });
 
   const route = useRoute();
   const mode = ref<'create' | 'update'>('create');
@@ -211,6 +212,7 @@
 
   watch(recette, (recette: Recette) => {
     if (recette) {
+      route.meta.pageName = recette.libelle;
       resetForm({ values: recette });
       image.value = recette.image as Media;
     }
@@ -225,8 +227,6 @@
     try {
       const recette = values as Recette;
       recette.image = image.value ? image.value['@id'] as string : null;
-      console.log(recette);
-
 
       mode.value === 'create'
         ? await useApiRecette().create(recette)
