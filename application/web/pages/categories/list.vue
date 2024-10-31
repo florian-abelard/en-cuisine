@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
 
-  import { useQuery, navigateTo, useApiCategorie, definePageMeta } from '#imports';
+import { useQuery, navigateTo, useApiCategorie, definePageMeta } from '#imports';
   import { Plus, Trash2 } from 'lucide-vue-next';
 
   definePageMeta({
