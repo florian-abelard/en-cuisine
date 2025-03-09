@@ -93,6 +93,16 @@
         >
       </label>
 
+      <AutoComplete
+        class="my-2"
+        v-model="etiquette"
+        v-bind="etiquetteAttrs"
+        :items="etiquettes"
+        label="Étiquettes"
+        placeholder="Saisir une étiquette"
+        multiple
+      />
+
       <label class="form-control my-2">
         <div class="label">
           <span class="label-text font-semibold text-base">Notes</span>
@@ -155,6 +165,7 @@
   import type { Recette } from '~/models/recette';
   import type { Media } from '~/models/media';
   import type { Categorie } from '~/models/categorie';
+  import type { Etiquette } from '~/models/etiquette';
 
   interface RecetteForm {
     libelle?: string | null;
@@ -165,6 +176,7 @@
     tempsDePreparation?: string | null;
     tempsDeCuisson?: string | null;
     pretDans?: string | null;
+    etiquette?: Etiquette[] | null;
     notes?: string | null;
   }
 
@@ -186,6 +198,7 @@
         tempsDePreparation: string().nullable().default(null),
         tempsDeCuisson: string().nullable().default(null),
         pretDans: string().nullable().default(null),
+        etiquette: object().nullable().default(null),
         notes: string().nullable().default(null),
       }),
     ),
@@ -198,6 +211,7 @@
   const [tempsDePreparation, tempsDePreparationAttrs] = defineField('tempsDePreparation');
   const [tempsDeCuisson, tempsDeCuissonAttrs] = defineField('tempsDeCuisson');
   const [pretDans, pretDansAttrs] = defineField('pretDans');
+  const [etiquette, etiquetteAttrs] = defineField('etiquette');
   const [notes, notesAttrs] = defineField('notes');
 
   if (route.params.id !== 'create') {
