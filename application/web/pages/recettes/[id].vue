@@ -93,6 +93,14 @@
         >
       </label>
 
+      <AutoComplete
+        class="my-2"
+        v-model="etiquettes"
+        :items="etiquettes"
+        label="Étiquettes"
+        placeholder="Saisir une étiquette"
+      />
+
       <label class="form-control my-2">
         <div class="label">
           <span class="label-text font-semibold text-base">Notes</span>
@@ -136,6 +144,15 @@
         </button>
 
         <button
+          type="button"
+          class="btn text-base x-2"
+          @click="test()"
+          :disabled="isSubmitting"
+        >
+          Test
+        </button>
+
+        <button
           type="submit"
           class="btn btn-primary text-base mx-2"
           :disabled="isSubmitting || !meta.valid"
@@ -155,6 +172,7 @@
   import type { Recette } from '~/models/recette';
   import type { Media } from '~/models/media';
   import type { Categorie } from '~/models/categorie';
+  import type { Etiquette } from '~/models/etiquette';
 
   interface RecetteForm {
     libelle?: string | null;
@@ -165,6 +183,7 @@
     tempsDePreparation?: string | null;
     tempsDeCuisson?: string | null;
     pretDans?: string | null;
+    etiquettes?: Etiquette[] | null;
     notes?: string | null;
   }
 
@@ -186,6 +205,7 @@
         tempsDePreparation: string().nullable().default(null),
         tempsDeCuisson: string().nullable().default(null),
         pretDans: string().nullable().default(null),
+        etiquettes: string().nullable().default([]),
         notes: string().nullable().default(null),
       }),
     ),
@@ -198,6 +218,7 @@
   const [tempsDePreparation, tempsDePreparationAttrs] = defineField('tempsDePreparation');
   const [tempsDeCuisson, tempsDeCuissonAttrs] = defineField('tempsDeCuisson');
   const [pretDans, pretDansAttrs] = defineField('pretDans');
+  const [etiquettes, etiquettesAttrs] = defineField('etiquettes');
   const [notes, notesAttrs] = defineField('notes');
 
   if (route.params.id !== 'create') {
@@ -223,9 +244,15 @@
     queryFn: () => useApiCategorie().findAll(),
   });
 
+  const test = () => {
+    console.log('meta', meta);
+  };
+
   const onSubmit = handleSubmit(async (values) => {
+    console.log('values', values);
     try {
       const recette = values as Recette;
+      console.log('values', values);
       recette.image = image.value ? image.value['@id'] as string : null;
 
       mode.value === 'create'
