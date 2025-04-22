@@ -71,6 +71,7 @@ class Recette
     private ?string $notes = null;
 
     #[ORM\ManyToMany(targetEntity: Etiquette::class)]
+    #[Groups(['recette:read', 'recette:write'])]
     private Collection $etiquettes;
 
     public function __construct()

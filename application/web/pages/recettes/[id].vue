@@ -13,7 +13,7 @@
           v-model="libelle"
           v-bind="libelleAttrs"
           placeholder="Pâtes au ketchup"
-        >
+        />
       </label>
 
       <label class="input input-bordered input-primary flex items-center gap-2 my-2">
@@ -57,7 +57,7 @@
           v-model="source"
           v-bind="sourceAttrs"
           placeholder="https://www.chefcolin.fr/pates-au-ketchup/"
-        >
+        />
       </label>
 
       <label class="input input-bordered input-primary flex items-center gap-2 my-2">
@@ -68,7 +68,7 @@
           v-model="pretDans"
           v-bind="pretDansAttrs"
           placeholder="30 minutes"
-        >
+        />
       </label>
 
       <label class="input input-bordered input-primary flex items-center gap-2 my-2">
@@ -79,7 +79,7 @@
           v-model="tempsDePreparation"
           v-bind="tempsDePreparationAttrs"
           placeholder="30 minutes"
-        >
+        />
       </label>
 
       <label class="input input-bordered input-primary flex items-center gap-2 my-2">
@@ -90,8 +90,18 @@
           v-model="tempsDeCuisson"
           v-bind="tempsDeCuissonAttrs"
           placeholder="30 minutes"
-        >
+        />
       </label>
+
+      <AutoComplete
+        class="my-2"
+        v-model="etiquettes"
+        :attrs="etiquettesAttrs"
+        :label="'Etiquettes'"
+        :display-item-fn="(item: Etiquette) => item.libelle"
+        :query-fn="fetchFilteredEtiquettes"
+        placeholder="Saisir une étiquette"
+      />
 
       <label class="form-control my-2">
         <div class="label">
@@ -116,12 +126,12 @@
             type="file"
             accept="image/png, image/jpeg"
             @change="onImageChange"
-          >
+          />
           <img
             v-if="image"
             :src="image.url"
             class="h-24 object-contain"
-          >
+          />
         </div>
       </label>
 
@@ -149,12 +159,13 @@
 
 <script setup lang="ts">
 
-  import { useForm, useRoute, ref, useApiRecette, useApiMedia, navigateTo, useQuery, watch, useApiCategorie, definePageMeta } from '#imports';
+  import { useForm, useRoute, ref, useApiRecette, useApiMedia, navigateTo, useQuery, watch, useApiCategorie, definePageMeta, useApiEtiquette } from '#imports';
   import { toTypedSchema } from '@vee-validate/yup';
-  import { object, string } from 'yup';
+  import { object, string, array } from 'yup';
   import type { Recette } from '~/models/recette';
   import type { Media } from '~/models/media';
   import type { Categorie } from '~/models/categorie';
+  import type { Etiquette } from '~/models/etiquette';
 
   interface RecetteForm {
     libelle?: string | null;
@@ -165,6 +176,7 @@
     tempsDePreparation?: string | null;
     tempsDeCuisson?: string | null;
     pretDans?: string | null;
+    etiquettes?: Etiquette[];
     notes?: string | null;
   }
 
@@ -186,10 +198,12 @@
         tempsDePreparation: string().nullable().default(null),
         tempsDeCuisson: string().nullable().default(null),
         pretDans: string().nullable().default(null),
+        etiquettes: array().nullable().default([]),
         notes: string().nullable().default(null),
       }),
     ),
   });
+
 
   const [libelle, libelleAttrs] = defineField('libelle');
   const [categorie, categorieAttrs] = defineField('categorie');
@@ -198,6 +212,7 @@
   const [tempsDePreparation, tempsDePreparationAttrs] = defineField('tempsDePreparation');
   const [tempsDeCuisson, tempsDeCuissonAttrs] = defineField('tempsDeCuisson');
   const [pretDans, pretDansAttrs] = defineField('pretDans');
+  const [etiquettes, etiquettesAttrs] = defineField('etiquettes');
   const [notes, notesAttrs] = defineField('notes');
 
   if (route.params.id !== 'create') {
@@ -226,7 +241,9 @@
   const onSubmit = handleSubmit(async (values) => {
     try {
       const recette = values as Recette;
+      console.log('values', values);
       recette.image = image.value ? image.value['@id'] as string : null;
+      recette.etiquettes = values.etiquettes.map((etiquette: Etiquette) => etiquette['@id'] as string);
 
       mode.value === 'create'
         ? await useApiRecette().create(recette)
@@ -246,5 +263,11 @@
       image.value = media;
       setValues({ image: media });
     }
+  };
+
+  const fetchFilteredEtiquettes = async (search: string): Promise<Etiquette[]> => {
+    const result = await useApiEtiquette().findByPaginated(1, { libelle: search });
+
+    return result.items;
   };
 </script>

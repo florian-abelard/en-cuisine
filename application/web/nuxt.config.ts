@@ -24,7 +24,7 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
-      apiBaseUrl: process.env.API_BASE_URL.replace(/\/$/, '') || 'http://localhost:8080/api',
+      apiBaseUrl: process.env.API_BASE_URL?.replace(/\/$/, '') || 'http://localhost:8080/api',
     },
   },
   vueQuery: {

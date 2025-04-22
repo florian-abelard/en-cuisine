@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\EtiquetteRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,22 +13,25 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     normalizationContext: ['groups' => ['etiquette:read']],
     denormalizationContext: ['groups' => ['etiquette:write']],
-    order: ['order' => 'ASC'],
+    order: ['libelle' => 'ASC'],
 )]
+#[ApiFilter(SearchFilter::class, properties: [
+    'libelle' => 'ipartial',
+])]
 class Etiquette
 {
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[ORM\Column]
-    #[Groups(['etiquette:read'])]
+    #[Groups(['etiquette:read', 'recette:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['etiquette:read', 'etiquette:write'])]
+    #[Groups(['etiquette:read', 'etiquette:write', 'recette:read'])]
     private ?string $libelle = null;
 
     #[ORM\Column(length: 7, nullable: true)]
-    #[Groups(['etiquette:read', 'etiquette:write'])]
+    #[Groups(['etiquette:read', 'etiquette:write', 'recette:read'])]
     private ?string $color;
 
     public function getId(): ?int

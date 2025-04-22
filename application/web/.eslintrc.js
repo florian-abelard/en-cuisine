@@ -19,7 +19,19 @@ module.exports = {
     'comma-dangle': ['error', 'always-multiline'],
     'semi': ['error', 'always'],
     'quote-props': ['error', 'consistent-as-needed'],
-    'vue/max-attributes-per-line': ['error', { singleline: 2, multiline: 1 }],
+    'vue/max-attributes-per-line': ['error', {
+      singleline: 2,
+      multiline: 1,
+     }],
+    'vue/html-self-closing': ['error', {
+      html: {
+        void: 'always',
+        normal: 'always',
+        component: 'always',
+      },
+      svg: 'always',
+      math: 'always',
+    }],
   },
   globals: {
     $fetch: false,

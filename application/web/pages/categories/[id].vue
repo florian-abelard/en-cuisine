@@ -13,7 +13,7 @@
           v-model="libelle"
           v-bind="libelleAttrs"
           placeholder="Pâtes au ketchup"
-        >
+        />
       </label>
 
       <label class="input input-bordered input-primary flex items-center gap-2 my-2">
@@ -24,7 +24,7 @@
           v-model="order"
           v-bind="orderAttrs"
           placeholder="Pâtes au ketchup"
-        >
+        />
       </label>
 
       <div class="flex justify-end mt-4">

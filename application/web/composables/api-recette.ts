@@ -2,6 +2,11 @@ import { useApiMedia, useRuntimeConfig } from "#imports";
 import type { Media } from "~/models/media";
 import { PaginatedResult } from "~/models/paginated-result";
 import type { Recette } from "~/models/recette";
+import { formatQueryParams } from "~/utils/api-utils";
+
+interface RecetteFilters {
+  [key: string]: unknown;
+}
 
 export const useApiRecette = () => {
 
@@ -14,11 +19,14 @@ export const useApiRecette = () => {
   };
 
   return {
-    findByPaginated: async (page: number): Promise<PaginatedResult<Recette>> => {
+    findByPaginated: async (page: number, filters: RecetteFilters): Promise<PaginatedResult<Recette>> => {
+      const params = formatQueryParams(filters);
+      params.append('page', page.toString());
+
       const response = await $fetch('/recettes', {
         method: 'GET',
         baseURL: config.public.apiBaseUrl,
-        params: { page },
+        params: Object.fromEntries(params.entries()),
       });
 
       return new PaginatedResult(
