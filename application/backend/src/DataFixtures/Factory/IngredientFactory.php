@@ -12,6 +12,8 @@ use Zenstruck\Foundry\RepositoryProxy;
 /**
  * @extends ModelFactory<Ingredient>
  *
+ * @mixin Restaurant
+ *
  * @method        Ingredient|Proxy create(array|callable $attributes = [])
  * @method static Ingredient|Proxy createOne(array $attributes = [])
  * @method static Ingredient|Proxy find(object|array|mixed $criteria)
@@ -55,9 +57,6 @@ final class IngredientFactory extends ModelFactory
 
     private function generateLibelle(): string
     {
-        /**
-         * @var \FakerRestaurant\Provider\en_US\Restaurant $faker
-         */
         $faker = self::faker();
         $options = [
             $faker->vegetableName(),

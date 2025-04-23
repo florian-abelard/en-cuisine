@@ -3,10 +3,8 @@
 namespace App\DataFixtures\Factory;
 
 use App\Entity\Media;
-use App\Repository\MediaRepository;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
-use Zenstruck\Foundry\RepositoryProxy;
 
 /**
  * @extends ModelFactory<Media>
@@ -19,7 +17,6 @@ use Zenstruck\Foundry\RepositoryProxy;
  * @method static Media|Proxy last(string $sortedField = 'id')
  * @method static Media|Proxy random(array $attributes = [])
  * @method static Media|Proxy randomOrCreate(array $attributes = [])
- * @method static MediaRepository|RepositoryProxy repository()
  * @method static Media[]|Proxy[] all()
  * @method static Media[]|Proxy[] createMany(int $number, array|callable $attributes = [])
  * @method static Media[]|Proxy[] createSequence(iterable|callable $sequence)

@@ -29,7 +29,7 @@ class Recette
 
     #[ORM\Column(length: 255)]
     #[Groups(['recette:read', 'recette:write'])]
-    private ?string $libelle = null;
+    private string $libelle;
 
     #[ORM\OneToOne(targetEntity: Media::class)]
     #[ORM\JoinColumn(nullable: true)]
@@ -62,6 +62,9 @@ class Recette
     #[Groups(['recette:read', 'recette:write'])]
     private ?\DateInterval $pretDans = null;
 
+    /**
+     * @var Collection<int, Ingredient>
+     */
     #[ORM\ManyToMany(targetEntity: Ingredient::class)]
     #[Groups(['recette:read', 'recette:write'])]
     private Collection $ingredients;
@@ -70,6 +73,9 @@ class Recette
     #[Groups(['recette:read', 'recette:write'])]
     private ?string $notes = null;
 
+    /**
+     * @var Collection<int, Etiquette>
+     */
     #[ORM\ManyToMany(targetEntity: Etiquette::class)]
     #[Groups(['recette:read', 'recette:write'])]
     private Collection $etiquettes;

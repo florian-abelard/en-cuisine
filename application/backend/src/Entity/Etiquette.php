@@ -28,7 +28,7 @@ class Etiquette
 
     #[ORM\Column(length: 255)]
     #[Groups(['etiquette:read', 'etiquette:write', 'recette:read'])]
-    private ?string $libelle = null;
+    private string $libelle;
 
     #[ORM\Column(length: 7, nullable: true)]
     #[Groups(['etiquette:read', 'etiquette:write', 'recette:read'])]
