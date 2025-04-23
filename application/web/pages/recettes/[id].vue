@@ -175,7 +175,7 @@
     tempsDePreparation?: string | null;
     tempsDeCuisson?: string | null;
     pretDans?: string | null;
-    etiquettes?: Etiquette[];
+    etiquettes?: Etiquette[] | string[];
     notes?: string | null;
   }
 
@@ -203,7 +203,6 @@
     ),
   });
 
-
   const [libelle, libelleAttrs] = defineField('libelle');
   const [categorie, categorieAttrs] = defineField('categorie');
   const [description, descriptionAttrs] = defineField('description');
@@ -211,7 +210,7 @@
   const [tempsDePreparation, tempsDePreparationAttrs] = defineField('tempsDePreparation');
   const [tempsDeCuisson, tempsDeCuissonAttrs] = defineField('tempsDeCuisson');
   const [pretDans, pretDansAttrs] = defineField('pretDans');
-  const [etiquettes, etiquettesAttrs] = defineField('etiquettes');
+  const [etiquettes] = defineField('etiquettes');
   const [notes, notesAttrs] = defineField('notes');
 
   if (route.params.id !== 'create') {
@@ -242,7 +241,7 @@
       const recette = values as Recette;
 
       recette.image = image.value ? image.value['@id'] as string : null;
-      recette.etiquettes = values.etiquettes.map((etiquette: Etiquette) => etiquette['@id'] as string);
+      recette.etiquettes = (values.etiquettes as Etiquette[]).map((etiquette: Etiquette) => etiquette['@id']);
 
       mode.value === 'create'
         ? await useApiRecette().create(recette)

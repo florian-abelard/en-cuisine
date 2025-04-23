@@ -12,8 +12,8 @@ export const useApiRecette = () => {
 
   const config = useRuntimeConfig();
 
-  const normalizer = (recette: Recette): Recette => {
-    recette.image = recette.image ? useApiMedia().normalize(recette.image as Media) : null;
+  const denormalizer = (recette: Recette): Recette => {
+    recette.image = recette.image ? useApiMedia().denormalize(recette.image as Media) : null;
 
     return recette;
   };
@@ -30,7 +30,7 @@ export const useApiRecette = () => {
       });
 
       return new PaginatedResult(
-        response['hydra:member'].map(normalizer),
+        response['hydra:member'].map(denormalizer),
         response['hydra:totalItems'],
       );
     },
@@ -41,14 +41,14 @@ export const useApiRecette = () => {
         baseURL: config.public.apiBaseUrl,
       });
 
-      return normalizer(recette);
+      return denormalizer(recette);
     },
 
     create: async (payload: Recette): Promise<void> => {
       await $fetch('/recettes', {
         method: 'POST',
         baseURL: config.public.apiBaseUrl,
-        body: payload,
+        body: normalizer(payload),
       });
     },
 
