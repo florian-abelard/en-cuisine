@@ -50,29 +50,28 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends { id: string, libelle?: string, color?: string }">
   import { ref, defineModel, nextTick } from 'vue';
-  import { Etiquette } from '~/models/etiquette';
+  import type { Ref } from 'vue';
   import { Search, SquareArrowDown } from 'lucide-vue-next';
 
   export interface Props {
     label: string,
-    attrs: object,
-    queryFn: (query: string) => Promise<Etiquette[]>,
-    displayItemFn: (item: Etiquette) => string,
-    displayOptionFn?: (item: Etiquette) => string,
+    queryFn: (query: string) => Promise<T[]>,
+    displayItemFn: (item: T) => string,
+    displayOptionFn?: (item: T) => string,
   }
 
   const props = withDefaults(defineProps<Props>(), {
     label: 'Libellé',
     attrs: () => ({}),
     queryFn: async () => [],
-    displayItemFn: (item: Etiquette) => item.libelle,
-    displayOptionFn: (item: Etiquette) => item.libelle,
+    displayItemFn: (item: T) => item.libelle,
+    displayOptionFn: (item: T) => item.libelle,
   });
 
-  const items = defineModel<Etiquette[]>({ default: [] });
-  const filteredItems = ref<Etiquette[]>([]);
+  const items = defineModel<T[]>({ default: [] });
+  const filteredItems = ref<T[]>([]) as Ref<T[]>;
   const search = ref('');
   const showFilteredItems = ref(false);
   const defaultItemColor = '#3B82F6';
@@ -87,7 +86,7 @@
     filteredItems.value = await props.queryFn(search.value);
   };
 
-  const selectOption = (option: Etiquette) => {
+  const selectOption = (option: T) => {
     if (!items.value.some(item => item.id === option.id)) {
       items.value.push(option);
     }

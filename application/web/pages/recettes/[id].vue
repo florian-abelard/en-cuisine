@@ -96,7 +96,6 @@
       <AutoComplete
         class="my-2"
         v-model="etiquettes"
-        :attrs="etiquettesAttrs"
         :label="'Etiquettes'"
         :display-item-fn="(item: Etiquette) => item.libelle"
         :query-fn="fetchFilteredEtiquettes"
@@ -241,7 +240,7 @@
   const onSubmit = handleSubmit(async (values) => {
     try {
       const recette = values as Recette;
-      console.log('values', values);
+
       recette.image = image.value ? image.value['@id'] as string : null;
       recette.etiquettes = values.etiquettes.map((etiquette: Etiquette) => etiquette['@id'] as string);
 

@@ -19,5 +19,5 @@ export class Recette {
   public pretDans?: string;
   public ingedients?: Ingredient[];
   public notes?: string;
-  public etiquettes?: Etiquette[];
+  public etiquettes?: Etiquette[] | string[];
 }
