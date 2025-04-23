@@ -267,7 +267,6 @@
 
   const fetchFilteredEtiquettes = async (search: string): Promise<Etiquette[]> => {
     const result = await useApiEtiquette().findByPaginated(1, { libelle: search });
-
     return result.items;
   };
 </script>

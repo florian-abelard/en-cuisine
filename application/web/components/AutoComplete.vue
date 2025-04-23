@@ -28,7 +28,7 @@
             <Search class="w-6 h-6" />
             <input
               ref="searchRef"
-              v-model="query"
+              v-model="search"
               type="search"
               placeholder="Search..."
               @input="fetchFilteredItems"
@@ -72,30 +72,26 @@
   });
 
   const items = defineModel<Etiquette[]>({ default: [] });
-  const query = ref('');
   const filteredItems = ref<Etiquette[]>([]);
+  const search = ref('');
   const showFilteredItems = ref(false);
   const defaultItemColor = '#3B82F6';
   const searchRef = ref<HTMLInputElement | null>(null);
 
   const fetchFilteredItems = async () => {
-    if (query.value.length < 2) {
+    if (search.value.length < 2) {
       filteredItems.value = [];
       return;
     }
 
-    filteredItems.value = await props.queryFn(query.value);
+    filteredItems.value = await props.queryFn(search.value);
   };
 
   const selectOption = (option: Etiquette) => {
-    console.log('Selected option:', option);
-    console.log('Items before:', items.value);
-    if (!items.value.includes(option)) {
+    if (!items.value.some(item => item.id === option.id)) {
       items.value.push(option);
     }
-    query.value = '';
-    filteredItems.value = [];
-    showFilteredItems.value = false;
+    clearSearch();
   };
 
   const hideFilteredItems = () => {
@@ -113,5 +109,11 @@
       searchRef.value?.focus();
       searchRef.value?.select();
     }
+  };
+
+  const clearSearch = () => {
+    search.value = '';
+    filteredItems.value = [];
+    showFilteredItems.value = false;
   };
 </script>
