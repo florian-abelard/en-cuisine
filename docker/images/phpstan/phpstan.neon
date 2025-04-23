@@ -1,8 +1,8 @@
 parameters:
     level: 4
     symfony:
-        container_xml_path: /app/application/backend/var/cache/dev/App_KernelDevDebugContainer.xml # @see https://github.com/phpstan/phpstan-symfony#configuration
-        console_application_loader: /app/docker/images/phpstan/console-loader.php
+        containerXmlPath: /app/application/backend/var/cache/dev/App_KernelDevDebugContainer.xml # @see https://github.com/phpstan/phpstan-symfony#configuration
+        consoleApplicationLoader: /app/docker/images/phpstan/console-loader.php
     scanDirectories:
         - /app/application/backend/var/cache/dev/Symfony/Config
     paths:
