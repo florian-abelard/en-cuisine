@@ -27,6 +27,7 @@
           <label class="input input-ghost flex items-center gap-2">
             <Search class="w-6 h-6" />
             <input
+              ref="searchRef"
               v-model="query"
               type="search"
               placeholder="Search..."
@@ -37,12 +38,12 @@
           </label>
         </li>
         <li
-          v-for="(suggestion, index) in filteredItems"
+          v-for="(option, index) in filteredItems"
           :key="index"
-          @mousedown.prevent="selectSuggestion(suggestion)"
+          @mousedown.prevent="selectOption(option)"
           class="cursor-pointer hover:bg-gray-200 p-2"
         >
-          {{ props.displaySuggestionFn(suggestion) }}
+          {{ props.displayOptionFn(option) }}
         </li>
       </ul>
     </div>
@@ -50,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, defineModel } from 'vue';
+  import { ref, defineModel, nextTick } from 'vue';
   import { Etiquette } from '~/models/etiquette';
   import { Search, SquareArrowDown } from 'lucide-vue-next';
 
@@ -59,7 +60,7 @@
     attrs: object,
     queryFn: (query: string) => Promise<Etiquette[]>,
     displayItemFn: (item: Etiquette) => string,
-    displaySuggestionFn?: (item: Etiquette) => string,
+    displayOptionFn?: (item: Etiquette) => string,
   }
 
   const props = withDefaults(defineProps<Props>(), {
@@ -67,7 +68,7 @@
     attrs: () => ({}),
     queryFn: async () => [],
     displayItemFn: (item: Etiquette) => item.libelle,
-    displaySuggestionFn: (item: Etiquette) => item.libelle,
+    displayOptionFn: (item: Etiquette) => item.libelle,
   });
 
   const items = defineModel<Etiquette[]>({ default: [] });
@@ -75,6 +76,7 @@
   const filteredItems = ref<Etiquette[]>([]);
   const showFilteredItems = ref(false);
   const defaultItemColor = '#3B82F6';
+  const searchRef = ref<HTMLInputElement | null>(null);
 
   const fetchFilteredItems = async () => {
     if (query.value.length < 2) {
@@ -85,14 +87,15 @@
     filteredItems.value = await props.queryFn(query.value);
   };
 
-  const selectSuggestion = (suggestion: Etiquette) => {
-    console.log('Selected suggestion:', suggestion);
+  const selectOption = (option: Etiquette) => {
+    console.log('Selected option:', option);
     console.log('Items before:', items.value);
-    if (!items.value.includes(suggestion)) {
-      items.value.push(suggestion);
+    if (!items.value.includes(option)) {
+      items.value.push(option);
     }
     query.value = '';
     filteredItems.value = [];
+    showFilteredItems.value = false;
   };
 
   const hideFilteredItems = () => {
@@ -103,7 +106,12 @@
     items.value.splice(index, 1);
   };
 
-  const toggleFilteredItems = () => {
+  const toggleFilteredItems = async () => {
     showFilteredItems.value = !showFilteredItems.value;
+    if (showFilteredItems.value) {
+      await nextTick();
+      searchRef.value?.focus();
+      searchRef.value?.select();
+    }
   };
 </script>
