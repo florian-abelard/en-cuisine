@@ -6,7 +6,8 @@
         <span
           v-for="(item, index) in items"
           :key="index"
-          class="inline-flex items-center px-3 py-0.5 rounded-full text-white bg-blue-500"
+          class="inline-flex items-center px-3 py-0.5 rounded-full text-white"
+          :style="{ backgroundColor: item.color || defaultItemColor }"
         >
           {{ props.displayItemFn(item) }}
           <button
@@ -73,6 +74,7 @@
   const query = ref('');
   const filteredItems = ref<Etiquette[]>([]);
   const showFilteredItems = ref(false);
+  const defaultItemColor = '#3B82F6';
 
   const fetchFilteredItems = async () => {
     if (query.value.length < 2) {
