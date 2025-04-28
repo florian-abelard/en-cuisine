@@ -30,7 +30,7 @@
             :src="(recette?.image as Media).url"
             :alt="`Illustration de la recette ${recette.libelle}`"
             class="object-cover w-full h-full"
-          >
+          />
         </figure>
         <div class="card-body w-2/3">
           <h2 class="card-title text-lg line-clamp-2">
@@ -68,7 +68,7 @@
   });
 
   const fetchRecettes = async (page: number): Promise<Recette[]> => {
-    const result = await useApiRecette().findByPaginated(page);
+    const result = await useApiRecette().findByPaginated(page, {});
 
     itemsCount.value = result.itemsCount;
 

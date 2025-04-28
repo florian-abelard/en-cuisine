@@ -15,7 +15,7 @@
         v-model="username"
         v-bind="usernameAttrs"
         placeholder="Identifiant"
-      >
+      />
 
       <input
         class="input input-bordered input-primary input-sm w-full max-w-xs mb-4"
@@ -23,7 +23,7 @@
         v-model="password"
         v-bind="passwordAttrs"
         placeholder="Mot de passe"
-      >
+      />
 
       <button
         type="submit"

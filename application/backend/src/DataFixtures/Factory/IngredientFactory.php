@@ -12,6 +12,8 @@ use Zenstruck\Foundry\RepositoryProxy;
 /**
  * @extends ModelFactory<Ingredient>
  *
+ * @mixin Restaurant // Add this line to mixin the provider methods
+ *
  * @method        Ingredient|Proxy create(array|callable $attributes = [])
  * @method static Ingredient|Proxy createOne(array $attributes = [])
  * @method static Ingredient|Proxy find(object|array|mixed $criteria)
@@ -57,6 +59,7 @@ final class IngredientFactory extends ModelFactory
     {
         /**
          * @var \FakerRestaurant\Provider\en_US\Restaurant $faker
+         * @phpstan-ignore-next-line
          */
         $faker = self::faker();
         $options = [

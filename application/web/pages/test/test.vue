@@ -7,7 +7,7 @@
     </h1>
 
     <div>{{ count.toFixed(2) }}</div>
-    <br>
+    <br />
 
     <button
       @click="decrement"

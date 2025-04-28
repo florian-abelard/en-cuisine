@@ -2,27 +2,35 @@ import { useApiMedia, useRuntimeConfig } from "#imports";
 import type { Media } from "~/models/media";
 import { PaginatedResult } from "~/models/paginated-result";
 import type { Recette } from "~/models/recette";
+import { formatQueryParams } from "~/utils/api-utils";
+
+interface RecetteFilters {
+  [key: string]: unknown;
+}
 
 export const useApiRecette = () => {
 
   const config = useRuntimeConfig();
 
-  const normalizer = (recette: Recette): Recette => {
-    recette.image = recette.image ? useApiMedia().normalize(recette.image as Media) : null;
+  const denormalizer = (recette: Recette): Recette => {
+    recette.image = recette.image ? useApiMedia().denormalize(recette.image as Media) : null;
 
     return recette;
   };
 
   return {
-    findByPaginated: async (page: number): Promise<PaginatedResult<Recette>> => {
+    findByPaginated: async (page: number, filters: RecetteFilters): Promise<PaginatedResult<Recette>> => {
+      const params = formatQueryParams(filters);
+      params.append('page', page.toString());
+
       const response = await $fetch('/recettes', {
         method: 'GET',
         baseURL: config.public.apiBaseUrl,
-        params: { page },
+        params: Object.fromEntries(params.entries()),
       });
 
       return new PaginatedResult(
-        response['hydra:member'].map(normalizer),
+        response['hydra:member'].map(denormalizer),
         response['hydra:totalItems'],
       );
     },
@@ -33,7 +41,7 @@ export const useApiRecette = () => {
         baseURL: config.public.apiBaseUrl,
       });
 
-      return normalizer(recette);
+      return denormalizer(recette);
     },
 
     create: async (payload: Recette): Promise<void> => {

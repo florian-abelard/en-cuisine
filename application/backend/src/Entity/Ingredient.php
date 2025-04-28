@@ -23,7 +23,7 @@ class Ingredient
 
     #[ORM\Column(length: 255)]
     #[Groups(['ingredient:read', 'ingredient:write'])]
-    private ?string $libelle = null;
+    private string $libelle;
 
     public function getId(): ?int
     {

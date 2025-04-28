@@ -6,7 +6,7 @@ export const useApiMedia = () => {
   const config = useRuntimeConfig();
   const mediaBaseUrl = config.public.apiBaseUrl.replace(/\/api$/, '');
 
-  const normalizer = (media: Media): Media => {
+  const denormalizer = (media: Media): Media => {
     media.url = `${mediaBaseUrl}${media.contentUrl}`;
 
     return media;
@@ -24,9 +24,9 @@ export const useApiMedia = () => {
         body: formData,
       });
 
-      return normalizer(media);
+      return denormalizer(media);
     },
 
-    normalize: (media: Media): Media => normalizer(media),
+    denormalize: (media: Media): Media => denormalizer(media),
   };
 };
