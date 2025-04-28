@@ -99,6 +99,7 @@
         :label="'Etiquettes'"
         :display-item-fn="(item: Etiquette) => item.libelle"
         :query-fn="fetchFilteredEtiquettes"
+        :create-fn="createEtiquette"
         placeholder="Saisir une étiquette"
       />
 
@@ -266,5 +267,9 @@
   const fetchFilteredEtiquettes = async (search: string): Promise<Etiquette[]> => {
     const result = await useApiEtiquette().findByPaginated(1, { libelle: search });
     return result.items;
+  };
+
+  const createEtiquette = async (etiquette: Etiquette): Promise<Etiquette> => {
+    return await useApiEtiquette().create(etiquette);
   };
 </script>

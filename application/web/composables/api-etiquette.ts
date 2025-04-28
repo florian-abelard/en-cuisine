@@ -45,8 +45,8 @@ export const useApiEtiquette = () => {
       });
     },
 
-    create: async (payload: Etiquette): Promise<void> => {
-      await $fetch('/etiquettes', {
+    create: async (payload: Etiquette): Promise<Etiquette> => {
+      return await $fetch('/etiquettes', {
         method: 'POST',
         baseURL: config.public.apiBaseUrl,
         body: payload,

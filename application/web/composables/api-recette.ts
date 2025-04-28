@@ -48,7 +48,7 @@ export const useApiRecette = () => {
       await $fetch('/recettes', {
         method: 'POST',
         baseURL: config.public.apiBaseUrl,
-        body: normalizer(payload),
+        body: payload,
       });
     },
 
