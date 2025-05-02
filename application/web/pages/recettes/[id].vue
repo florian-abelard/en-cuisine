@@ -41,7 +41,7 @@
           <span class="label-text font-semibold text-base">Description</span>
         </div>
         <textarea
-          class="grow textarea textarea-bordered textarea-primary"
+          class="grow textarea textarea-bordered textarea-primary text-base"
           v-model="description"
           v-bind="descriptionAttrs"
           rows="3"
@@ -97,10 +97,21 @@
         class="my-2"
         v-model="etiquettes"
         :label="'Etiquettes'"
+        :with-color="true"
         :display-item-fn="(item: Etiquette) => item.libelle"
         :query-fn="fetchFilteredEtiquettes"
         :create-fn="createEtiquette"
         placeholder="Saisir une étiquette"
+      />
+
+      <AutoComplete
+        class="my-2"
+        v-model="ingredients"
+        :label="'Ingrédients'"
+        :display-item-fn="(item: Ingredient) => item.libelle"
+        :query-fn="fetchFilteredIngredients"
+        :create-fn="createIngredient"
+        placeholder="Saisir un ingrédient"
       />
 
       <label class="form-control my-2">
@@ -108,7 +119,7 @@
           <span class="label-text font-semibold text-base">Notes</span>
         </div>
         <textarea
-          class="grow textarea textarea-bordered textarea-primary"
+          class="grow textarea textarea-bordered textarea-primary text-base"
           v-model="notes"
           v-bind="notesAttrs"
           rows="3"
@@ -130,7 +141,7 @@
           <img
             v-if="image"
             :src="image.url"
-            class="h-24 object-contain"
+            class="h-36 object-contain"
           />
         </div>
       </label>
@@ -159,13 +170,14 @@
 
 <script setup lang="ts">
 
-  import { useForm, useRoute, ref, useApiRecette, useApiMedia, navigateTo, useQuery, watch, useApiCategorie, definePageMeta, useApiEtiquette } from '#imports';
+  import { useForm, useRoute, ref, useApiRecette, useApiMedia, navigateTo, useQuery, watch, useApiCategorie, definePageMeta, useApiEtiquette, useApiIngredient } from '#imports';
   import { toTypedSchema } from '@vee-validate/yup';
   import { object, string, array } from 'yup';
   import type { Recette } from '~/models/recette';
   import type { Media } from '~/models/media';
   import type { Categorie } from '~/models/categorie';
   import type { Etiquette } from '~/models/etiquette';
+  import type { Ingredient } from '~/models/ingredient';
 
   interface RecetteForm {
     libelle?: string | null;
@@ -176,6 +188,7 @@
     tempsDePreparation?: string | null;
     tempsDeCuisson?: string | null;
     pretDans?: string | null;
+    ingredients?: Ingredient[] | string[];
     etiquettes?: Etiquette[] | string[];
     notes?: string | null;
   }
@@ -198,6 +211,7 @@
         tempsDePreparation: string().nullable().default(null),
         tempsDeCuisson: string().nullable().default(null),
         pretDans: string().nullable().default(null),
+        ingredients: array().nullable().default([]),
         etiquettes: array().nullable().default([]),
         notes: string().nullable().default(null),
       }),
@@ -211,6 +225,7 @@
   const [tempsDePreparation, tempsDePreparationAttrs] = defineField('tempsDePreparation');
   const [tempsDeCuisson, tempsDeCuissonAttrs] = defineField('tempsDeCuisson');
   const [pretDans, pretDansAttrs] = defineField('pretDans');
+  const [ingredients] = defineField('ingredients');
   const [etiquettes] = defineField('etiquettes');
   const [notes, notesAttrs] = defineField('notes');
 
@@ -241,8 +256,8 @@
     try {
       const recette = values as Recette;
 
-      recette.image = image.value ? image.value['@id'] as string : null;
-      recette.etiquettes = (values.etiquettes as Etiquette[]).map((etiquette: Etiquette) => etiquette['@id']);
+      recette.image = image.value;
+      // recette.etiquettes = (values.etiquettes as Etiquette[]).map((etiquette: Etiquette) => etiquette['@id']);
 
       mode.value === 'create'
         ? await useApiRecette().create(recette)
@@ -262,6 +277,15 @@
       image.value = media;
       setValues({ image: media });
     }
+  };
+
+  const fetchFilteredIngredients = async (search: string): Promise<Ingredient[]> => {
+    const result = await useApiIngredient().findByPaginated(1, { libelle: search });
+    return result.items;
+  };
+
+  const createIngredient = async (ingredient: Ingredient): Promise<Ingredient> => {
+    return await useApiIngredient().create(ingredient);
   };
 
   const fetchFilteredEtiquettes = async (search: string): Promise<Etiquette[]> => {

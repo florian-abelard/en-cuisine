@@ -10,14 +10,14 @@ export class Recette {
   public readonly id: string;
 
   public libelle: string;
-  public image?: Media | string;
-  public categorie?: Categorie | string;
+  public image?: Media;
+  public categorie?: Categorie;
   public description?: string;
   public source?: string;
   public tempsPreparation?: string;
   public tempsCuisson?: string;
   public pretDans?: string;
-  public ingedients?: Ingredient[];
+  public ingredients?: Ingredient[];
+  public etiquettes?: Etiquette[];
   public notes?: string;
-  public etiquettes?: Etiquette[] | string[];
 }

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\IngredientRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,18 +13,21 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     normalizationContext: ['groups' => ['ingredient:read']],
     denormalizationContext: ['groups' => ['ingredient:write']],
-    order: ['order' => 'ASC'],
+    order: ['libelle' => 'ASC'],
 )]
+#[ApiFilter(SearchFilter::class, properties: [
+    'libelle' => 'ipartial',
+])]
 class Ingredient
 {
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[ORM\Column]
-    #[Groups(['ingredient:read'])]
+    #[Groups(['ingredient:read', 'recette:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['ingredient:read', 'ingredient:write'])]
+    #[Groups(['ingredient:read', 'ingredient:write', 'recette:read'])]
     private string $libelle;
 
     public function getId(): ?int
