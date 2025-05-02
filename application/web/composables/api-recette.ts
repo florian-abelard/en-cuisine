@@ -2,6 +2,7 @@ import { useApiMedia, useRuntimeConfig } from "#imports";
 import type { Media } from "~/models/media";
 import { PaginatedResult } from "~/models/paginated-result";
 import type { Recette } from "~/models/recette";
+import type { Shape } from "~/models/types/shape.type";
 import { formatQueryParams } from "~/utils/api-utils";
 
 interface RecetteFilters {
@@ -16,6 +17,32 @@ export const useApiRecette = () => {
     recette.image = recette.image ? useApiMedia().denormalize(recette.image as Media) : null;
 
     return recette;
+  };
+
+  const normalizer = (recette: Recette): Shape<Recette> => {
+
+    return Object.keys(recette).reduce(
+      (normalized, key) => {
+        const value = recette[key];
+        normalized[key] = value;
+
+        if (key === 'image') {
+          normalized[key] = value ? value['@id'] : null;
+        }
+        if (key === 'categorie') {
+          normalized[key] = value ? value['@id'] : null;
+        }
+        if (key === 'etiquettes') {
+          normalized[key] = value.map((etiquette) => etiquette['@id']);
+        }
+        if (key === 'ingredients') {
+          normalized[key] = value.map((ingredient) => ingredient['@id']);
+        }
+
+        return normalized;
+      },
+      {} as Shape<Recette>,
+    );
   };
 
   return {
@@ -48,7 +75,7 @@ export const useApiRecette = () => {
       await $fetch('/recettes', {
         method: 'POST',
         baseURL: config.public.apiBaseUrl,
-        body: payload,
+        body: normalizer(payload),
       });
     },
 
@@ -56,7 +83,7 @@ export const useApiRecette = () => {
       await $fetch(`/recettes/${id}`, {
         method: 'PUT',
         baseURL: config.public.apiBaseUrl,
-        body: payload,
+        body: normalizer(payload),
       });
     },
   };

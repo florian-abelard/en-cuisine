@@ -49,6 +49,7 @@
           :class="['cursor-pointer hover:bg-gray-200 p-2 pl-10 flex items-center', { 'border-t': index === 0 }]"
         >
           <span
+            v-if="withColor"
             class="inline-block w-4 h-2  mr-2 rounded-sm"
             :style="{ backgroundColor: option.color || defaultItemColor }"
           />
@@ -84,6 +85,7 @@
     displayItemFn: (item: T) => string,
     displayOptionFn?: (item: T) => string,
     createFn?: (item: T) => Promise<T>,
+    withColor?: boolean,
   }
 
   const props = withDefaults(defineProps<Props>(), {
@@ -93,6 +95,7 @@
     displayItemFn: (item: T) => item.libelle,
     displayOptionFn: (item: T) => item.libelle,
     createFn: async () => {},
+    withColor: false,
   });
 
   const items = defineModel<T[]>({ default: [] });
