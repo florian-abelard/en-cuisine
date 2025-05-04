@@ -95,6 +95,16 @@
 
       <AutoComplete
         class="my-2"
+        v-model="ingredients"
+        :label="'Ingrédients'"
+        :display-item-fn="(item: Ingredient) => item.libelle"
+        :query-fn="fetchFilteredIngredients"
+        :create-fn="createIngredient"
+        placeholder="Saisir un ingrédient"
+      />
+
+      <AutoComplete
+        class="my-2"
         v-model="etiquettes"
         :label="'Etiquettes'"
         :with-color="true"
@@ -102,16 +112,6 @@
         :query-fn="fetchFilteredEtiquettes"
         :create-fn="createEtiquette"
         placeholder="Saisir une étiquette"
-      />
-
-      <AutoComplete
-        class="my-2"
-        v-model="ingredients"
-        :label="'Ingrédients'"
-        :display-item-fn="(item: Ingredient) => item.libelle"
-        :query-fn="fetchFilteredIngredients"
-        :create-fn="createIngredient"
-        placeholder="Saisir un ingrédient"
       />
 
       <label class="form-control my-2">

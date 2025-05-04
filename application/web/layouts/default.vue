@@ -66,11 +66,15 @@
       <ul class="menu menu-horizontal px-1">
         <li>
           <NuxtLink to="/recettes/list">
-            <CookingPot /> Recettes
+            <CookingPot class="w-7 h-7" />
+            <span class="text-base font-semibold">Recettes</span>
           </NuxtLink>
         </li>
         <li>
-          <a><ChefHat /> Réalisations</a>
+          <a>
+            <ChefHat class="w-7 h-7" />
+            <span class="text-base font-semibold">Réalisations</span>
+          </a>
         </li>
       </ul>
     </div>
