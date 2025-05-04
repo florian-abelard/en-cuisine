@@ -14,3 +14,15 @@ export const formatQueryParams = (filters: Record<string, unknown>): URLSearchPa
 
   return params;
 };
+
+export const defaultNormalizer = (data: unknown): unknown => {
+  if (Array.isArray(data)) {
+    return data.map((item) => defaultNormalizer(item));
+  }
+
+  if (data instanceof Object && typeof data['@id'] === 'string') {
+    return data['@id'];
+  }
+
+  return data;
+};
