@@ -14,7 +14,7 @@ final class AppDateInterval extends Type
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        if ($value === null) {
+        if (empty($value)) {
             return null;
         }
 
@@ -31,7 +31,7 @@ final class AppDateInterval extends Type
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?\DateInterval
     {
-        if ($value === null) {
+        if (empty($value)) {
             return null;
         }
 

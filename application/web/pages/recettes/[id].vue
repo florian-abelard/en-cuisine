@@ -208,9 +208,9 @@
         libelle: string().required().default(''),
         categorie: string().required().default(''),
         image: object().nullable().default(null),
-        tempsDePreparation: string().nullable().default(null),
-        tempsDeCuisson: string().nullable().default(null),
-        pretDans: string().nullable().default(null),
+        tempsDePreparation: string().nullable().default(null).transform((value) => (value === '' ? null : value)),
+        tempsDeCuisson: string().nullable().default(null).transform((value) => (value === '' ? null : value)),
+        pretDans: string().nullable().default(null).transform((value) => (value === '' ? null : value)),
         ingredients: array().nullable().default([]),
         etiquettes: array().nullable().default([]),
         notes: string().nullable().default(null),
@@ -257,7 +257,6 @@
       const recette = values as Recette;
 
       recette.image = image.value;
-      // recette.etiquettes = (values.etiquettes as Etiquette[]).map((etiquette: Etiquette) => etiquette['@id']);
 
       mode.value === 'create'
         ? await useApiRecette().create(recette)

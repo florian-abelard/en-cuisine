@@ -12,11 +12,13 @@ interface RecetteFilters {
 export const useApiRecette = () => {
 
   const config = useRuntimeConfig();
+
   const denormalize = (recette: Recette): Recette => {
     recette.image = recette.image ? useApiMedia().denormalize(recette.image as Media) : null;
 
     return recette;
   };
+
   const normalize = (recette: Recette): Shape<Recette> => {
 
     return Object.keys(recette).reduce(
