@@ -213,6 +213,7 @@
         pretDans: string().nullable().default(null).transform((value) => (value === '' ? null : value)),
         ingredients: array().nullable().default([]),
         etiquettes: array().nullable().default([]),
+        description: string().nullable().default(null),
         notes: string().nullable().default(null),
       }),
     ),
