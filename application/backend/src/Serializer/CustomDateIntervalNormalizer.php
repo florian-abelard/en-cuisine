@@ -24,7 +24,7 @@ class CustomDateIntervalNormalizer implements NormalizerInterface, DenormalizerI
      */
     public function normalize(mixed $object, string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        if ($object === null) {
+        if (empty($object)) {
             return null;
         }
 
@@ -55,7 +55,7 @@ class CustomDateIntervalNormalizer implements NormalizerInterface, DenormalizerI
      */
     public function denormalize(mixed $data, string $type, string $format = null, array $context = [])
     {
-        if ($data === null) {
+        if (empty($data)) {
             return null;
         }
 
