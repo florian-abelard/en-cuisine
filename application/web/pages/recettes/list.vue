@@ -7,9 +7,9 @@
     <div class="flex justify-between">
       <NuxtLink
         to="/recettes/create"
-        class="btn btn-primary btn-circle mx-4 fixed bottom-10 right-4 z-[1]"
+        class="btn btn-primary btn-circle btn-lg fixed bottom-10 right-12 z-[1]"
       >
-        <Plus :size="22" />
+        <Plus :size="24" />
       </NuxtLink>
     </div>
 
