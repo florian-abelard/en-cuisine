@@ -1,13 +1,10 @@
 import { useApiMedia, useRuntimeConfig } from "#imports";
+import type { RecetteFilters } from "~/models/filters/recette-filters";
 import type { Media } from "~/models/media";
 import { PaginatedResult } from "~/models/paginated-result";
 import type { Recette } from "~/models/recette";
 import type { Shape } from "~/models/types/shape.type";
 import { defaultNormalizer, formatQueryParams } from "~/utils/api-utils";
-
-interface RecetteFilters {
-  [key: string]: unknown;
-}
 
 export const useApiRecette = () => {
 

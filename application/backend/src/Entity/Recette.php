@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
@@ -18,6 +19,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: ['groups' => ['recette:write']],
     order: ['id' => 'DESC'],
 )]
+#[ApiFilter(SearchFilter::class, properties: [
+    'categorie' => 'exact',
+    'ingredients' => 'exact',
+    'etiquettes' => 'exact',
+])]
 #[ApiFilter(DateIntervalFilter::class, properties: ['pretDans'])]
 class Recette
 {

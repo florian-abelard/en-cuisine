@@ -63,11 +63,55 @@
           aria-label="close sidebar"
           class="drawer-overlay"
         />
-        <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4 mt-16">
-          <!-- Sidebar content here -->
-          <li><a>Sidebar Item 1</a></li>
-          <li><a>Sidebar Item 2</a></li>
-        </ul>
+        <div class="menu bg-base-200 text-base-content min-h-full w-80 p-4 mt-16">
+          <h2 class="text-xl font-bold mb-4 text-right">Affiner la liste</h2>
+          <form
+            @submit.prevent="onSubmit"
+            class="flex flex-col"
+          >
+            <label class="input input-bordered input-primary flex items-center gap-2 my-2">
+              <span class="font-semibold">Catégorie</span>
+              <select
+                class="select select-ghost focus:outline-none focus:bg-opacity-0 w-full max-w-xs  text-base"
+                v-model="categorie"
+                v-bind="categorieAttrs"
+                placeholder="Pâtes au ketchup"
+              >
+                >
+                <option value="" disabled />
+                <option
+                  v-for="item in categories"
+                  :key="item.id"
+                  :value="item['@id']"
+                >
+                  {{ item.libelle }}
+                </option>
+              </select>
+            </label>
+
+            <label class="input input-bordered input-primary flex items-center gap-2 my-2">
+              <span class="font-semibold mr-4">Prêt dans</span>
+              <input
+                class="grow placeholder-gray-400"
+                type="text"
+                v-model="pretDans"
+                v-bind="pretDansAttrs"
+                placeholder="30 minutes"
+              />
+            </label>
+
+            <div class="flex justify-end mt-4">
+              <button
+                type="button"
+                class="btn btn-ghost text-base mx-2"
+                @click="resetFilters"
+                :disabled="isSubmitting"
+              >
+                Réinitialiser
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
@@ -75,10 +119,15 @@
 
 <script setup lang="ts">
 
-  import { useQuery, ref, navigateTo, useApiRecette, definePageMeta, useFilterStore } from '#imports';
+  import { useQuery, ref, navigateTo, useApiRecette, definePageMeta, useFilterStore, useForm, useApiCategorie, useApiIngredient } from '#imports';
   import { Recette } from '~/models/recette';
   import { Plus } from 'lucide-vue-next';
+  import { toTypedSchema } from '@vee-validate/yup';
+  import { watchDebounced } from '@vueuse/core';
+  import { object, string, array } from 'yup';
   import type { Media } from '~/models/media';
+  import type { RecetteFilters } from '~/models/filters/recette-filters';
+import type { Ingredient } from '~/models/ingredient';
 
   definePageMeta({
     pageType: 'list',
@@ -88,19 +137,41 @@
   const page = ref(1);
   const itemsCount = ref(0);
   const filterStore = useFilterStore();
+  const debouncedFilters = ref<RecetteFilters>({});
+
+  const { values: filters, resetForm, handleSubmit, defineField, isSubmitting } = useForm<RecetteFilters>({
+    validationSchema: toTypedSchema(
+      object({
+        categorie: string().nullable(),
+        pretDans: string().nullable(),
+        ingredients: array().of(string()).nullable(),
+        etiquettes: array().of(string()).nullable(),
+      }),
+    ),
+  });
 
   const { data: recettes, isFetching } = useQuery({
-    queryKey: ['recettes', page],
+    queryKey: ['recettes', page, debouncedFilters],
     queryFn: () => fetchRecettes(page.value),
   });
 
+  const [categorie, categorieAttrs] = defineField('categorie');
+  const [pretDans, pretDansAttrs] = defineField('pretDans');
+  const [ingredients, ingredientsAttrs] = defineField('ingredients');
+  const [etiquettes, etiquettesAttrs] = defineField('etiquettes');
+
   const fetchRecettes = async (page: number): Promise<Recette[]> => {
-    const result = await useApiRecette().findByPaginated(page, {});
+    const result = await useApiRecette().findByPaginated(page, filters);
 
     itemsCount.value = result.itemsCount;
 
     return result.items;
   };
+
+  const { data: categories } = useQuery({
+    queryKey: ['categories'],
+    queryFn: () => useApiCategorie().findAll(),
+  });
 
   const onPageChange = (newPage: number): void => {
     page.value = newPage;
@@ -109,6 +180,24 @@
   const syncFilterVisibility = (event: Event) => {
     const target = event.target as HTMLInputElement;
     filterStore.setVisibility(target.checked);
+  };
+
+  const onSubmit = handleSubmit(async () => {
+    page.value = 1;
+    await fetchRecettes(page.value);
+  });
+
+  watchDebounced(
+    () => ({ ...filters }),
+    (newFilters) => {
+      debouncedFilters.value = newFilters;
+      page.value = 1;
+    },
+    { debounce: 500, deep: true },
+  );
+
+  const resetFilters = () => {
+    resetForm();
   };
 
 </script>

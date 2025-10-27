@@ -1,5 +1,5 @@
 
-export const formatQueryParams = (filters: Record<string, unknown>): URLSearchParams => {
+export const formatQueryParams = (filters: Record<string, null | unknown>): URLSearchParams => {
   const params = new URLSearchParams();
 
   for (const [filter, value] of Object.entries(filters)) {
