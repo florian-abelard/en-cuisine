@@ -63,8 +63,10 @@
           aria-label="close sidebar"
           class="drawer-overlay"
         />
-        <div class="menu bg-base-200 text-base-content min-h-full w-80 p-4 mt-16">
-          <h2 class="text-xl font-bold mb-4 text-right">Affiner la liste</h2>
+        <div class="bg-base-200 text-base-content min-h-full w-80 p-4 mt-16">
+          <h2 class="text-xl font-bold mb-4 text-right">
+            Affiner la liste
+          </h2>
           <form
             @submit.prevent="onSubmit"
             class="flex flex-col"
@@ -78,7 +80,7 @@
                 placeholder="Pâtes au ketchup"
               >
                 >
-                <option value="" disabled />
+                <option value="" />
                 <option
                   v-for="item in categories"
                   :key="item.id"
@@ -100,6 +102,24 @@
               />
             </label>
 
+            <AutoComplete
+              class="my-2"
+              v-model="ingredients"
+              :label="'Ingrédients'"
+              :display-item-fn="(item: Ingredient) => item.libelle"
+              :query-fn="fetchFilteredIngredients"
+              placeholder="Rechercher un ingrédient"
+            />
+
+            <AutoComplete
+              class="my-2"
+              v-model="etiquettes"
+              :label="'Etiquettes'"
+              :display-item-fn="(item: Etiquette) => item.libelle"
+              :query-fn="fetchFilteredEtiquettes"
+              placeholder="Rechercher une étiquette"
+            />
+
             <div class="flex justify-end mt-4">
               <button
                 type="button"
@@ -119,7 +139,7 @@
 
 <script setup lang="ts">
 
-  import { useQuery, ref, navigateTo, useApiRecette, definePageMeta, useFilterStore, useForm, useApiCategorie, useApiIngredient } from '#imports';
+  import { useQuery, ref, navigateTo, useApiRecette, definePageMeta, useFilterStore, useForm, useApiCategorie, useApiIngredient, useApiEtiquette } from '#imports';
   import { Recette } from '~/models/recette';
   import { Plus } from 'lucide-vue-next';
   import { toTypedSchema } from '@vee-validate/yup';
@@ -127,7 +147,8 @@
   import { object, string, array } from 'yup';
   import type { Media } from '~/models/media';
   import type { RecetteFilters } from '~/models/filters/recette-filters';
-import type { Ingredient } from '~/models/ingredient';
+  import type { Ingredient } from '~/models/ingredient';
+import type { Etiquette } from '~/models/etiquette';
 
   definePageMeta({
     pageType: 'list',
@@ -144,8 +165,8 @@ import type { Ingredient } from '~/models/ingredient';
       object({
         categorie: string().nullable(),
         pretDans: string().nullable(),
-        ingredients: array().of(string()).nullable(),
-        etiquettes: array().of(string()).nullable(),
+        ingredients: array().nullable().default([]),
+        etiquettes: array().nullable().default([]),
       }),
     ),
   });
@@ -157,8 +178,8 @@ import type { Ingredient } from '~/models/ingredient';
 
   const [categorie, categorieAttrs] = defineField('categorie');
   const [pretDans, pretDansAttrs] = defineField('pretDans');
-  const [ingredients, ingredientsAttrs] = defineField('ingredients');
-  const [etiquettes, etiquettesAttrs] = defineField('etiquettes');
+  const [ingredients] = defineField('ingredients');
+  const [etiquettes] = defineField('etiquettes');
 
   const fetchRecettes = async (page: number): Promise<Recette[]> => {
     const result = await useApiRecette().findByPaginated(page, filters);
@@ -190,6 +211,7 @@ import type { Ingredient } from '~/models/ingredient';
   watchDebounced(
     () => ({ ...filters }),
     (newFilters) => {
+      console.log('Filters changed:', newFilters);
       debouncedFilters.value = newFilters;
       page.value = 1;
     },
@@ -198,6 +220,16 @@ import type { Ingredient } from '~/models/ingredient';
 
   const resetFilters = () => {
     resetForm();
+  };
+
+  const fetchFilteredIngredients = async (search: string): Promise<Ingredient[]> => {
+    const result = await useApiIngredient().findByPaginated(1, { libelle: search });
+    return result.items;
+  };
+
+  const fetchFilteredEtiquettes = async (search: string): Promise<Etiquette[]> => {
+    const result = await useApiEtiquette().findByPaginated(1, { libelle: search });
+    return result.items;
   };
 
 </script>

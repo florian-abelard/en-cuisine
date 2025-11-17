@@ -31,10 +31,9 @@ export const useApiRecette = () => {
       const params = formatQueryParams(filters);
       params.append('page', page.toString());
 
-      const response = await $fetch('/recettes', {
+      const response = await $fetch(`/recettes?${params}`, {
         method: 'GET',
         baseURL: config.public.apiBaseUrl,
-        params: Object.fromEntries(params.entries()),
       });
 
       return new PaginatedResult(
