@@ -1,14 +1,20 @@
 
-export const formatQueryParams = (filters: Record<string, unknown>): URLSearchParams => {
+export const formatQueryParams = (filters: Record<string, null | unknown>): URLSearchParams => {
   const params = new URLSearchParams();
 
   for (const [filter, value] of Object.entries(filters)) {
-    if (Array.isArray(value) && value.length !== 0) {
-      for (const item of value) {
-        params.append(filter, item);
+    if (value === null || value === undefined || Array.isArray(value) && value.length === 0) {
+      continue;
+    }
+
+    const sanitizedValue = paramValueSanitizer(value);
+
+    if (Array.isArray(sanitizedValue)) {
+      for (const item of sanitizedValue) {
+        params.append(filter + '[]', item);
       }
-    } else if (typeof value === 'string' && value !== undefined && value !== null) {
-      params.append(filter, value);
+    } else {
+      params.append(filter, sanitizedValue);
     }
   }
 
@@ -25,4 +31,16 @@ export const defaultNormalizer = (data: unknown): unknown => {
   }
 
   return data;
+};
+
+const paramValueSanitizer = (value: unknown): string | string[] => {
+    if (Array.isArray(value) && value.length !== 0) {
+      value = value.map((v) => paramValueSanitizer(v));
+    } else if (value instanceof Object) {
+      value = typeof value['@id'] === 'string' ? value['@id'] : JSON.stringify(value);
+    } else if (typeof value === 'string') {
+      value = value.trim();
+    }
+
+    return value as string | string[];
 };

@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <div @click.self="toggleFilteredItems()" class="flex flex-row items-center gap-8 grow placeholder-gray-400 border border-primary rounded-md py-2 px-4">
+    <div @click.self="toggleFilteredItems()" class="flex flex-row items-center gap-8 grow placeholder-gray-400 border border-primary rounded-md bg-white py-2 px-4">
       <label class="font-semibold">{{ label }}</label>
       <div class="flex flex-wrap gap-2 mt-1">
         <span
@@ -33,7 +33,7 @@
               ref="searchRef"
               v-model="search"
               type="search"
-              placeholder="Search..."
+              :placeholder="props.placeholder"
               class="placeholder-gray-400 border-none focus:outline-none"
               @input="fetchFilteredItems"
               @focus="showFilteredItems = true"
@@ -86,6 +86,7 @@
     displayOptionFn?: (item: T) => string,
     createFn?: (item: T) => Promise<T>,
     withColor?: boolean,
+    placeholder?: string,
   }
 
   const props = withDefaults(defineProps<Props>(), {
@@ -96,6 +97,7 @@
     displayOptionFn: (item: T) => item.libelle,
     createFn: async () => {},
     withColor: false,
+    placeholder: 'Rechercher...',
   });
 
   const items = defineModel<T[]>({ default: [] });

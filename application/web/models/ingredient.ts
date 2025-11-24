@@ -5,4 +5,5 @@ export class Ingredient {
   public readonly id: string;
 
   public libelle: string;
+  public color?: string;
 }

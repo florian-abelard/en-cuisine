@@ -63,7 +63,7 @@
     </div>
 
     <div class="navbar-center hidden md:flex">
-      <ul class="menu menu-horizontal px-1">
+      <ul v-if="pageType === 'list'" class="menu menu-horizontal px-1">
         <li>
           <NuxtLink to="/recettes/list">
             <CookingPot class="w-7 h-7" />
@@ -79,7 +79,15 @@
       </ul>
     </div>
 
-    <div class="navbar-end" />
+    <div class="navbar-end">
+      <NuxtLink
+        v-if="pageType === 'list'"
+        @click="filterStore.toggleVisibility()"
+        class="hover:cursor-pointer btn btn-ghost"
+      >
+        <SlidersHorizontal />
+      </NuxtLink>
+    </div>
   </header>
 
   <main class="md:container md:mx-auto mx-2 md:max-w-[800px] mt-20 mb-4">
@@ -89,11 +97,12 @@
 
 <script setup lang="ts">
 
-import { useApiAuth, navigateTo, useAuthStore, computed, useRoute, useRouter, useTemplateRef } from '#imports';
-import { LogOut, CookingPot, ChefHat, FolderUp, ArrowLeft } from 'lucide-vue-next';
+import { useApiAuth, navigateTo, useAuthStore, useFilterStore, computed, useRoute, useRouter, useTemplateRef } from '#imports';
+import { LogOut, CookingPot, ChefHat, FolderUp, ArrowLeft, SlidersHorizontal } from 'lucide-vue-next';
 import { watch } from 'vue';
 
 const authStore = useAuthStore();
+const filterStore = useFilterStore();
 const router = useRouter();
 const route = useRoute();
 const authenticated = computed(() => authStore.authenticated);

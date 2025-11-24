@@ -33,7 +33,11 @@ class DateIntervalFilter extends AbstractFilter
             return;
         }
 
-        $dateInterval = $this->dateIntervalNormalizer->denormalize($value, \DateInterval::class);
+        try {
+            $dateInterval = $this->dateIntervalNormalizer->denormalize($value, \DateInterval::class);
+        } catch (\Exception $e) {
+            return;
+        }
 
         $parameterName = $queryNameGenerator->generateParameterName($property);
         $queryBuilder
