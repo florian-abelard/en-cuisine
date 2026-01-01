@@ -59,9 +59,12 @@ class CustomDateIntervalNormalizer implements NormalizerInterface, DenormalizerI
             return null;
         }
 
-        $userInterval = $this->cleanDateInterval($data);
-
-        return \DateInterval::createFromDateString($userInterval) ?: null;
+        try {
+            $userInterval = $this->cleanDateInterval($data);
+            return \DateInterval::createFromDateString($userInterval) ?: null;
+        } catch (\Exception) {
+            return null;
+        }
     }
 
     public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
@@ -86,7 +89,7 @@ class CustomDateIntervalNormalizer implements NormalizerInterface, DenormalizerI
         $userInterval = preg_replace(['/jours /', '/jour /', '/j /'], 'days ', $userInterval);
         $userInterval = preg_replace(['/heures$/', '/heure$/', '/h$/'], 'hours', $userInterval);
         $userInterval = preg_replace(['/heures /', '/heure /', '/h /'], 'hours ', $userInterval);
-        $userInterval = preg_replace(['/min$/', '/m$/'], 'minutes', $userInterval);
+        $userInterval = preg_replace(['/min$/', '/mn$/', '/m$/', '/m /'], 'minutes', $userInterval);
 
         return $userInterval;
     }

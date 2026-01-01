@@ -66,5 +66,12 @@ export const useApiRecette = () => {
         body: normalize(payload),
       });
     },
+
+    delete: async (id: string): Promise<void> => {
+      await $fetch(`/recettes/${id}`, {
+        method: 'DELETE',
+        baseURL: config.public.apiBaseUrl,
+      });
+    },
   };
 };

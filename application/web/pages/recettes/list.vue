@@ -38,6 +38,7 @@
           >
             <figure class="w-1/3 h-full">
               <img
+                v-if="recette?.image"
                 :src="(recette?.image as Media).url"
                 :alt="`Illustration de la recette ${recette.libelle}`"
                 class="object-cover w-full h-full"

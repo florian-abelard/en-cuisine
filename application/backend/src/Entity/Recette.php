@@ -186,7 +186,7 @@ class Recette
         return $this->pretDans;
     }
 
-    public function setPretDans(\DateInterval $pretDans): self
+    public function setPretDans(?\DateInterval $pretDans): self
     {
         $this->pretDans = $pretDans;
 
