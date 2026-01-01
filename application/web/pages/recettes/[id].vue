@@ -6,7 +6,7 @@
       class="flex flex-col"
     >
       <label class="input input-bordered input-primary flex items-center gap-2 my-2">
-        <span class="font-semibold mr-4">Libellé</span>
+        <span class="font-semibold mr-4">Libellé *</span>
         <input
           class="grow placeholder-gray-400"
           type="text"
@@ -17,7 +17,7 @@
       </label>
 
       <label class="input input-bordered input-primary flex items-center gap-2 my-2">
-        <span class="font-semibold">Catégorie</span>
+        <span class="font-semibold">Catégorie *</span>
         <select
           class="select select-ghost focus:outline-none focus:bg-opacity-0 w-full max-w-xs  text-base"
           v-model="categorie"
