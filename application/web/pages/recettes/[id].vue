@@ -1,5 +1,5 @@
 <template>
-  <div class="px-4">
+  <div class="px-4 py-6">
     <form
       v-if="!isFetching"
       @submit="onSubmit"
@@ -146,23 +146,35 @@
         </div>
       </label>
 
-      <div class="flex justify-end mt-4">
+      <div class="flex justify-between mt-4">
         <button
+          v-if="mode === 'update'"
           type="button"
-          class="btn text-base x-2"
-          @click="resetForm()"
+          class="btn btn-error text-base x-2"
+          @click="remove()"
           :disabled="isSubmitting"
         >
-          Annuler
+          Supprimer
         </button>
 
-        <button
-          type="submit"
-          class="btn btn-primary text-base mx-2"
-          :disabled="isSubmitting || !meta.valid"
-        >
-          Valider
-        </button>
+        <div>
+          <button
+            type="button"
+            class="btn text-base x-2"
+            @click="resetForm()"
+            :disabled="isSubmitting"
+          >
+            Annuler
+          </button>
+
+          <button
+            type="submit"
+            class="btn btn-primary text-base mx-2"
+            :disabled="isSubmitting || !meta.valid"
+          >
+            Valider
+          </button>
+        </div>
       </div>
     </form>
   </div>
@@ -201,6 +213,7 @@
   const route = useRoute();
   const mode = ref<'create' | 'update'>('create');
   const image = ref<Media | null>(null);
+  const isRemoving = ref(false);
 
   const { meta, resetForm, setValues, handleSubmit, defineField, isSubmitting } = useForm<RecetteForm>({
     validationSchema: toTypedSchema(
@@ -295,5 +308,17 @@
 
   const createEtiquette = async (etiquette: Etiquette): Promise<Etiquette> => {
     return await useApiEtiquette().create(etiquette);
+  };
+
+  const remove = async () => {
+      if (!recette.value) {
+        return;
+      }
+
+      isRemoving.value = true;
+      await useApiRecette().delete(recette.value.id);
+      isRemoving.value = false;
+
+      navigateTo('/recettes/list', { replace: true });
   };
 </script>
