@@ -154,7 +154,7 @@
           @click="remove()"
           :disabled="isSubmitting"
         >
-          Supprimer
+          <Trash2Icon class="w-5 h-5" />
         </button>
 
         <div>
@@ -185,6 +185,7 @@
   import { useForm, useRoute, ref, useApiRecette, useApiMedia, navigateTo, useQuery, watch, useApiCategorie, definePageMeta, useApiEtiquette, useApiIngredient } from '#imports';
   import { toTypedSchema } from '@vee-validate/yup';
   import { object, string, array } from 'yup';
+  import { Trash2Icon } from 'lucide-vue-next';
   import type { Recette } from '~/models/recette';
   import type { Media } from '~/models/media';
   import type { Categorie } from '~/models/categorie';
