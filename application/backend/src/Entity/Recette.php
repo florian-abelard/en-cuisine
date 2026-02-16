@@ -34,7 +34,7 @@ class Recette
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['recette:read', 'recette:write'])]
+    #[Groups(['recette:read', 'recette:write', 'realisation:read'])]
     private string $libelle;
 
     #[ORM\OneToOne(targetEntity: Media::class)]
