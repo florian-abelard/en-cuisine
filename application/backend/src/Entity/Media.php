@@ -53,11 +53,11 @@ class Media
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[ORM\Column]
-    #[Groups(['media:read', 'recette:read'])]
+    #[Groups(['media:read', 'recette:read', 'realisation:read'])]
     private ?int $id = null;
 
     #[ApiProperty(types: ['https://schema.org/contentUrl'])]
-    #[Groups(['media:read', 'recette:read'])]
+    #[Groups(['media:read', 'recette:read', 'realisation:read'])]
     public ?string $contentUrl = null;
 
     #[Vich\UploadableField(mapping: 'media', fileNameProperty: 'filePath')]

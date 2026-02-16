@@ -29,9 +29,9 @@
               </NuxtLink>
             </li>
             <li class="md:hidden">
-              <a>
+              <NuxtLink to="/realisations/list">
                 <ChefHat class="w-5 h-5" /> Réalisations
-              </a>
+              </NuxtLink>
             </li>
             <li class="h-px bg-100" />
             <li>
@@ -71,10 +71,10 @@
           </NuxtLink>
         </li>
         <li>
-          <a>
+          <NuxtLink to="/realisations/list">
             <ChefHat class="w-7 h-7" />
             <span class="text-base font-semibold">Réalisations</span>
-          </a>
+          </NuxtLink>
         </li>
       </ul>
     </div>
